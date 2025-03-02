@@ -12,10 +12,12 @@ class Alien(ABC):
 class Boss(Alien):
     def __init__(self, name, hp, weapon, speed):
         super().__init__(name, hp, weapon, speed)
+        self.type = "boss"
 
 class Minion(Alien):
     def __init__(self, name, hp, weapon, speed):
         super().__init__(name, hp, weapon, speed)
+        self.type = "minion"
 
 rarities = {1 : "Common", 2 : "Uncommon", 3 : "Rare", 4 : "Epic", 5 : "Legendary"}
 
@@ -112,11 +114,56 @@ class Player:
             time.sleep(2)
 
         elif self.location == "a":
-            print("You encounter an alien")
+            alien = createAlien()
             time.sleep(2)
+            battle = Battle(self, alien)
+            battle.encounter(prevx, prevy)
 
         elif self.location == "bh":
             print("You enter the boss's house")
+
+class Battle():
+    def __init__(self, player, alien):
+        self.player = player
+        self.alien = alien
+        self.turn = 0
+
+    def fight(self):
+        totalSpeed = self.player.speed + self.alien.speed
+        while self.player.HP > 0 and self.alien.hp > 0:
+            speedVal = random.randint(1, totalSpeed)
+            if speedVal <= self.player.speed:
+                self.playerAttack()
+            else:
+                self.alienAttack()
+
+    def encounter(self, prevx, prevy):
+        print("You encounter a " + self.alien.type + " alien. It says it's name is " + self.alien.name)
+        time.sleep(2)
+        print(self.alien.name + " has a " + self.alien.weapon.name + " | " + rarities[self.alien.weapon.rarity] + " |")
+        time.sleep(2)
+        print("What would you like to do?, you can attack or run")
+        action = input()
+        if action.lower() == "attack":
+            self.fight()   
+            difficulty += 1
+            mapGrid[xpos][ypos] = "s"
+        elif action.lower() == "run":
+            print("You run away")
+            xpos, ypos = prevx, prevy
+            player.location = mapGrid[xpos][ypos]
+            time.sleep(2)
+            
+    def playerAttack(self):
+        self.alien.hp -= self.player.currentWeapon.damage
+        print(self.player.currentWeapon.attackMessage)
+        time.sleep(2)
+
+    def alienAttack(self):
+        self.player.HP -= self.alien.weapon.damage
+        print("The alien attacks you with it's " + self.alien.weapon.name)
+        time.sleep(2)
+
 
 locations = {"s" : "street", "h" : "house", "a" : "alien", "bh" : "boss house", "eh" : "empty house"}
 
@@ -124,7 +171,7 @@ rarities = {1 : "Common", 2 : "Uncommon", 3 : "Rare", 4 : "Epic", 5 : "Legendary
 
 weapons = {"Ak-47" : Weapon("Ak-47", "A powerful assault Rifle", 40, "You shoot the alien with your Ak-47", 3),
            "Glock" : Weapon("Glock", "A semi-automatic pistol", 20, "You shoot the alien with your Glock", 2),
-           "Baseball Bat" : Weapon("Baseball Bat", "A wooden baseball bat with barbed wire wrapped around it", 15, "You hit the alien with your gruesome baseball bat", 1),
+           "Baseball Bat" : Weapon("Baseball Bat", "A wooden baseball bat with barbed wire wrapped around it", 15, "You hit the alien with your gruesome baseball bat", 2),
            "MAC-10" : Weapon("MAC-10", "A submachine gun with a high fire rate", 30, "You spray the alien with your MAC-10", 3),
            "Machete" : Weapon("Machete", "A terrifying blade with a serrated edge", 25, "You slice the alien with your machete", 2),
            "Laser Gun" : Weapon("Laser Gun", "A futuristic laser weapon not of this world", 50, "You zap the alien with your Laser Gun", 4),
@@ -132,9 +179,18 @@ weapons = {"Ak-47" : Weapon("Ak-47", "A powerful assault Rifle", 40, "You shoot 
            "Energy Sword" : Weapon("Energy Sword", "A sword made of pure energy that emits a loud hum", 75, "You slash the alien with your Energy Sword", 5),
            "Flamethrower" : Weapon("Flamethrower", "A weapon that shoots flames, incinerating enemies", 55, "You burn the alien with your Flamethrower", 4),
            "Railgun" : Weapon("Railgun", "A powerful electromagnetic weapon that can fire from up to 65 kilometres away", 90, "You blow a hole through the alien with your Railgun", 5),
-           "Katana" : Weapon("影の龍", "A katana that was passed down through many generations of honorable samurai", 100, "You cut through the alien with unheavenly precision", 5),
+           "Katana" : Weapon("影の龍", "A katana that was passed down through many generations of honorable samurai", 100, "You slice through the alien with unheavenly precision", 5),
            "Knife" : Weapon("Knife", "A sharp knife", 10, "You stab the alien with your knife", 1),
            "Tazer" : Weapon("Tazer", "A tazer that can electricute enemies", 8, "You taze the alien", 1),
+           "Chicken" : Weapon("Chicken", "A chicken that attacks aliens for some reason", 5, "You throw the chicken at the alien", 1),
+           "Tea and Biscuits" : Weapon("Tea and Biscuits", "A cup of tea and some biscuits", 3, "You throw hot tea and a couple of biscuits at the alien", 1),
+           "Crowbar" : Weapon("Crowbar", "An old, rusty crowbar", 15, "You hit the alien with your crowbar", 2),
+           "Revolver" : Weapon("Revolver", "A six-shooter revolver", 25, "You shoot the alien with your revolver", 2),
+           "Sniper Rifle" : Weapon("Sniper Rifle", "A high-powered sniper rifle", 60, "You snipe the alien with your sniper rifle", 4),
+           "Rocket Launcher" : Weapon("Rocket Launcher", "A weapon that fires explosive rockets", 70, "You blow the alien up with your rocket launcher", 4),
+           "Grenade" : Weapon("Grenade", "A grenade that explodes on impact", 50, "You throw the grenade at the alien", 3),
+           "Shotgun" : Weapon("Shotgun", "A shotgun that fires a spread of pellets", 45, "You blast the alien with your shotgun", 3),
+           "Little Monster" : Weapon("Little Monster", "A small, mysterious creature that really hates aliens", 35, "You throw your little monster at the alien", 1),
            }
 
 artifacts = {}
@@ -150,15 +206,26 @@ mapGrid = [
 ["s", "h", "h", "bh", "h", "s"]
 ]
 
+minionWeapons = []
+
+def createAlien():
+    if player.location == "a":
+        return Minion("Minion", 50, random.choice(list(weapons.values())), 10)
+    elif player.location == "bh":
+        return Boss("Boss", 100, random.choice(list(weapons.values())), 20)
+
 def play():
     print(mapGrid[2])
+    global difficulty
+    difficulty = 1
+    global end 
     end = False
     global xpos 
     xpos = 2
     global ypos 
     ypos = 1
     global player 
-    player = Player(50, 5, 10, 10, mapGrid[xpos][ypos])
+    player = Player(100, 5, 10, 10, mapGrid[xpos][ypos])
     print("You are in the street. You can move North, South, East, or West. Enter 'q' to quit at any stage")
     time.sleep(4)
     print("Your current weapon is " + player.currentWeapon.toString())
@@ -168,7 +235,7 @@ def play():
         if direction.lower() == "north":
             if ypos!=5:
                 player.move(xpos, ypos+1, xpos, ypos)
-                if player.location != "h" and player.location != "bh" and player.location != "eh":
+                if player.location != "h" and player.location != "bh" and player.location != "eh" and player.location != "a":
                     ypos += 1
                     player.location = mapGrid[xpos][ypos]
                 else:
@@ -178,7 +245,7 @@ def play():
         elif direction.lower() == "south":
             if ypos!=0:
                 player.move(xpos, ypos-1, xpos, ypos)
-                if player.location != "h" and player.location != "bh" and player.location != "eh":
+                if player.location != "h" and player.location != "bh" and player.location != "eh" and player.location != "a":
                     ypos -= 1
                     player.location = mapGrid[xpos][ypos]
                 else:
@@ -188,7 +255,7 @@ def play():
         elif direction.lower() == "east":
             if xpos!=5:
                 player.move(xpos + 1, ypos, xpos, ypos)
-                if player.location != "h" and player.location != "bh" and player.location != "eh":
+                if player.location != "h" and player.location != "bh" and player.location != "eh" and player.location != "a":
                     xpos += 1
                     player.location = mapGrid[xpos][ypos]
                 else:
@@ -198,7 +265,7 @@ def play():
         elif direction.lower() == "west":
             if xpos!=0:
                 player.move(xpos - 1, ypos, xpos, ypos)
-                if player.location != "h" and player.location != "bh" and player.location != "eh":
+                if player.location != "h" and player.location != "bh" and player.location != "eh" and player.location != "a":
                     xpos -= 1
                     player.location = mapGrid[xpos][ypos]
                 else:
