@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html>
+    <head lang="en">
+        <meta charset="UTF-8" />
+        {% block title_block %}
+            Alien_game <!-- we later replace this with our game name -->
+        {% endblock %}
+        <link rel="stylesheet" href="baseStyle.css">
+    </head>
+
+    <body>
+
+        <div>
+            <header class="headBar">
+                <div>
+                    <a href="{% url 'gameApp:home' %}">
+                        <img class="icons" src="{% static 'icons/home_icon.png' %}" alt="Home">
+                    </a>
+                    <a href="{% url 'gameApp:instructions' %}">
+                        <img class="icons" src="{% static 'icons/instructions_icon.png' %}" alt="Instructions">
+                    </a>
+
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'gameApp:play' %}">
+                        <img class="icons" src="{% static 'icons/play_icon.png' %}" alt="Play">
+                    </a>
+                    <a href="{% url 'gameApp:collections' %}">
+                        <img class="icons" src="{% static 'icons/collections_icon.png' %}" alt="Collections">
+                    </a>
+                    {% endif %}
+
+                    <a href="{% url 'gameApp:leaderboard' %}">
+                        <img class="icons" src="{% static 'icons/leaderboard_icon.png' %}" alt="Leaderboard">
+                    </a>
+                </div>
+            </header>
+        </div>
+
+        <div class="circle">
+        </div>
+
+        <div class="text_declaration">
+            This project is created by: Salwa Sayed | Nairn White | Jonatan Wiankowski | Lawrence Zhang​
+        </div>
+    </body>
+    
+</html>

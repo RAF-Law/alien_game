@@ -1,0 +1,76 @@
+@font-face { /* import the font */
+    font-family: 'Fixedys';
+    src: url("{% static 'fonts/FSEX300.ttf' %}") format('truetype'); 
+}
+
+
+body {
+    margin: 0;
+    background-color: #1f1b30;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.icons {
+    float:left;
+    width: 40px;
+    height: auto;
+    margin-top:8px;
+    margin-left:40px;
+    margin-right:10px;
+    image-rendering: pixelated;
+}
+
+.headBar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    background-color: #01031e;
+    height: 55px;
+    border-bottom: 2px solid #30e1f0;
+    z-index: 5; /* top layer */
+}
+
+.text_headings {
+    position:fixed;
+    top:80px;
+    left: 50%;
+    transform: translate(-50%);
+    font-family: 'Fixedys', sans-serif;
+    font-size: 80px;
+    color:rgb(245, 250, 255);
+    
+    z-index:2;
+}
+
+.text_declaration {
+    position:fixed;
+    bottom:5px;
+    left: 50%;
+    transform: translate(-50%);
+    font-family: 'Fixedys', sans-serif;
+    font-size: 11px;
+    color:#01031e;
+
+    white-space: nowrap; 
+
+    z-index:2;
+}
+
+.circle {
+    width: 2800px;
+    height: 2800px;
+    background-color: #2e3e4c; 
+    border-radius: 50%;
+    image-rendering: pixelated;
+    box-shadow: 0 0 0 2px #90ffd0;
+
+    position: fixed;
+    bottom: -2400px; 
+    left: 50%;
+    transform: translateX(-50%);
+
+    z-index: 1; /* bottom layer */
+}
