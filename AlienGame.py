@@ -119,6 +119,7 @@ class Room:
 class Player:
     def __init__(self, hp, attackPoints, speed, food, location):
         self.hp = hp
+        self.attackPoints = attackPoints
         self.currentWeapon = Weapon("Fists", "Your fists", attackPoints, "You punch the alien", 1)
         self.inventory = []
         self.speed = speed
