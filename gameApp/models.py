@@ -1,20 +1,27 @@
 from django.db import models
 
 class Weapon(models.Model):
+
     # Primary key for weapon
     weapon_id = models.AutoField(primary_key=True)
 
     # Name of weapon
     name = models.CharField(max_length=100, unique=True)
 
-    # Attack points of weapon
-    attack_points = models.IntegerField(default=0)
-
     # Description of weapon
     description = models.TextField()
-    
+
+    # Attack points of weapon
+    damage = models.IntegerField(default=0)
+
+    # Attack message of weapon
+    attack_message = models.CharField(max_length=100, blank=True)
+
+    #Rarity of weapon
+    rarity = models.IntegerField(default=1)
+
     # Icon of weapon
-    icon = models.ImageField(upload_to='weapon_icons/', blank=True)
+    icon = models.ImageField(upload_to='static/weapon_icons/', blank=True)
 
     def __str__(self):
         return self.name
@@ -33,9 +40,12 @@ class Artifact(models.Model):
 
     # Description of artifact
     description = models.TextField()
+
+    # Rarity of artifact
+    rarity = models.IntegerField(default=1)
     
     # Icon of artifact
-    icon = models.ImageField(upload_to='artifact_icons/', blank=True)
+    icon = models.ImageField(upload_to='static/artifact_icons/', blank=True)
 
     def __str__(self):
         return self.name
