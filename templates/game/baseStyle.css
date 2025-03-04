@@ -20,6 +20,18 @@ body {
     image-rendering: pixelated;
 }
 
+@media (max-width:800px){ /* elements get denser & smaller if you shrink window */
+    .icons {
+        float:left;
+        width: 30px;
+        height: auto;
+        margin-top:12px;
+        margin-left:5px;
+        margin-right:5px;
+        image-rendering: pixelated;
+    }
+}
+
 .headBar {
     position: fixed;
     top: 0;
