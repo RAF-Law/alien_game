@@ -4,9 +4,12 @@
 <html>
     <head lang="en">
         <meta charset="UTF-8" />
-        {% block title_block %}
-            Alien_game <!-- we later replace this with our game name -->
-        {% endblock %}
+        <title>
+            Alien_game - <!-- we later replace this with our game name -->
+            {% block title_block %}
+                Hi!
+            {% endblock %}
+        </title>
         <link rel="stylesheet" href="baseStyle.css">
     </head>
 
@@ -23,12 +26,12 @@
                     </a>
 
                     {% if user.is_authenticated %}
-                    <a href="{% url 'gameApp:play' %}">
-                        <img class="icons" src="{% static 'icons/play_icon.png' %}" alt="Play">
-                    </a>
-                    <a href="{% url 'gameApp:collections' %}">
-                        <img class="icons" src="{% static 'icons/collections_icon.png' %}" alt="Collections">
-                    </a>
+                        <a href="{% url 'gameApp:play' %}">
+                            <img class="icons" src="{% static 'icons/play_icon.png' %}" alt="Play">
+                        </a>
+                        <a href="{% url 'gameApp:collections' %}">
+                            <img class="icons" src="{% static 'icons/collections_icon.png' %}" alt="Collections">
+                        </a>
                     {% endif %}
 
                     <a href="{% url 'gameApp:leaderboard' %}">
@@ -38,7 +41,26 @@
             </header>
         </div>
 
-        <div class="circle">
+        {% if user.is_authenticated %}
+            <div id="login_bg">
+                <a href="{% url 'gameApp:login' %}">
+                    <div id="login_img"></div>
+                </a>
+                Login
+            </div>
+        {% else %}
+            <div id="login_bg_authorised">
+                <a href="{% url 'gameApp:login' %}">
+                    <div id="login_img"></div>
+                </a>
+                <div id="login_hello">Hello,</div>
+                <div id="login_username">{{ user.username }} !</div>
+            </div>
+        {% endif %}
+
+        <div class="text_headings">
+            {% block heading %} <!-- default to none -->
+            {% endblock %}
         </div>
 
         <div class="text_declaration">

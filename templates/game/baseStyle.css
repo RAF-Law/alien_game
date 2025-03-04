@@ -3,7 +3,6 @@
     src: url("{% static 'fonts/FSEX300.ttf' %}") format('truetype'); 
 }
 
-
 body {
     margin: 0;
     background-color: #1f1b30;
@@ -73,4 +72,75 @@ body {
     transform: translateX(-50%);
 
     z-index: 1; /* bottom layer */
+}
+
+#login_img{ /* all log-in related elements are id not class cuz it's only used once */
+    height:100px;
+    width:310px;
+
+    background: url("{% static 'icons/login.png' %}") no-repeat;
+    background-size: contain;
+    image-rendering: pixelated;
+
+    position: fixed;
+    right: 0px;
+    top:0px;
+    
+    z-index: 7;
+}
+
+#login_bg_unauthorised{
+    height:80px;
+    width:300px;
+    background-color: #1c3147;
+
+    position: fixed;
+    right: 0px;
+    top:0px;
+
+    font-size: 60px;
+    letter-spacing: 8px;
+    color:#2fe7f7;
+    font-family: 'Fixedys', sans-serif;
+    text-align: center;
+    line-height: 70px;
+
+    z-index: 6;
+}
+
+#login_bg_authorised{ /* this is a container cuz we need 2 lines of text with different align */
+    height:80px;
+    width:300px;
+    background-color: #1c3147;
+
+    position: fixed;
+    right: 0px;
+    top:0px;
+
+    z-index: 6;
+}
+
+#login_hello{
+    font-size: 35px;
+    letter-spacing: 3px;
+    color:#2fe7f7;
+    font-family: 'Fixedys', sans-serif;
+    text-align: left;
+    
+    position:absolute;
+    left:20px;
+    top:5px;
+}
+
+#login_username{
+    font-size: 25px;
+    letter-spacing: 1px;
+
+    color:#92ffff;
+    font-family: 'Fixedys', sans-serif;
+    text-align: right;
+    
+    position:absolute;
+    right:10px;
+    bottom:15px;
 }

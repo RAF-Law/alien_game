@@ -4,9 +4,12 @@
 <html>
     <head lang="en">
         <meta charset="UTF-8" />
-        {% block title_block %}
-            Alien_game <!-- we later replace this with our game name -->
-        {% endblock %}
+        <title>
+            Alien_game - <!-- we later replace this with our game name -->
+            {% block title_block %}
+                Hi!
+            {% endblock %}
+        </title>
         <link rel="stylesheet" href="baseStyle.css">
     </head>
 
@@ -32,8 +35,27 @@
                 </div>
             </header>
         </div>
+
+        <!--
+        <div id="login_bg_unauthorised">
+            <a href="{% url 'gameApp:login' %}">
+                <div id="login_img"></div>
+            </a>
+            Login
+        </div>
+        -->
+
+        <div id="login_bg_authorised">
+            <a href="{% url 'gameApp:login' %}">
+                <div id="login_img"></div>
+            </a>
+            <div id="login_hello">Hello,</div>
+            <div id="login_username">User10086 !</div>
+        </div>
+
         <div class="circle">
         </div>
+
         <div class="text_headings">
             My account
         </div>
