@@ -69,9 +69,13 @@ class Room:
             validCheck = False
             while validCheck == False:
                 try:
-                    player.inventory.append(self.loot[int(artifactChoice) - 1])
-                    print("You now have a " + self.loot[int(artifactChoice) - 1].name)
+                    player.inventory.append(self.loot[artifactChoice - 1])
+                    print("You now have a " + self.loot[artifactChoice - 1].name)
+                    time.sleep(2)
+                    self.loot[artifactChoice -1].toString()
                     validCheck = True
+                    print("It cost you 1 Food")
+                    player.food -= 1
                     time.sleep(2)
                 except IndexError:
                     print("Invalid input, enter the number associated with the artifact you want to take")
@@ -107,6 +111,8 @@ class Room:
                     time.sleep(2)
                     print(player.currentWeapon.toString())
                     validCheck = True
+                    print("It cost you 1 Food")
+                    player.food -= 1
                     time.sleep(2)
                 except IndexError:
                     print("Invalid input, enter the number associated with the weapon you want to take")
@@ -125,6 +131,7 @@ class Player:
         self.speed = speed
         self.food = food
         self.location = location
+        self.enemied_killed = 0
 
     def move(self, house):
         houseStr = "house " + str(house)
@@ -157,16 +164,21 @@ class Player:
                     alien = createAlien()
                     battle = Battle(player, alien)
                     battle.encounter()
+
+            if len(map[houseStr]) == len(map[houseStr]["empty"]):
+                print("You have emptied all rooms in this house")
+                leave = True
             if leave == False:
                 print("Would you like to leave the house?")
                 leaveChoice = input()
                 leave = bool(leaveChoice)
-                map[houseStr]["empty"].append(roomStr)
+                if roomStr not in map[houseStr]["empty"]:
+                    map[houseStr]["empty"].append(roomStr)
                 if leaveChoice.lower() == "yes":
                     leave = True
                 else:
                     leave = False
-            while leaveChoice.lower() != "yes" and leaveChoice.lower() != "no" and leave == False:
+            while leave == False and leaveChoice.lower() != "yes" and leaveChoice.lower() != "no":
                 print("Invalid input, enter 'yes' or 'no'")
                 leaveChoice = input()
                 if leaveChoice.lower() == "yes":
@@ -194,6 +206,10 @@ class Artifact:
         self.description = description
         self.rarity = rarity    
 
+    def toString(self):
+        return self.name + " - " + self.description + " | " + rarities[self.rarity] + " |"
+
+
 class Battle():
     def __init__(self, player, alien):
         self.player = player
@@ -210,7 +226,7 @@ class Battle():
                     self.alienAttack()
                 else:
                     self.alien.hp = 0
-                    print("Yous steal " + self.alien.name + "'s lunch | +4 Food")
+                    print("You steal " + self.alien.name + "'s lunch | +4 Food")
                     self.player.food += 4
             else:
                 self.alienAttack()
@@ -218,14 +234,17 @@ class Battle():
                     self.playerAttack()
                 else:
                     self.player.hp = 0
-            print(self.player.hp)
-            print(self.alien.hp)
+            print("You: " + self.player.hp)
+            print(self.alien.name + ": " + self.alien.hp)
         if self.alien.hp<=0:
             print("You killed " + self.alien.name)
-            player.hp += 20
-            player.attackPoints += 10
-            player.speed += 5
-            print("You gain some of it's life force | +20 HP | +10 attack points | +5 speed")
+            self.player.hp += 20
+            self.player.attackPoints += 10
+            self.player.speed += 5
+            print("You gain some of " + self.alien.name + "'s life force | +20 HP | +10 attack points | +5 speed |")
+            self.player.food += 2
+            print("You also steal " + self.alien.name + "'s lunch | +2 Food |")
+            self.player.enemies_killed += 1
         if self.player.hp<=0:
             gameOver()
 
@@ -251,6 +270,7 @@ class Battle():
                 print("You were too slow and the alien attacks you before you can escape")
                 self.alienAttack()
             time.sleep(2)
+            player.food -= 1
             global leave
             leave = True
             
@@ -304,6 +324,7 @@ artifacts = {
 
 #Rooms will be generated inside each house
 map = {"street" : "street", 
+"EmptyHouses" : [],
 "house 1" : {"empty" : []},
 "house 2" : {"empty" : []},
 "house 3" : {"empty" : []},
@@ -317,6 +338,10 @@ map = {"street" : "street",
 }
 
 def update():
+    global player
+    global day
+    global cur_room_count
+    global difficulty
     global alienWeapons
     alienWeapons = {"goppin" : Weapon("Goppin", "A weapon that fires a stream of plasma", 5+(difficulty*5), "The alien shoots you with a stream of plasma", 1),
     "Sponk" : Weapon("Sponk", "A weapon that fires a burst of energy", 15+(difficulty*5), "The alien blasts you with a burst of energy", 2),
@@ -324,18 +349,19 @@ def update():
     cur_room_count += 1
     if cur_room_count == 5:
         day += 1
-        print("You go to sleep")
-        time.sleep(2)
+        #print("You go to sleep")
+        #time.sleep(2)
         print("It is now day " + day)
         difficulty += 1
-        player.food -= 3
+        #player.food -= 3
 
 alienNames = ["Zog", "Gorp", "Prip", "Geggin", "Nairn", "Hojjim", "Kada"]
 
 def gameOver():
     print("Game Over")
     time.sleep(1)
-    print("Score: " + difficulty)
+    print("Score: " + str(difficulty))
+    print("You made it to day " + str(day))
     time.sleep(2)
     exit()
 
