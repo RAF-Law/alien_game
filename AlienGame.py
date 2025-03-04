@@ -183,6 +183,10 @@ class Player:
                 print("You leave the house")
                 player.location = map["street"]
                 time.sleep(2)
+            update()
+    
+    def toString(self):
+        return "HP: " + str(self.hp) + " | Attack Points: " + str(self.attackPoints) + " | Speed: " + str(self.speed) + " | Food: " + str(self.food)
 
 class Artifact:
     def __init__(self, name, description, rarity):
@@ -202,10 +206,18 @@ class Battle():
             speedVal = random.randint(1, totalSpeed)
             if speedVal <= self.player.speed:
                 self.playerAttack()
-                self.alienAttack()
+                if self.alien.hp > 0:
+                    self.alienAttack()
+                else:
+                    self.alien.hp = 0
+                    print("Yous steal " + self.alien.name + "'s lunch | +4 Food")
+                    self.player.food += 4
             else:
                 self.alienAttack()
-                self.playerAttack()
+                if self.player.hp > 0:
+                    self.playerAttack()
+                else:
+                    self.player.hp = 0
             print(self.player.hp)
             print(self.alien.hp)
         if self.alien.hp<=0:
@@ -249,7 +261,7 @@ class Battle():
 
     def alienAttack(self):
         self.player.hp -= self.alien.weapon.damage
-        print("The alien attacks you with their " + self.alien.weapon.name)
+        print(self.alien.weapon.attackMessage)
         time.sleep(2)
 
 rarities = {1 : "Common", 2 : "Rare", 3 : "Legendary", 4 : "Secret"}
@@ -304,11 +316,21 @@ map = {"street" : "street",
 "house 10" : {"empty" : []}
 }
 
-alienWeapons = {"goppin" : Weapon("Goppin", "A weapon that fires a stream of plasma", 10, "The alien shoots you with a stream of plasma", 1),
-"Sponk" : Weapon("Sponk", "A weapon that fires a burst of energy", 20, "The alien blasts you with a burst of energy", 2),
-"Zorblax" : Weapon("Zorblax", "A weapon that shoots a beam of energy", 30, "The alien fires a beam of energy at you", 3),}
+def update():
+    global alienWeapons
+    alienWeapons = {"goppin" : Weapon("Goppin", "A weapon that fires a stream of plasma", 5+(difficulty*5), "The alien shoots you with a stream of plasma", 1),
+    "Sponk" : Weapon("Sponk", "A weapon that fires a burst of energy", 15+(difficulty*5), "The alien blasts you with a burst of energy", 2),
+    "Zorblax" : Weapon("Zorblax", "A weapon that shoots a beam of energy", 25+(difficulty*5), "The alien fires a beam of energy at you", 3),}
+    cur_room_count += 1
+    if cur_room_count == 5:
+        day += 1
+        print("You go to sleep")
+        time.sleep(2)
+        print("It is now day " + day)
+        difficulty += 1
+        player.food -= 3
 
-alienNames = ["Zog", "Gorp", "Prip", "Geggin", "Nairn", "Hojjim"]
+alienNames = ["Zog", "Gorp", "Prip", "Geggin", "Nairn", "Hojjim", "Kada"]
 
 def gameOver():
     print("Game Over")
@@ -321,13 +343,17 @@ def gameOver():
 def createAlien():
     weapon = random.choice(list(alienWeapons.values()))
     name = random.choice(alienNames)
-    hp = 20 + (difficulty*5)
-    speed = 0 + (difficulty*3)
+    hp = 20 + (difficulty*10)
+    speed = 0 + (difficulty*10)
     alien = Alien(name, hp, weapon, speed)
     return alien
 
 
 def play():
+    global cur_room_count
+    cur_room_count = 0
+    global day
+    day = 1
     global difficulty
     difficulty = 1
     global end 
@@ -339,6 +365,8 @@ def play():
     print("Your current weapon is " + player.currentWeapon.toString())
     time.sleep(2)
     while end == False:
+        print(player.toString())
+        print("Score: " + str(difficulty))
         houseNum = input("Which house would you like to enter? ")
         if houseNum.lower() == "q":
             end = True
@@ -348,7 +376,6 @@ def play():
             player.move(houseNum)
         else:
             print("Invalid input, please enter a number 1-10")
-
     gameOver()
 
 play()
