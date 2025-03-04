@@ -10,10 +10,15 @@
                 Hi!
             {% endblock %}
         </title>
-        <link rel="stylesheet" href="baseStyle.css">
+        <link rel="stylesheet" href="{% static 'css/baseStyle.css' %}">
     </head>
 
     <body>
+
+        <div>
+            {% block body_block %}
+            {% endblock %}
+        </div>
 
         <div>
             <header class="headBar">
@@ -42,19 +47,19 @@
         </div>
 
         {% if user.is_authenticated %}
-            <div id="login_bg">
-                <a href="{% url 'gameApp:login' %}">
-                    <div id="login_img"></div>
-                </a>
-                Login
-            </div>
-        {% else %}
             <div id="login_bg_authorised">
                 <a href="{% url 'gameApp:login' %}">
                     <div id="login_img"></div>
                 </a>
                 <div id="login_hello">Hello,</div>
                 <div id="login_username">{{ user.username }} !</div>
+            </div>
+        {% else %}
+            <div id="login_bg_unauthorised">
+                <a href="{% url 'gameApp:login' %}">
+                    <div id="login_img"></div>
+                </a>
+                Login
             </div>
         {% endif %}
 

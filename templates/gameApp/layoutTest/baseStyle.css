@@ -33,14 +33,11 @@ body {
 }
 
 @media (max-width:800px){ /* elements get denser & smaller if you shrink window */
-    .icons {
-        float:left;
+    .icons { /* only override changed part */
         width: 30px;
-        height: auto;
         margin-top:12px;
         margin-left:5px;
         margin-right:5px;
-        image-rendering: pixelated;
     }
 }
 
@@ -58,6 +55,13 @@ body {
     transform: translateX(-50%);
 
     z-index: 1; /* bottom layer */
+}
+
+@media (max-height:700px){
+    .circle{
+        width:2600px;
+        height:2600px;
+    }
 }
 
 .text_headings {
