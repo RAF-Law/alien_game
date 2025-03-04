@@ -19,9 +19,8 @@ from django.contrib.auth.decorators import login_required
 # URL: gameApp/
 # Template: gameApp/home.html
 def home(request):
-    # context_dict={}
-    # return render(request, 'gameApp/home.html', context=context_dict)
-    return HttpResponse("This is the Home Page!")
+    context_dict={}
+    return render(request, 'gameApp/home.html', context=context_dict)
 
 
 # Instructions view
@@ -30,8 +29,7 @@ def home(request):
 # Template: gameApp/instructions.html
 def instructions(request):
     context_dict={}
-    # return render(request, 'gameApp/instructions.html', context=context_dict)
-    return HttpResponse("This is the Instructions Page!")   
+    return render(request, 'gameApp/instructions.html', context=context_dict)
 
 
 # Register view
@@ -39,9 +37,8 @@ def instructions(request):
 # URL: gameApp/register/
 # Template: gameApp/register.html
 def register(request):
-    # context_dict={}
-    # return render(request, 'gameApp/register.html', context=context_dict)
-    return HttpResponse("This is the Register Page!")
+    context_dict={}
+    return render(request, 'gameApp/register.html', context=context_dict)
 
 
 # Login view
@@ -49,9 +46,8 @@ def register(request):
 # URL: gameApp/login/
 # Template: gameApp/login.html
 def login(request):
-    # context_dict={}
-    # return render(request, 'gameApp/login.html', context=context_dict)
-    return HttpResponse("This is the login Page!")
+    context_dict={}
+    return render(request, 'gameApp/login.html', context=context_dict)
 
 
 # Logout
@@ -59,9 +55,8 @@ def login(request):
 # URL: Null
 # Template: Null
 def logout(request):
-    # logout(request)
-    # return redirect(reverse('gameApp:index'))
-    return HttpResponse("This is the logout Page!")
+    logout(request)
+    return redirect(reverse('gameApp:index'))
 
 
 # Player view
@@ -69,9 +64,8 @@ def logout(request):
 # URL: gameApp/player/
 # Template: gameApp/player.html
 def player(request):
-    # context_dict={}
-    # return render(request, 'gameApp/player.html', context=context_dict)
-    return HttpResponse("This is the player Page!")
+    context_dict={}
+    return render(request, 'gameApp/player.html', context=context_dict)
 
 
 # Player History view
@@ -79,9 +73,8 @@ def player(request):
 # URL: gameApp/player/player_history/
 # Template: gameApp/player_history.html
 def player_history(request):
-    # context_dict={}
-    # return render(request, 'gameApp/player_history.html', context=context_dict)
-    return HttpResponse("This is the player history Page!")
+    context_dict={}
+    return render(request, 'gameApp/player_history.html', context=context_dict)
 
 
 # Player Handbook view
@@ -89,9 +82,8 @@ def player_history(request):
 # URL: gameApp/player/player_handbook/
 # Template: gameApp/player_handbook.html
 def player_handbook(request):
-    # context_dict={}
-    # return render(request, 'gameApp/player_handbook.html', context=context_dict)
-    return HttpResponse("This is the player handbook Page!")
+    context_dict={}
+    return render(request, 'gameApp/player_handbook.html', context=context_dict)
 
 
 # Leaderboard view
@@ -99,9 +91,8 @@ def player_handbook(request):
 # URL: gameApp/leaderboard/
 # Template: gameApp/leaderboard.html
 def leaderboard(request):
-    # context_dict={}
-    # return render(request, 'gameApp/leaderboard.html', context=context_dict)
-    return HttpResponse("This is the leaderboard Page!")
+    context_dict={}
+    return render(request, 'gameApp/leaderboard.html', context=context_dict)
 
 
 # Play view
@@ -109,9 +100,8 @@ def leaderboard(request):
 # URL: gameApp/play/
 # Template: gameApp/play.html
 def play(request):
-    # context_dict={}
-    # return render(request, 'gameApp/play.html', context=context_dict)
-    return HttpResponse("This is the play Page!")
+    context_dict={}
+    return render(request, 'gameApp/play.html', context=context_dict)
 
 
 # Game Scene view
@@ -119,6 +109,5 @@ def play(request):
 # URL: gameApp/play/gameScene/
 # Template: gameApp/gameScene.html
 def gameScene(request):
-    # context_dict={}
-    # return render(request, 'gameApp/gameScene.html', context= context_dict)
-    return HttpResponse("This is the gameScene Page!")
+    context_dict={}
+    return render(request, 'gameApp/gameScene.html', context= context_dict)
