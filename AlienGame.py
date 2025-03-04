@@ -4,6 +4,14 @@ import time
 
 rarities = {1 : "Common", 2 : "Uncommon", 3 : "Rare", 4 : "Epic", 5 : "Legendary"}
 
+#These will be changed to send/recieve information to/from the user on the website
+def printS(message):
+    print(message)
+
+def inputS():
+    x=input()
+    return x
+
 class Alien():
     def __init__(self, name, hp, weapon, speed):
         self.name = name
@@ -20,7 +28,7 @@ class Weapon:
         self.rarity = rarity
     
     def showAttackMessage(self):
-        print(self.attackMessage)
+        printS(self.attackMessage)
 
     def toString(self):
         return self.name + " - " + self.description + " (" + str(self.damage) + " damage)" + " | " + rarities[self.rarity] + " |"
@@ -51,75 +59,75 @@ class Room:
 
     def artifactRoomSearch(self):
         self.generateArtifactLoot()
-        print("You find yourself in an room filled with strange artifacts")
+        printS("You find yourself in an room filled with strange artifacts")
         time.sleep(2)
-        print("You search the room and find:")
+        printS("You search the room and find:")
         time.sleep(2)
         for index, artifact in enumerate(self.loot):
-            print(str(index + 1) + ": A " + artifact.name + " - " + artifact.description + " | " + rarities[artifact.rarity] + " |")
+            printS(str(index + 1) + ": A " + artifact.name + " - " + artifact.description + " | " + rarities[artifact.rarity] + " |")
             time.sleep(1)
-        print("Would you like to take any of these artifacts?")
-        choice = input()
+        printS("Would you like to take any of these artifacts?")
+        choice = inputS()
         while choice.lower() != "yes" and choice.lower() != "no" and choice.lower() != "q":
-            print("Invalid input, enter 'yes' or 'no'")
-            choice = input()
+            printS("Invalid input, enter 'yes' or 'no'")
+            choice = inputS()
         if choice.lower() == "yes":
-            print("Which artifact would you like to take?")
-            artifactChoice = int(input())
+            printS("Which artifact would you like to take?")
+            artifactChoice = int(inputS())
             validCheck = False
             while validCheck == False:
                 try:
                     player.inventory.append(self.loot[artifactChoice - 1])
-                    print("You now have a " + self.loot[artifactChoice - 1].name)
+                    printS("You now have a " + self.loot[artifactChoice - 1].name)
                     time.sleep(2)
                     self.loot[artifactChoice -1].toString()
                     validCheck = True
-                    print("It cost you 1 Food")
+                    printS("It cost you 1 Food")
                     player.food -= 1
                     time.sleep(2)
                 except IndexError:
-                    print("Invalid input, enter the number associated with the artifact you want to take")
+                    printS("Invalid input, enter the number associated with the artifact you want to take")
         elif choice.lower() == "q":
             global end
             end = True
         else:
-            print("You leave the artifact(s) behind")
+            printS("You leave the artifact(s) behind")
             time.sleep(2)
 
     def weaponRoomSearch(self):
         self.generateWeaponLoot()
-        print("You find yourself in a room filled with weapons")
+        printS("You find yourself in a room filled with weapons")
         time.sleep(2)
-        print("You search the room and find:")
+        printS("You search the room and find:")
         time.sleep(2)
         for index, weapon in enumerate(self.loot):
-            print(str(index + 1) + ": A " + weapon.name +  " | " + rarities[weapon.rarity] + " |")
+            printS(str(index + 1) + ": A " + weapon.name +  " | " + rarities[weapon.rarity] + " |")
             time.sleep(1)
-        print("Would you like to take any of these weapons?")
-        choice = input()
+        printS("Would you like to take any of these weapons?")
+        choice = inputS()
         while choice.lower() != "yes" and choice.lower() != "no" and choice.lower() != "q":
-            print("Invalid input, enter 'yes' or 'no'")
-            choice = input()
+            printS("Invalid input, enter 'yes' or 'no'")
+            choice = inputS()
         if choice.lower() == "yes":
-            print("Which weapon would you like to take?")
-            weaponChoice = int(input())
+            printS("Which weapon would you like to take?")
+            weaponChoice = int(inputS())
             validCheck = False
             while validCheck == False:
                 try:
                     player.currentWeapon = self.loot[int(weaponChoice) - 1]
-                    print("You now have a " + player.currentWeapon.name)
+                    printS("You now have a " + player.currentWeapon.name)
                     time.sleep(2)
-                    print(player.currentWeapon.toString())
+                    printS(player.currentWeapon.toString())
                     validCheck = True
-                    print("It cost you 1 Food")
+                    printS("It cost you 1 Food")
                     player.food -= 1
                     time.sleep(2)
                 except IndexError:
-                    print("Invalid input, enter the number associated with the weapon you want to take")
+                    printS("Invalid input, enter the number associated with the weapon you want to take")
         elif choice.lower() == "q":
             end = True
         else:
-            print("You leave the weapon(s) behind")
+            printS("You leave the weapon(s) behind")
             time.sleep(2)
 
 class Player:
@@ -139,11 +147,11 @@ class Player:
         for i in range(1, numOfRooms + 1):
             roomStr = "room " + str(i)
             map[houseStr][roomStr] = Room()
-        print("You enter " + houseStr + ". There are " + str(numOfRooms) + " rooms in this house. Which room would you like to enter?")
-        roomNum = int(input())
+        printS("You enter " + houseStr + ". There are " + str(numOfRooms) + " rooms in this house. Which room would you like to enter?")
+        roomNum = int(inputS())
         while roomNum <= 0 or roomNum > numOfRooms:
-            print("Invalid input, please enter a number 1-" + str(numOfRooms))
-            roomNum = int(input())
+            printS("Invalid input, please enter a number 1-" + str(numOfRooms))
+            roomNum = int(inputS())
         roomStr = "room " + str(roomNum)            
         self.location = map[houseStr][roomStr]
         global leave
@@ -155,7 +163,7 @@ class Player:
                 roomType = 0
             match roomType:
                 case 0:
-                    print("This room is empty")
+                    printS("This room is empty")
                 case 1:
                     map[houseStr][roomStr].weaponRoomSearch()
                 case 2:
@@ -166,11 +174,11 @@ class Player:
                     battle.encounter()
 
             if len(map[houseStr]) == len(map[houseStr]["empty"]):
-                print("You have emptied all rooms in this house")
+                printS("You have emptied all rooms in this house")
                 leave = True
             if leave == False:
-                print("Would you like to leave the house?")
-                leaveChoice = input()
+                printS("Would you like to leave the house?")
+                leaveChoice = inputS()
                 leave = bool(leaveChoice)
                 if roomStr not in map[houseStr]["empty"]:
                     map[houseStr]["empty"].append(roomStr)
@@ -179,20 +187,20 @@ class Player:
                 else:
                     leave = False
             while leave == False and leaveChoice.lower() != "yes" and leaveChoice.lower() != "no":
-                print("Invalid input, enter 'yes' or 'no'")
-                leaveChoice = input()
+                printS("Invalid input, enter 'yes' or 'no'")
+                leaveChoice = inputS()
                 if leaveChoice.lower() == "yes":
                     leave = True
                 else:
                     leave = False
             if leave==False:
-                print("Which room would you like to enter next?")
-                roomNum = int(input())
+                printS("Which room would you like to enter next?")
+                roomNum = int(inputS())
                 while roomNum <= 0 or roomNum > numOfRooms:
-                    print("Invalid input, please enter a number 1-" + str(numOfRooms))
-                    roomNum = int(input())
+                    printS("Invalid input, please enter a number 1-" + str(numOfRooms))
+                    roomNum = int(inputS())
             else:
-                print("You leave the house")
+                printS("You leave the house")
                 player.location = map["street"]
                 time.sleep(2)
             update()
@@ -226,7 +234,7 @@ class Battle():
                     self.alienAttack()
                 else:
                     self.alien.hp = 0
-                    print("You steal " + self.alien.name + "'s lunch | +4 Food")
+                    printS("You steal " + self.alien.name + "'s lunch | +4 Food")
                     self.player.food += 4
             else:
                 self.alienAttack()
@@ -234,40 +242,40 @@ class Battle():
                     self.playerAttack()
                 else:
                     self.player.hp = 0
-            print("You: " + self.player.hp)
-            print(self.alien.name + ": " + self.alien.hp)
+            printS("You: " + str(self.player.hp))
+            printS(self.alien.name + ": " + str(self.alien.hp))
         if self.alien.hp<=0:
-            print("You killed " + self.alien.name)
+            printS("You killed " + self.alien.name)
             self.player.hp += 20
             self.player.attackPoints += 10
             self.player.speed += 5
-            print("You gain some of " + self.alien.name + "'s life force | +20 HP | +10 attack points | +5 speed |")
+            printS("You gain some of " + self.alien.name + "'s life force | +20 HP | +10 attack points | +5 speed |")
             self.player.food += 2
-            print("You also steal " + self.alien.name + "'s lunch | +2 Food |")
+            printS("You also steal " + self.alien.name + "'s lunch | +2 Food |")
             self.player.enemies_killed += 1
         if self.player.hp<=0:
             gameOver()
 
     def encounter(self):
-        print("You encounter an alien. It says it's name is " + self.alien.name)
+        printS("You encounter an alien. It says it's name is " + self.alien.name)
         time.sleep(2)
-        print(self.alien.name + " has a " + self.alien.weapon.name + " | " + rarities[self.alien.weapon.rarity] + " |")
+        printS(self.alien.name + " has a " + self.alien.weapon.name + " | " + rarities[self.alien.weapon.rarity] + " |")
         time.sleep(2)
-        print("What would you like to do?, you can attack or run")
-        action = input()
+        printS("What would you like to do?, you can attack or run")
+        action = inputS()
         if action.lower() == "attack":
             self.fight()  
             global difficulty 
             difficulty += 1
         elif action.lower() == "run":
-            print("You run away")
+            printS("You run away")
             totalSpeed = self.player.speed + self.alien.speed
             speedVal = random.randint(1, totalSpeed)
             if speedVal <= self.player.speed:
-                print("You escape")
+                printS("You escape")
                 time.sleep(2)
             else:
-                print("You were too slow and the alien attacks you before you can escape")
+                printS("You were too slow and the alien attacks you before you can escape")
                 self.alienAttack()
             time.sleep(2)
             player.food -= 1
@@ -276,12 +284,12 @@ class Battle():
             
     def playerAttack(self):
         self.alien.hp -= self.player.currentWeapon.damage
-        print(self.player.currentWeapon.attackMessage)
+        printS(self.player.currentWeapon.attackMessage)
         time.sleep(2)
 
     def alienAttack(self):
         self.player.hp -= self.alien.weapon.damage
-        print(self.alien.weapon.attackMessage)
+        printS(self.alien.weapon.attackMessage)
         time.sleep(2)
 
 rarities = {1 : "Common", 2 : "Rare", 3 : "Legendary", 4 : "Secret"}
@@ -351,17 +359,17 @@ def update():
         day += 1
         #print("You go to sleep")
         #time.sleep(2)
-        print("It is now day " + day)
+        printS("It is now day " + day)
         difficulty += 1
         #player.food -= 3
 
 alienNames = ["Zog", "Gorp", "Prip", "Geggin", "Nairn", "Hojjim", "Kada"]
 
 def gameOver():
-    print("Game Over")
+    printS("Game Over")
     time.sleep(1)
-    print("Score: " + str(difficulty))
-    print("You made it to day " + str(day))
+    printS("Score: " + str(difficulty))
+    printS("You made it to day " + str(day))
     time.sleep(2)
     exit()
 
@@ -386,14 +394,15 @@ def play(player_init):
     end = False
     global player 
     player = player_init
-    print("You are in the street. You can enter any house numbered 1-10. enter 'q' to quit")
+    printS("You are in the street. You can enter any house numbered 1-10. enter 'q' to quit")
     time.sleep(4)
-    print("Your current weapon is " + player.currentWeapon.toString())
+    printS("Your current weapon is " + player.currentWeapon.toString())
     time.sleep(2)
     while end == False:
-        print(player.toString())
-        print("Score: " + str(difficulty))
-        houseNum = input("Which house would you like to enter? ")
+        printS(player.toString())
+        printS("Score: " + str(difficulty))
+        printS("Which house would you like to enter, enter a number 1-10")
+        houseNum = inputS()
         if houseNum.lower() == "q":
             end = True
             break
@@ -401,7 +410,7 @@ def play(player_init):
             houseNum = int(houseNum)
             player.move(houseNum)
         else:
-            print("Invalid input, please enter a number 1-10")
+            printS("Invalid input, please enter a number 1-10")
     gameOver()
 
 newplayer = Player(100, 5, 10, 10, map["street"])
