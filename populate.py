@@ -11,11 +11,15 @@ from gameApp.models import Weapon, Artifact, User, Game
 
 def populate():
 
+    # Weapon Icon Paths - Stored in the same level as alien_game (NOT alien_game/alien_game/)
+
     weapon_icon_paths = {
         'Weapon1': 'weapon_icons/weapon1.png',
         'Weapon2': 'weapon_icons/weapon2.png',
         'Weapon3': 'weapon_icons/weapon3.png',
     }
+
+    # Define some base weapons (Will be replaced in the future)
 
     weapons = {
         'Weapon1': {'weapon_id': 1, 'name': 'Weapon1', 'attack_points': 1, 'description': 'Weapon1',
@@ -26,11 +30,15 @@ def populate():
                     'icon': File(open(weapon_icon_paths['Weapon3'], 'rb'))},
     }
 
+    # Artifact Icon Paths - Stored in the same level as alien_game (NOT alien_game/alien_game/)
+    
     artifact_icon_paths = {
         'Artifact1': 'artifact_icons/artifact1.png',
         'Artifact2': 'artifact_icons/artifact2.png',
         'Artifact3': 'artifact_icons/artifact3.png',
     }
+
+    # Define some base artifacts (Will be replaced in the future)
 
     artifacts = {
         'Artifact1': {'artifact_id': 1, 'name': 'Artifact1', 'description': 'Artifact1',
@@ -40,6 +48,9 @@ def populate():
         'Artifact3': {'artifact_id': 3, 'name': 'Artifact3', 'description': 'Artifact3',
                       'icon': File(open(artifact_icon_paths['Artifact3'], 'rb'))},
     }
+
+    # Define a base game
+    
     games = {
         'TestGame1': {'game_id': 1, 'player_hp': 100, 'player_ap': 10, 'player_speed': 1, 'player_food': 10, 'game_enemies_killed': 0, 'game_day': 1, 'game_difficulty': 1, 'game_map': 1}
     }
@@ -47,6 +58,8 @@ def populate():
     users = {
         'TestUser1': {'user_id': 1, 'most_enemies_killed': 0, 'most_days_survived': 0, 'games_played': 0}
     }
+
+    # Define functions for populating database with weapons, artifacts, games and users
 
     def populate_weapons():
         for weapon_name, weapon_data in weapons.items():
@@ -90,6 +103,8 @@ def populate():
                 games_played=user_data['games_played']
             )[0]
 
+    # Run functions and handle duplicate entries when database is already populated (doesn't work)
+    
     try:
 
         populate_users()
@@ -101,6 +116,8 @@ def populate():
         print('Skipping duplicate entry...')
         pass
 
+    # If you reached here, the code ran correctly
+    
     print('Database populated!')
 
 if __name__ == '__main__':
