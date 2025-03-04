@@ -1,0 +1,164 @@
+@font-face { /* import the font */
+    font-family: 'Fixedys';
+    src: url('FSEX300.ttf') format('truetype'); 
+}
+
+.headBar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    background-color: #01031e;
+    height: 55px;
+    border-bottom: 2px solid #30e1f0;
+    z-index: 5; /* top layer */
+}
+
+body {
+    margin: 0;
+    background-color: #1f1b30;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.icons {
+    float:left;
+    width: 40px;
+    height: auto;
+    margin-top:8px;
+    margin-left:40px;
+    margin-right:10px;
+    image-rendering: pixelated;
+}
+
+@media (max-width:800px){ /* elements get denser & smaller if you shrink window */
+    .icons { /* only override changed part */
+        width: 30px;
+        margin-top:12px;
+        margin-left:5px;
+        margin-right:5px;
+    }
+}
+
+.circle {
+    width: 2800px;
+    height: 2800px;
+    background-color: #2e3e4c; 
+    border-radius: 50%;
+    image-rendering: pixelated;
+    box-shadow: 0 0 0 2px #90ffd0;
+
+    position: fixed;
+    bottom: -2400px; 
+    left: 50%;
+    transform: translateX(-50%);
+
+    z-index: 1; /* bottom layer */
+}
+
+@media (max-height:700px){
+    .circle{
+        width:2600px;
+        height:2600px;
+    }
+}
+
+.text_headings {
+    position:fixed;
+    top:80px;
+    left: 50%;
+    transform: translate(-50%);
+    font-family: 'Fixedys', sans-serif;
+    font-size: 80px;
+    color:rgb(245, 250, 255);
+
+    white-space: nowrap; /* make them stay in one line */
+
+    z-index:2;
+}
+
+.text_declaration {
+    position:fixed;
+    bottom:5px;
+    left: 50%;
+    transform: translate(-50%);
+    font-family: 'Fixedys', sans-serif;
+    font-size: 11px;
+    color:#01031e;
+
+    white-space: nowrap; 
+
+    z-index:2;
+}
+
+#login_img{ /* all log-in related elements are id not class cuz it's only used once */
+    height:100px;
+    width:310px;
+
+    background: url(login.png) no-repeat;
+    background-size: contain;
+    image-rendering: pixelated;
+
+    position: fixed;
+    right: 0px;
+    top:0px;
+    
+    z-index: 7;
+}
+
+#login_bg_unauthorised{
+    height:80px;
+    width:300px;
+    background-color: #1c3147;
+
+    position: fixed;
+    right: 0px;
+    top:0px;
+
+    font-size: 60px;
+    letter-spacing: 8px;
+    color:#2fe7f7;
+    font-family: 'Fixedys', sans-serif;
+    text-align: center;
+    line-height: 70px;
+
+    z-index: 6;
+}
+
+#login_bg_authorised{ /* this is a container cuz we need 2 lines of text with different align */
+    height:80px;
+    width:300px;
+    background-color: #1c3147;
+
+    position: fixed;
+    right: 0px;
+    top:0px;
+
+    z-index: 6;
+}
+
+#login_hello{
+    font-size: 35px;
+    letter-spacing: 3px;
+    color:#2fe7f7;
+    font-family: 'Fixedys', sans-serif;
+    text-align: left;
+    
+    position:absolute;
+    left:20px;
+    top:5px;
+}
+
+#login_username{
+    font-size: 25px;
+    letter-spacing: 1px;
+
+    color:#92ffff;
+    font-family: 'Fixedys', sans-serif;
+    text-align: right;
+    
+    position:absolute;
+    right:10px;
+    bottom:15px;
+}

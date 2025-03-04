@@ -21,12 +21,12 @@ from django.conf.urls.static import static
 
 from django.urls import path
 from django.urls import include
-
-from gameApp import views;
+from gameApp import views
 
 urlpatterns = [
     path('', views.home, name='home'),
     # Maps urls that start with gameApp/ to be handled by gameApp
     path('gameApp/', include('gameApp.urls')),
     path('admin/', admin.site.urls),
+
 ]
