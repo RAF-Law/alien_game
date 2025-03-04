@@ -12,9 +12,9 @@ from gameApp.models import Weapon, Artifact, User, Game
 def populate():
 
     weapon_icon_paths = {
-        'Weapon1': 'weapon_icons/weapon1.png',
-        'Weapon2': 'weapon_icons/weapon2.png',
-        'Weapon3': 'weapon_icons/weapon3.png',
+        'Weapon1': 'images/weapon_icons/weapon1.png',
+        'Weapon2': 'images/weapon_icons/weapon2.png',
+        'Weapon3': 'images/weapon_icons/weapon3.png',
     }
 
     weapons = {
@@ -27,9 +27,9 @@ def populate():
     }
 
     artifact_icon_paths = {
-        'Artifact1': 'artifact_icons/artifact1.png',
-        'Artifact2': 'artifact_icons/artifact2.png',
-        'Artifact3': 'artifact_icons/artifact3.png',
+        'Artifact1': 'images/artifact_icons/artifact1.png',
+        'Artifact2': 'images/artifact_icons/artifact2.png',
+        'Artifact3': 'images/artifact_icons/artifact3.png',
     }
 
     artifacts = {
