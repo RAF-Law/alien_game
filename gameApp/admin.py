@@ -22,6 +22,10 @@ class UserAdmin(admin.ModelAdmin):
     readonly_fields = ('user_id',)
     filter_horizontal = ('artifacts_earned', 'weapons_earned')
 
+
+
+
+
 @admin.register(Game)
 class GameAdmin(admin.ModelAdmin):
     list_display = ('game_id', 'player_hp', 'player_ap', 'player_speed', 'player_food', 'player_weapon', 'game_enemies_killed', 'game_day', 'game_difficulty', 'game_map')
