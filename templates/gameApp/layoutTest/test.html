@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html>
+    <head lang="en">
+        <meta charset="UTF-8" />
+        <title>
+            Alien_game - <!-- we later replace this with our game name -->
+            {% block title_block %}
+                Hi!
+            {% endblock %}
+        </title>
+        <link rel="stylesheet" href="homepageStyle.css">
+    </head>
+
+    <body>
+        <div>
+            <header class="headBar">
+                <div>
+                    <a href="{% url 'gameApp:home' %}">
+                        <img class="icons" src="home_icon.png" alt="Home">
+                    </a>
+                    <a href="{% url 'gameApp:instructions' %}">
+                        <img class="icons" src="instructions_icon.png" alt="Instructions">
+                    </a>
+                    <a href="{% url 'gameApp:play' %}">
+                        <img class="icons" src="play_icon.png" alt="Instructions">
+                    </a>
+                    <a href="{% url 'gameApp:collections' %}">
+                        <img class="icons" src="collections_icon.png" alt="Instructions">
+                    </a>
+                    <a href="{% url 'gameApp:leaderboard' %}">
+                        <img class="icons" src="leaderboard_icon.png" alt="Leaderboard">
+                    </a>
+                </div>
+            </header>
+        </div>
+
+        <!--
+        <div id="login_bg_unauthorised">
+            <a href="{% url 'gameApp:login' %}">
+                <div id="login_img"></div>
+            </a>
+            Login
+        </div>
+        -->
+
+        <div id="login_bg_authorised">
+            <a href="{% url 'gameApp:login' %}">
+                <div id="login_img"></div>
+            </a>
+            <div id="login_hello">Hello,</div>
+            <div id="login_username">User10086 !</div>
+        </div>
+
+        <div class="circle">
+        </div>
+
+        <!--
+        <div class="text_headings">
+            My account
+        </div>
+        -->
+
+        <div id="logo_centre">
+            <img src="homepagelogo_centre.png" alt="HomepageLogo_c">
+        </div>
+
+        <div id="logo_back">
+            <img src="homepagelogo_back.png" alt="HomepageLogo_b">
+        </div>
+
+        <div id="logo_front">
+            <img src="homepagelogo_front.png" alt="HomepageLogo_f">
+        </div>
+
+        <div class="general_welcome">
+            Welcome to our alien-survival-game!
+        </div>
+
+        <div class="general_description">
+            Try to survive in a world invaded by the aliens... (or the other way round?)<br>
+            Find and collect different artifacts and weapons!<br>
+            I really cannot come up with more text here
+        </div>
+
+        <div class="text_declaration">
+            This project is created by: Salwa Sayed | Nairn White | Jonatan Wiankowski | Lawrence Zhang​
+        </div>
+    </body>
+</html>
