@@ -143,6 +143,9 @@ class Player:
 
     def move(self, house):
         houseStr = "house " + str(house)
+        if map[houseStr] in map["EmptyHouses"]:
+            printS("This house is empty")
+            return
         numOfRooms = random.randint(2, 6)
         for i in range(1, numOfRooms + 1):
             roomStr = "room " + str(i)
@@ -382,6 +385,21 @@ def createAlien():
     alien = Alien(name, hp, weapon, speed)
     return alien
 
+def mapReset():
+    global map
+    map = {"street" : "street", 
+"EmptyHouses" : [],
+"house 1" : {"empty" : []},
+"house 2" : {"empty" : []},
+"house 3" : {"empty" : []},
+"house 4" : {"empty" : []},
+"house 5" : {"empty" : []},
+"house 6" : {"empty" : []},
+"house 7" : {"empty" : []},
+"house 8" : {"empty" : []},
+"house 9" : {"empty" : []},
+"house 10" : {"empty" : []}
+}
 
 def play(player_init):
     global cur_room_count
@@ -399,6 +417,9 @@ def play(player_init):
     printS("Your current weapon is " + player.currentWeapon.toString())
     time.sleep(2)
     while end == False:
+        if len(map["EmptyHouses"] == len(map)-1):
+            printS("You emptied all the houses. So now they are reset!")
+            mapReset()
         printS(player.toString())
         printS("Score: " + str(difficulty))
         printS("Which house would you like to enter, enter a number 1-10")
