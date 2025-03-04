@@ -375,7 +375,7 @@ def createAlien():
     return alien
 
 
-def play():
+def play(player_init):
     global cur_room_count
     cur_room_count = 0
     global day
@@ -385,7 +385,7 @@ def play():
     global end 
     end = False
     global player 
-    player = Player(100, 5, 10, 10, map["street"])
+    player = player_init
     print("You are in the street. You can enter any house numbered 1-10. enter 'q' to quit")
     time.sleep(4)
     print("Your current weapon is " + player.currentWeapon.toString())
@@ -404,4 +404,5 @@ def play():
             print("Invalid input, please enter a number 1-10")
     gameOver()
 
-play()
+newplayer = Player(100, 5, 10, 10, map["street"])
+play(newplayer)
