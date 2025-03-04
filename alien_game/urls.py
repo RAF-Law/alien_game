@@ -25,8 +25,7 @@ from gameApp import views
 
 urlpatterns = [
     path('', views.home, name='home'),
-    # Maps urls that start with gameApp/ to be handled by gameApp
-    path('gameApp/', include('gameApp.urls')),
+    path('gameApp/', include('gameApp.urls')), # Maps urls that start with gameApp/ to be handled by gameApp
     path('admin/', admin.site.urls),
-
-]
+    
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
