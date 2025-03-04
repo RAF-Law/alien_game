@@ -9,8 +9,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
 # Model imports
-# USER MODEL
-# USERPROFILE MODEL
+from gameApp.models import User
+from gameApp.models import Game
 
 
 
@@ -45,45 +45,45 @@ def register(request):
 # Visiblity: UNAUTHENTICATED users
 # URL: gameApp/login/
 # Template: gameApp/login.html
-def login(request):
+def user_login(request):
     context_dict={}
-    return render(request, 'gameApp/login.html', context=context_dict)
+    return render(request, 'gameApp/user_login.html', context=context_dict)
 
 
 # Logout
 # Visiblity: AUTHENTICATED users
 # URL: Null
 # Template: Null
-def logout(request):
+def user_logout(request):
     logout(request)
-    return redirect(reverse('gameApp:index'))
+    return redirect(reverse('gameApp:home'))
 
 
-# Player view
+# Account view
 # Visiblity: AUTHENTICATED users
-# URL: gameApp/player/
-# Template: gameApp/player.html
-def player(request):
+# URL: gameApp/my_account/
+# Template: gameApp/user_account.html
+def user_account(request):
     context_dict={}
-    return render(request, 'gameApp/player.html', context=context_dict)
+    return render(request, 'gameApp/user_account.html', context=context_dict)
 
 
-# Player History view
+# User History view
 # Visiblity: AUTHENTICATED users
-# URL: gameApp/player/player_history/
-# Template: gameApp/player_history.html
-def player_history(request):
+# URL: gameApp/my_account/my_history/
+# Template: gameApp/user_history.html
+def user_history(request):
     context_dict={}
-    return render(request, 'gameApp/player_history.html', context=context_dict)
+    return render(request, 'gameApp/user_history.html', context=context_dict)
 
 
-# Player Handbook view
+# User Handbook view
 # Visiblity: AUTHENTICATED users
-# URL: gameApp/player/player_handbook/
-# Template: gameApp/player_handbook.html
-def player_handbook(request):
+# URL: gameApp/my_account/my_handbook/
+# Template: gameApp/user_handbook.html
+def user_handbook(request):
     context_dict={}
-    return render(request, 'gameApp/player_handbook.html', context=context_dict)
+    return render(request, 'gameApp/user_handbook.html', context=context_dict)
 
 
 # Leaderboard view
@@ -91,7 +91,17 @@ def player_handbook(request):
 # URL: gameApp/leaderboard/
 # Template: gameApp/leaderboard.html
 def leaderboard(request):
+    
+    # Get top 10 players with most kills
+    player_enemies_list = User.objects.order_by('-most_enemies_killed')[:10] 
+    # Get top 10 players with most days survived
+    player_days_list = User.objects.order_by('-most_days_survived')[:10] 
+
+    # Storye player lists into context dictionary, to be used in html
     context_dict={}
+    context_dict['player_enemies'] = player_enemies_list
+    context_dict['player_days'] = player_days_list
+
     return render(request, 'gameApp/leaderboard.html', context=context_dict)
 
 
