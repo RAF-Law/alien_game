@@ -5,17 +5,22 @@
 	Home
 {% endblock %}
 
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/homepageStyle.css' %}">
+    <script type="module" src="{% static 'js/homepage.js' %}"></script>
+{% endblock %}
+
 {% block body_block %}
     <div id="logo_centre">
-        <img src="homepagelogo_centre.png" alt="HomepageLogo_c">
+        <img src="{% static 'images/homepagelogo_centre.png' %}" alt="HomepageLogo_c">
     </div>
 
     <div id="logo_back">
-        <img src="homepagelogo_back.png" alt="HomepageLogo_b">
+        <img src="{% static 'images/homepagelogo_back.png' %}" alt="HomepageLogo_b">
     </div>
 
     <div id="logo_front">
-        <img src="homepagelogo_front.png" alt="HomepageLogo_f">
+        <img src="{% static 'images/homepagelogo_front.png' %}" alt="HomepageLogo_f">
     </div>
 
     <div class="circle">
