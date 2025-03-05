@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html>
+    <head lang="en">
+        <meta charset="UTF-8" />
+        <title>
+            Alien_game - <!-- we later replace this with our game name -->
+            {% block title_block %}
+                Hi!
+            {% endblock %}
+        </title>
+        <link rel="stylesheet" href="instructionStyle.css">
+        <script src="instruction.js"></script>
+    </head>
+
+    <body>
+
+        <div>
+            <header class="headBar">
+                <div>
+                    <a href="{% url 'gameApp:home' %}">
+                        <img class="icons" src="home_icon.png" alt="Home">
+                    </a>
+                    <a href="{% url 'gameApp:instructions' %}">
+                        <img class="icons" src="instructions_icon.png" alt="Instructions">
+                    </a>
+                    <a href="{% url 'gameApp:play' %}">
+                        <img class="icons" src="play_icon.png" alt="Instructions">
+                    </a>
+                    <a href="{% url 'gameApp:collections' %}">
+                        <img class="icons" src="collections_icon.png" alt="Instructions">
+                    </a>
+                    <a href="{% url 'gameApp:leaderboard' %}">
+                        <img class="icons" src="leaderboard_icon.png" alt="Leaderboard">
+                    </a>
+                </div>
+            </header>
+        </div>
+
+        <div id="login_bg_unauthorised">
+            <a href="{% url 'gameApp:login' %}">
+                <div id="login_img"></div>
+            </a>
+            Login
+        </div>
+
+        <div class="text_headings">
+            Instructions
+        </div>
+
+        <div id="left_1"></div>
+        <div id="left_2"></div>
+        <div id="left_3"></div>
+        <div id="right_1"></div>
+        <div id="right_2"></div>
+        <div id="right_3"></div>
+
+        <div class="instruction_frame">
+            <div class="instruction_subheading">
+                ABOUT XML
+            </div>
+            <p>
+            Extensible Markup Language (XML) is a markup language and file format for storing, transmitting, and reconstructing data. It defines a set of rules for encoding documents in a format that is both human-readable and machine-readable. The World Wide Web Consortium's XML 1.0 Specification[2] of 1998[3] and several other related specifications[4]—all of them free open standards—define XML.<br>
+            </p>
+            <p>
+            The design goals of XML emphasize simplicity, generality, and usability across the Internet.[6] It is a textual data format with strong support via Unicode for different human languages. Although the design of XML focuses on documents, the language is widely used for the representation of arbitrary data structures,[7] such as those used in web services.[8]<br>
+            </p>
+            <p>
+            Several schema systems exist to aid in the definition of XML-based languages, while programmers have developed many application programming interfaces (APIs) to aid the processing of XML data.[9]<br>
+            </p>
+            <div class="instruction_subheading">
+                OVERVIEW
+            </div>
+            <p>
+                The main purpose of XML is serialization, i.e. storing, transmitting, and reconstructing arbitrary data. For two disparate systems to exchange information, they need to agree upon a file format. XML standardizes this process. It is therefore analogous to a lingua franca for representing information.[10]<br>
+            </p>
+            <p>
+As a markup language, XML labels, categorizes, and structurally organizes information.[11] XML tags represent the data structure and contain metadata. What is within the tags is data, encoded in the way the XML standard specifies.[11] An additional XML schema (XSD) defines the necessary metadata for interpreting and validating XML. (This is also referred to as the canonical schema.)[12] An XML document that adheres to basic XML rules is "well-formed"; one that adheres to its schema is "valid".[12]<br>
+</p>
+<p>
+IETF RFC 7303 (which supersedes the older RFC 3023), provides rules for the construction of media types for use in XML message. It defines three media types: application/xml (text/xml is an alias), application/xml-external-parsed-entity (text/xml-external-parsed-entity is an alias) and application/xml-dtd. They are used for transmitting raw XML files without exposing their internal semantics. RFC 7303 further recommends that XML-based languages be given media types ending in +xml, for example, image/svg+xml for SVG.<br>
+</p>
+<p>
+Further guidelines for the use of XML in a networked context appear in RFC 3470, also known as IETF BCP 70, a document covering many aspects of designing and deploying an XML-based language.[9][8]<br>
+            </p>
+        </div>
+
+        <div class="text_declaration">
+            This project is created by: Salwa Sayed | Nairn White | Jonatan Wiankowski | Lawrence Zhang​
+        </div>
+
+    </body>
+</html>

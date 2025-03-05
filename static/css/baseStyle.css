@@ -42,7 +42,7 @@ body {
 }
 
 .text_headings {
-    position:fixed;
+    position:absolute;
     top:80px;
     left: 50%;
     transform: translate(-50%);
@@ -54,17 +54,22 @@ body {
 }
 
 .text_declaration {
-    position:fixed;
+    position:absolute;
     bottom:5px;
     left: 50%;
     transform: translate(-50%);
     font-family: 'Fixedys', sans-serif;
     font-size: 11px;
-    color:#01031e;
+    color:rgba(202, 255, 245, 0.3);
 
     white-space: nowrap; 
 
     z-index:2;
+}
+
+html, body {
+    min-height: 100vh;
+    position: relative;
 }
 
 .circle {
