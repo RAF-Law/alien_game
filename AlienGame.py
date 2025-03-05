@@ -264,7 +264,23 @@ class Battle():
             printS("You gain some of " + self.alien.name + "'s life force | +20 HP | +10 attack points | +5 speed |")
             self.player.food += 2
             printS("You also steal " + self.alien.name + "'s lunch | +2 Food |")
+            time.sleep(2)
             self.player.enemies_killed += 1
+            hasGlove = random.randint(1, 30)
+            if hasGlove == 21 and foundGlove == False:
+                printS("You notice the alien has a shrine dedicated to some other alien called ")
+                time.sleep(2)
+                printS("On the centre piece of the shrine you notice a glove that looks like it could fit a human")
+                time.sleep(2)
+                printS("You can feel it's unimaginable power and you try to put it on, but its too small for you")
+                time.sleep(2)
+                printS("So you decide to just steal it")
+                time.sleep(2)
+                printS("You now have " + artifacts["Shimschnar's Left Hand Glove"].name)
+                time.sleep(2)
+                printS(artifacts["Shimschnar's Left Hand Glove"].toString())
+                time.sleep(2)
+                foundGlove = True
         if self.player.hp<=0:
             gameOver()
 
@@ -425,6 +441,8 @@ def mapReset():
 }
 
 def play(player_init):
+    global foundGlove
+    foundGlove = False
     global repeatSecret
     repeatSecret = False
     global hasReset
