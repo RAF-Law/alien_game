@@ -1,13 +1,16 @@
 @import "baseStyle.css";
 
+#logo_centre { /* need to get it separated out to use animation idk why */
+    position: fixed; 
+    bottom: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+}
+
 #logo_centre img { /* idk why but it only works when I add this "img" */
     height:60vh; /* make logo dynamically gets smaller when shrinking */
     width:50vw;
-
-    position:fixed;
-    bottom:30%;
-    left:50%;
-    transform: translateX(-50%);
 
     object-fit: contain;
     image-rendering: pixelated;
@@ -15,25 +18,33 @@
     z-index:3
 }
 
-#logo_back img {
-    height:60vh;
-    width:50vw;
+#logo_back{
     position:fixed;
     bottom:30%;
     left:50%;
     transform: translateX(-50%);
+    z-index:2
+}
+
+#logo_back img {
+    height:60vh;
+    width:50vw;
     object-fit: contain;
     image-rendering: pixelated;
     z-index:2
 }
 
-#logo_front img {
-    height:60vh;
-    width:50vw;
+#logo_front{
     position:fixed;
     bottom:30%;
     left:50%;
     transform: translateX(-50%);
+    z-index:4
+}
+
+#logo_front img {
+    height:60vh;
+    width:50vw;
     object-fit: contain;
     image-rendering: pixelated;
     z-index:4
@@ -83,4 +94,12 @@
     color:rgb(182, 255, 212);
 
     z-index:2;
+}
+
+.star{
+    height: 4px;
+    width: 4px;
+    image-rendering: pixelated;
+
+    background-color:white;
 }

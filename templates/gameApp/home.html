@@ -5,6 +5,11 @@
 	Home
 {% endblock %}
 
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/homepageStyle.css' %}">
+    <script type="module" src="homepage.js"></script>
+{% endblock %}
+
 {% block body_block %}
     <div id="logo_centre">
         <img src="homepagelogo_centre.png" alt="HomepageLogo_c">
