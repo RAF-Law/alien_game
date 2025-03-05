@@ -268,7 +268,7 @@ class Battle():
             self.player.enemies_killed += 1
             hasGlove = random.randint(1, 30)
             if hasGlove == 21 and foundGlove == False:
-                printS("You notice the alien has a shrine dedicated to some other alien called ")
+                printS("You notice the alien has a shrine dedicated to some other alien called 'Shimschnar'")
                 time.sleep(2)
                 printS("On the centre piece of the shrine you notice a glove that looks like it could fit a human")
                 time.sleep(2)
@@ -385,11 +385,11 @@ def update():
     cur_room_count += 1
     if cur_room_count == 5:
         day += 1
-        #print("You go to sleep")
-        #time.sleep(2)
+        printS("You rest and gain 20 HP")
+        player.hp += 20
         printS("It is now day " + day)
         difficulty += 1
-        #player.food -= 3
+        cur_room_count = 0   
 
 alienNames = ["Zog", "Gorp", "Prip", "Geggin", "Nairn", "Hojjim", "Kada"]
 
@@ -411,6 +411,7 @@ def createAlien():
     return alien
 
 def mapReset():
+    resetTimes += 1
     if hasReset == False:
         printS("But before you make it there, you are approached by an old man.")
         time.sleep(2)
@@ -441,6 +442,8 @@ def mapReset():
 }
 
 def play(player_init):
+    global resetTimes
+    resetTimes = 1
     global foundGlove
     foundGlove = False
     global repeatSecret
