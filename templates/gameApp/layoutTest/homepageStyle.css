@@ -1,0 +1,86 @@
+@import "baseStyle.css";
+
+#logo_centre img { /* idk why but it only works when I add this "img" */
+    height:60vh; /* make logo dynamically gets smaller when shrinking */
+    width:50vw;
+
+    position:fixed;
+    bottom:30%;
+    left:50%;
+    transform: translateX(-50%);
+
+    object-fit: contain;
+    image-rendering: pixelated;
+    
+    z-index:3
+}
+
+#logo_back img {
+    height:60vh;
+    width:50vw;
+    position:fixed;
+    bottom:30%;
+    left:50%;
+    transform: translateX(-50%);
+    object-fit: contain;
+    image-rendering: pixelated;
+    z-index:2
+}
+
+#logo_front img {
+    height:60vh;
+    width:50vw;
+    position:fixed;
+    bottom:30%;
+    left:50%;
+    transform: translateX(-50%);
+    object-fit: contain;
+    image-rendering: pixelated;
+    z-index:4
+}
+
+#logo img{ /* reserved for future logo use */
+    height:60vh;
+    width:50vw;
+    position:fixed;
+    bottom:30%;
+    left:50%;
+    transform: translateX(-50%);
+    object-fit: contain;
+    image-rendering: pixelated;
+    z-index:4
+}
+
+.general_welcome {
+    width:90vw;
+    position:fixed;
+    bottom:20%;
+    left: 50%;
+    transform: translateX(-50%);
+
+    font-size: 3vw;
+    text-align: center;
+    font-family: 'Fixedys', sans-serif;
+    text-shadow: 1px 1px 0px #048eff;
+
+    color:rgb(245, 250, 255);
+
+    z-index:2;
+}
+
+.general_description {
+    width:90vw;
+    position:fixed;
+    bottom:3%;
+    left: 50%;
+    transform: translateX(-50%);
+
+    font-size: 1.5vw;
+    text-align: center;
+    font-family: 'Fixedys', sans-serif;
+    line-height: 5vh;
+
+    color:rgb(182, 255, 212);
+
+    z-index:2;
+}
