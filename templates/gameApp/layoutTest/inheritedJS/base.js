@@ -17,11 +17,5 @@ function loginGlitching(elementId){
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    //if this stuff is found then it's authorised, otherwise it's not, so we call different functions
-    let authorised = document.getElementById("login_bg_authorised");
-    if (authorised){
-        loginGlitching("login_bg_authorised");
-    }else{
-        loginGlitching("login_bg_unauthorised");
-    }
+    loginGlitching("login_bg");
 })

@@ -42,10 +42,5 @@ document.addEventListener("DOMContentLoaded", function () {
     logoMoving("right_2", 12, 1, 500,1);
     logoMoving("right_3", 6, 2, 500,-1);
 
-    let authorised = document.getElementById("login_bg_authorised");
-    if (authorised){
-        loginGlitching("login_bg_authorised");
-    }else{
-        loginGlitching("login_bg_unauthorised");
-    }
+    loginGlitching("login_bg");
 })
