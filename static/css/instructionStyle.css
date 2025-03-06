@@ -25,7 +25,7 @@ p{
 }
 
 body {
-    padding-bottom: 17vh;
+  padding-bottom: 160px; /* this is so confusing but anyways I fixed it */
 }
 
 .side {

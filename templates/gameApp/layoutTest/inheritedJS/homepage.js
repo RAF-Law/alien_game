@@ -1,26 +1,17 @@
 import "./base.js"
 
-function logoMoving(elementId, length, move, speed) {
-    let element = document.getElementById(elementId);
-    let direction = -1;
-    let step = 0;
+function stars(){ //random stars each time the page is loaded
+    for (let i = 0; i < 50; i++) {
+        let div = document.createElement("div");
+        div.classList.add("star");
+        
+        div.style.position = "fixed";
+        div.style.left = `${Math.random() * window.innerWidth}px`;
+        div.style.top = `${Math.random() * window.innerHeight}px`;
+        div.style.transform = `scale(${Math.random()})`;
 
-    function movefunc() {
-        let current = parseInt(window.getComputedStyle(element).bottom);
-        element.style.bottom = (current + length * direction) + "px";
-        step++;
-
-        if (step >= move) {
-            direction *= -1;  
-            step = 0; 
-        }
+        document.body.appendChild(div);
     }
-
-    setInterval(movefunc, speed);
-}
-
-function stars(){
-
 }
 
 document.addEventListener("DOMContentLoaded", function () {

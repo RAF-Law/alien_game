@@ -1,4 +1,4 @@
-function logoMoving(elementId, length, move, speed,direction) {
+function logoMovingP(elementId, length, move, speed,direction) {
     let element = document.getElementById(elementId);
     let step = 0;
 
@@ -35,12 +35,12 @@ function loginGlitching(elementId){
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    logoMoving("left_1", 10, 1, 500,-1);
-    logoMoving("left_2", 12, 1, 500,1);
-    logoMoving("left_3", 6, 2, 500,-1);
-    logoMoving("right_1", 10, 1, 500,-1);
-    logoMoving("right_2", 12, 1, 500,1);
-    logoMoving("right_3", 6, 2, 500,-1);
+    logoMovingP("left_1", 10, 1, 500,-1);
+    logoMovingP("left_2", 12, 1, 500,1);
+    logoMovingP("left_3", 6, 2, 500,-1);
+    logoMovingP("right_1", 10, 1, 500,-1);
+    logoMovingP("right_2", 12, 1, 500,1);
+    logoMovingP("right_3", 6, 2, 500,-1);
 
     loginGlitching("login_bg");
 })

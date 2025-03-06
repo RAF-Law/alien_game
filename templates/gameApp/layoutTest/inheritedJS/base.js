@@ -16,6 +16,25 @@ function loginGlitching(elementId){
     setInterval(colorchange, 50);
 }
 
+function logoMoving(elementId, length, move, speed) {
+    let element = document.getElementById(elementId);
+    let direction = -1;
+    let step = 0;
+
+    function movefunc() {
+        let current = parseInt(window.getComputedStyle(element).bottom);
+        element.style.bottom = (current + length * direction) + "px";
+        step++;
+
+        if (step >= move) {
+            direction *= -1;  
+            step = 0; 
+        }
+    }
+
+    setInterval(movefunc, speed);
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     loginGlitching("login_bg");
 })
