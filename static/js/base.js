@@ -16,12 +16,25 @@ function loginGlitching(elementId){
     setInterval(colorchange, 50);
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-    //if this stuff is found then it's authorised, otherwise it's not, so we call different functions
-    let authorised = document.getElementById("login_bg_authorised");
-    if (authorised){
-        loginGlitching("login_bg_authorised");
-    }else{
-        loginGlitching("login_bg_unauthorised");
+function logoMoving(elementId, length, move, speed) {
+    let element = document.getElementById(elementId);
+    let direction = -1;
+    let step = 0;
+
+    function movefunc() {
+        let current = parseInt(window.getComputedStyle(element).bottom);
+        element.style.bottom = (current + length * direction) + "px";
+        step++;
+
+        if (step >= move) {
+            direction *= -1;  
+            step = 0; 
+        }
     }
+
+    setInterval(movefunc, speed);
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    loginGlitching("login_bg");
 })

@@ -25,70 +25,27 @@ p{
 }
 
 body {
-    padding-bottom: 17vh;
+    padding-bottom: 160px; /* this is so confusing but anyways I fixed it */
 }
 
-#left_1{
-    width:300px;
-    height:60px;
-    position: absolute;
-    right:1200px;
-    top:100px;
-    image-rendering: pixelated;
-    background-image: url('ins_left_1.png');
-    background-size: cover;
-}
-#left_2{
-    width:300px;
-    height:60px;
-    position: absolute;
-    right:1200px;
-    top:120px;
-    image-rendering: pixelated;
-    background-image: url('ins_left_2.png');
-    background-size: cover;
-}
-#left_3{
-    width:300px;
-    height:60px;
-    position: absolute;
-    right:1200px;
-    top:110px;
-    image-rendering: pixelated;
-    background-image: url('ins_left_3.png');
-    background-size: cover;
+.side {
+  width: 300px;
+  height: 60px;
+  position: absolute;
+  image-rendering: pixelated;
+  background-size: cover;
 }
 
-#right_1{
-    width:300px;
-    height:60px;
-    position: absolute;
-    left:1200px;
-    top:100px;
-    image-rendering: pixelated;
-    background-image: url('ins_right_1.png');
-    background-size: cover;
-}
-#right_2{
-    width:300px;
-    height:60px;
-    position: absolute;
-    left:1200px;
-    top:120px;
-    image-rendering: pixelated;
-    background-image: url('ins_right_2.png');
-    background-size: cover;
-}
-#right_3{
-    width:300px;
-    height:60px;
-    position: absolute;
-    left:1200px;
-    top:110px;
-    image-rendering: pixelated;
-    background-image: url('ins_right_3.png');
-    background-size: cover;
-}
+.left { right: 1200px; }
+
+.right { left: 1200px; }
+
+#left_1 { background-image: url('ins_left_1.png'); top: 100px; }
+#left_2 { background-image: url('ins_left_2.png'); top: 120px; }
+#left_3 { background-image: url('ins_left_3.png'); top: 110px; }
+#right_1 { background-image: url('ins_right_1.png'); top: 100px; }
+#right_2 { background-image: url('ins_right_2.png'); top: 120px; }
+#right_3 { background-image: url('ins_right_3.png'); top: 110px; }
 
 .instruction_frame, /*given by some generator, will state the source in document */
 .instruction_frame--wrapper {

@@ -25,12 +25,6 @@
                     <a href="{% url 'gameApp:instructions' %}">
                         <img class="icons" src="instructions_icon.png" alt="Instructions">
                     </a>
-                    <a href="{% url 'gameApp:play' %}">
-                        <img class="icons" src="play_icon.png" alt="Instructions">
-                    </a>
-                    <a href="{% url 'gameApp:collections' %}">
-                        <img class="icons" src="collections_icon.png" alt="Instructions">
-                    </a>
                     <a href="{% url 'gameApp:leaderboard' %}">
                         <img class="icons" src="leaderboard_icon.png" alt="Leaderboard">
                     </a>
@@ -38,23 +32,23 @@
             </header>
         </div>
 
-        <div id="login_bg_unauthorised">
+        <div id="login_bg">
             <a href="{% url 'gameApp:login' %}">
                 <div id="login_img"></div>
             </a>
-            Login
+            <div id="login_text">Login</div>
         </div>
 
         <div class="text_headings">
             Instructions
         </div>
 
-        <div id="left_1"></div>
-        <div id="left_2"></div>
-        <div id="left_3"></div>
-        <div id="right_1"></div>
-        <div id="right_2"></div>
-        <div id="right_3"></div>
+        <div id="left_1" class="side left"></div>
+        <div id="left_2" class="side left"></div>
+        <div id="left_3" class="side left"></div>
+        <div id="right_1" class="side right"></div>
+        <div id="right_2" class="side right"></div>
+        <div id="right_3" class="side right"></div>
 
         <div class="instruction_frame">
             <div class="instruction_subheading">
