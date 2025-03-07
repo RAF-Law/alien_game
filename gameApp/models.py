@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User as DjangoUser
+from django.db.models.signals import post_save
 
 
 class Weapon(models.Model):
@@ -87,6 +88,9 @@ class UserProfile(models.Model):
         verbose_name = 'User'
         verbose_name_plural = 'Users'
 
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
 
 class Game(models.Model):
     # Primary key for game (Map)
@@ -125,3 +129,7 @@ class Game(models.Model):
     class Meta:
         verbose_name = 'Game'
         verbose_name_plural = 'Games'
+
+post_save.connect(create_user_profile, sender=DjangoUser)
+
+#https://docs.djangoproject.com/en/5.1/ref/signals/ - Really useful stuff
