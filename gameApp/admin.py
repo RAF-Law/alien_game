@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Weapon, Artifact, User, Game
+from .models import Weapon, Artifact, UserProfile, Game
 
 @admin.register(Weapon)
 class WeaponAdmin(admin.ModelAdmin):
@@ -15,11 +15,11 @@ class ArtifactAdmin(admin.ModelAdmin):
     search_fields = ('name', 'description')
     readonly_fields = ('artifact_id',)
 
-@admin.register(User)
+@admin.register(UserProfile)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('user_id', 'most_enemies_killed', 'most_days_survived', 'games_played')
-    search_fields = ('user_id',)
-    readonly_fields = ('user_id',)
+    list_display = ('user', 'most_enemies_killed', 'most_days_survived', 'games_played')
+    search_fields = ('user',)
+    readonly_fields = ('user',)
     filter_horizontal = ('artifacts_earned', 'weapons_earned')
 
 @admin.register(Game)

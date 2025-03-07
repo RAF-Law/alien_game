@@ -9,7 +9,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
 # Model imports
-from gameApp.models import User
+from gameApp.models import UserProfile as User
 from gameApp.models import Game
 
 

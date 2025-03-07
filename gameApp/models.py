@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User as DjangoUser
+
 
 class Weapon(models.Model):
 
@@ -54,21 +56,15 @@ class Artifact(models.Model):
         verbose_name = 'Artifact'
         verbose_name_plural = 'Artifacts'
 
+class UserProfile(models.Model):
 
-class User(models.Model):
-    # Primary key for user
-    user_id = models.AutoField(primary_key=True)
+    user = models.OneToOneField(DjangoUser, on_delete=models.CASCADE, primary_key=True)
 
-    # Link to Artifacts
-    artifacts_earned = models.ManyToManyField(Artifact, blank=True)
-
-    # Link to Weapons
-    weapons_earned = models.ManyToManyField(Weapon, blank=True)
-
-    # Stats for user
     most_enemies_killed = models.IntegerField(default=0)
     most_days_survived = models.IntegerField(default=0)
     games_played = models.IntegerField(default=0)
+    artifacts_earned = models.ManyToManyField(Artifact, blank=True)
+    weapons_earned = models.ManyToManyField(Weapon, blank=True)
 
     def update_most_enemies_killed(self, current_game_enemies_killed):
         if current_game_enemies_killed > self.most_enemies_killed:
@@ -85,7 +81,7 @@ class User(models.Model):
         self.save()
 
     def __str__(self):
-        return f"User {self.user_id}"
+        return f"User {self.user.username}"
 
     class Meta:
         verbose_name = 'User'

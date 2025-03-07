@@ -7,7 +7,7 @@ import django
 django.setup()
 
 from django.core.files import File
-from gameApp.models import Weapon, Artifact, User, Game
+from gameApp.models import Weapon, Artifact, UserProfile as User, Game
 
 def populate():
 
