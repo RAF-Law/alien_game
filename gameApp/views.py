@@ -14,6 +14,11 @@ from gameApp.models import Game
 from gameApp.models import Weapon
 from gameApp.models import Artifact
 
+# Forms import 
+from gameApp.forms import UserForm
+from gameApp.forms import UserProfileForm
+
+
 
 # HomePage view 
 # Visible to ALL users
@@ -38,8 +43,37 @@ def instructions(request):
 # URL: gameApp/register/
 # Template: gameApp/register.html
 def register(request):
-    context_dict={}
-    return render(request, 'gameApp/register.html', context=context_dict)
+    registered = False
+
+    if request.method == 'POST':
+        user_form = UserForm(request.POST)
+        profile_form = UserProfileForm(request.POST)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user = user_form.save()
+
+            user.set_password(user.password)
+            user.save()
+
+            profile = profile_form.save(commit=False)
+            profile.user = user
+
+            if 'picture' in request.FILES:
+                profile.picture = request.FILES['picture']
+
+            profile.save()
+
+            registered = True
+        else:
+            print(user_form.errors, profile_form.errors)
+
+    else:
+        user_form = UserForm()
+        profile_form = UserProfileForm()
+
+    return render(request, 'gameApp/register.html', context = {'user_form': user_form,
+                                                               'profile_form': profile_form,
+                                                                'registered': registered,})
 
 
 # Login view
@@ -47,14 +81,30 @@ def register(request):
 # URL: gameApp/login/
 # Template: gameApp/login.html
 def user_login(request):
-    context_dict={}
-    return render(request, 'gameApp/user_login.html', context=context_dict)
+    if request.method == "POST":
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(username=username, password=password)
+
+        if user:
+            if user.is_active:
+                login(request, user)
+                return redirect(reverse("gameApp:home"))
+            else:
+                return HttpResponse("Your Account has been disabled :[]")
+        else:
+            print(f"Invalid login details: {username}, {password}")
+            return HttpResponse("Invalid login details supplied.")
+    else:
+        return render(request, 'gameApp/user_login.html')
 
 
 # Logout
 # Visiblity: AUTHENTICATED users
 # URL: Null
 # Template: Null
+@login_required
 def user_logout(request):
     logout(request)
     return redirect(reverse('gameApp:home'))
@@ -64,6 +114,7 @@ def user_logout(request):
 # Visiblity: AUTHENTICATED users
 # URL: gameApp/my_account/
 # Template: gameApp/user_account.html
+@login_required
 def user_account(request):
     # Pass in user specific information 
     context_dict={}
@@ -74,6 +125,7 @@ def user_account(request):
 # Visiblity: AUTHENTICATED users
 # URL: gameApp/my_account/my_history/
 # Template: gameApp/user_history.html
+@login_required
 def user_history(request):
 
     # pass in user specific history info
@@ -90,6 +142,7 @@ def user_history(request):
 # Visiblity: AUTHENTICATED users
 # URL: gameApp/my_account/my_handbook/
 # Template: gameApp/user_handbook.html
+@login_required
 def user_handbook(request):
 
     # Get user specific artifacts earned
@@ -135,6 +188,7 @@ def leaderboard(request):
 # Visiblity: AUTHENTICATED users
 # URL: gameApp/play/
 # Template: gameApp/play.html
+@login_required
 def play(request):
     context_dict={}
     return render(request, 'gameApp/play.html', context=context_dict)
@@ -144,6 +198,7 @@ def play(request):
 # Visiblity: AUTHENTICATED users
 # URL: gameApp/play/gameScene/
 # Template: gameApp/gameScene.html
+@login_required
 def gameScene(request):
     context_dict={}
     return render(request, 'gameApp/gameScene.html', context= context_dict)
