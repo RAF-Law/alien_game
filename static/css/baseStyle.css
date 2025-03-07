@@ -42,7 +42,7 @@ body {
 }
 
 .text_headings {
-    position:fixed;
+    position:absolute;
     top:80px;
     left: 50%;
     transform: translate(-50%);
@@ -54,17 +54,22 @@ body {
 }
 
 .text_declaration {
-    position:fixed;
+    position:absolute;
     bottom:5px;
     left: 50%;
     transform: translate(-50%);
     font-family: 'Fixedys', sans-serif;
     font-size: 11px;
-    color:#01031e;
+    color:rgba(202, 255, 245, 0.3);
 
     white-space: nowrap; 
 
     z-index:2;
+}
+
+html, body {
+    min-height: 100vh;
+    position: relative;
 }
 
 .circle {
@@ -105,26 +110,16 @@ body {
     z-index: 7;
 }
 
-#login_bg_unauthorised{
-    height:80px;
-    width:300px;
-    background-color: #1c3147;
-
-    position: fixed;
-    right: 0px;
-    top:0px;
-
+#login_text{
     font-size: 60px;
     letter-spacing: 8px;
     color:#2fe7f7;
     font-family: 'Fixedys', sans-serif;
     text-align: center;
     line-height: 70px;
-
-    z-index: 6;
 }
 
-#login_bg_authorised{ /* this is a container cuz we need 2 lines of text with different align */
+#login_bg{ /* this is a container cuz we need 2 lines of text with different align */
     height:80px;
     width:300px;
     background-color: #1c3147;

@@ -144,8 +144,17 @@ class Player:
     def move(self, house):
         houseStr = "house " + str(house)
         if map[houseStr] in map["EmptyHouses"]:
-            printS("This house is empty")
+            map[houseStr]["timesEntered"] += 1
+            if map[houseStr]["timesEntered"] == 5 and repeatSecret==False:
+                printS("You have spent so much time going in and out of this house, you somehow managed to obtain " + artifacts["The Orb of Time"].name)
+                time.sleep(3)
+                printS(artifacts["The Orb of Time"].toString)
+                player.inventory.append(artifacts["The Orb of Time"])
+                repeatSecret = True
+            else:
+                printS("This house is empty")
             return
+        map[houseStr]["timesEntered"] = 1
         numOfRooms = random.randint(2, 6)
         for i in range(1, numOfRooms + 1):
             roomStr = "room " + str(i)
@@ -255,7 +264,23 @@ class Battle():
             printS("You gain some of " + self.alien.name + "'s life force | +20 HP | +10 attack points | +5 speed |")
             self.player.food += 2
             printS("You also steal " + self.alien.name + "'s lunch | +2 Food |")
+            time.sleep(2)
             self.player.enemies_killed += 1
+            hasGlove = random.randint(1, 30)
+            if hasGlove == 21 and foundGlove == False:
+                printS("You notice the alien has a shrine dedicated to some other alien called 'Shimschnar'")
+                time.sleep(2)
+                printS("On the centre piece of the shrine you notice a glove that looks like it could fit a human")
+                time.sleep(2)
+                printS("You can feel it's unimaginable power and you try to put it on, but its too small for you")
+                time.sleep(2)
+                printS("So you decide to just steal it")
+                time.sleep(2)
+                printS("You now have " + artifacts["Shimschnar's Left Hand Glove"].name)
+                time.sleep(2)
+                printS(artifacts["Shimschnar's Left Hand Glove"].toString())
+                time.sleep(2)
+                foundGlove = True
         if self.player.hp<=0:
             gameOver()
 
@@ -360,11 +385,11 @@ def update():
     cur_room_count += 1
     if cur_room_count == 5:
         day += 1
-        #print("You go to sleep")
-        #time.sleep(2)
+        printS("You rest and gain 20 HP")
+        player.hp += 20
         printS("It is now day " + day)
         difficulty += 1
-        #player.food -= 3
+        cur_room_count = 0   
 
 alienNames = ["Zog", "Gorp", "Prip", "Geggin", "Nairn", "Hojjim", "Kada"]
 
@@ -386,6 +411,21 @@ def createAlien():
     return alien
 
 def mapReset():
+    resetTimes += 1
+    if hasReset == False:
+        printS("But before you make it there, you are approached by an old man.")
+        time.sleep(2)
+        printS("He says he wants to thank you for clearing all the houses in his neighborhood.")
+        time.sleep(2)
+        printS("He hands you a magnificent sword, it has power unlike anything you've seen on your journey.")
+        time.sleep(2)
+        printS("Do you wish to take it? 'yes' or 'no' | Warning: You will not get another chance to get this weapon this game |")
+        takesWeapon = inputS()
+        if takesWeapon.lower == "yes":
+            player.currentWeapon = weapons["Katana"]
+            printS("You not have the "+ player.currentweapon.name)
+            printS(player.currentWeapon.description)
+        hasReset = True
     global map
     map = {"street" : "street", 
 "EmptyHouses" : [],
@@ -402,6 +442,15 @@ def mapReset():
 }
 
 def play(player_init):
+    global resetTimes
+    resetTimes = 1
+    global foundGlove
+    foundGlove = False
+    global repeatSecret
+    repeatSecret = False
+    global hasReset
+    hasReset = False
+    secretHouseFound = False
     global cur_room_count
     cur_room_count = 0
     global day
@@ -418,7 +467,8 @@ def play(player_init):
     time.sleep(2)
     while end == False:
         if len(map["EmptyHouses"] == len(map)-1):
-            printS("You emptied all the houses. So now they are reset!")
+            printS("You emptied all the houses. So you move on to the next neighborhood")
+            time.sleep(2)
             mapReset()
         printS(player.toString())
         printS("Score: " + str(difficulty))
@@ -427,11 +477,28 @@ def play(player_init):
         if houseNum.lower() == "q":
             end = True
             break
+        if int(houseNum == 0 and secretHouseFound == False):
+            printS("You notice an extra house that seems mysterious.")
+            time.sleep(2)
+            printS("You enter it and there are no rooms just a long bright white hallway.")
+            time.sleep(2)
+            printS("As you walk down the hallway, you notice a podium right at the end.")
+            time.sleep(2)
+            printS("As you approach the podium, you notice an old book, so old that you are hesitent to touch it.")
+            time.sleep(2)
+            printS("Despite your fear, you pick it up")
+            time.sleep(2)
+            printS("You found " + artifacts["The Dictionary of the Ancients"].name + ". It is now yours")
+            time.sleep(2)
+            printS(artifacts["The Dictionary of the Ancients"].toString)
+            player.inventory.append[artifacts["The Dictionary of the Ancients"]]
+            secretHouseFound = True
+
         if int(houseNum) <= 10 or int(houseNum) >0:
             houseNum = int(houseNum)
             player.move(houseNum)
         else:
-            printS("Invalid input, please enter a number 1-10")
+            printS("Not a house number, please enter a number 1-10")
     gameOver()
 
 newplayer = Player(100, 5, 10, 10, map["street"])
