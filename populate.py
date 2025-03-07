@@ -1,15 +1,59 @@
 import os
 import sqlite3
+import time
+
+from django.contrib.auth import get_user_model
+from django.test import Client
+from django.urls import reverse
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'alien_game.settings')
 
 import django
 django.setup()
 
+from django.core.management import call_command
 from django.core.files import File
 from gameApp.models import Weapon, Artifact, UserProfile as User, Game
 
+WIPE_DATABASE = True
+POPULATE_DATABASE = True
+CREATE_ADMIN = True
+AUTO_RUN_SERVER = True
+
+def django_auto_runserver():
+    print('Auto-running server in 5 seconds... Ctrl + C to stop.')
+    time.sleep(5)
+    call_command('runserver')
+
+def create_superuser(username='test_admin', email='test_admin@admin.com', password='123'):
+
+    user = get_user_model()
+
+    if not user.objects.filter(username=username).exists():
+        user.objects.create_superuser(username=username, email=email, password=password)
+        print(f"Created superuser {username}.")
+    else:
+        print(f"{username} already exists!")
+
+
+def check_database_exists():
+    print('Checking if db.sqlite3 has already been generated...')
+    if os.path.exists('db.sqlite3'):
+        print('db.sqlite3 exists, deleting...')
+        os.remove('db.sqlite3')
+    else:
+        print('Does not exist.')
+
+def django_auto_migrate():
+    print('Setting up prerequisites...')
+    check_database_exists()
+    call_command('migrate')
+    call_command('makemigrations')
+    print('Prerequisites set up!')
+
 def populate():
+
+    print('Starting Rango population script...')
 
     static_weapon_path = 'static/weapon_icons/'
     static_artifact_path = 'static/artifact_icons/'
@@ -357,11 +401,19 @@ def populate():
         populate_artifacts()
 
     except Exception as e:
-        print(f'Error: {str(e)}')
-        pass
+        print(f'Error: {str(e)}, stopping execution.')
+        return False
 
     print('Database populated!')
+    return True
 
 if __name__ == '__main__':
-    print('Starting Rango population script...')
-    populate()
+
+    if WIPE_DATABASE:
+        django_auto_migrate()
+    if POPULATE_DATABASE:
+        populate()
+    if CREATE_ADMIN:
+        create_superuser()
+    if AUTO_RUN_SERVER:
+        django_auto_runserver()

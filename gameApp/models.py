@@ -60,12 +60,15 @@ class Artifact(models.Model):
 class UserProfile(models.Model):
 
     user = models.OneToOneField(DjangoUser, on_delete=models.CASCADE, primary_key=True)
+    user = models.OneToOneField(DjangoUser, on_delete=models.CASCADE, primary_key=True)
 
     most_enemies_killed = models.IntegerField(default=0)
     most_days_survived = models.IntegerField(default=0)
     games_played = models.IntegerField(default=0)
     artifacts_earned = models.ManyToManyField(Artifact, blank=True)
     weapons_earned = models.ManyToManyField(Weapon, blank=True)
+
+    icon = models.ImageField(upload_to='media/static/user_icons/', blank=True)
 
     def update_most_enemies_killed(self, current_game_enemies_killed):
         if current_game_enemies_killed > self.most_enemies_killed:
@@ -85,8 +88,8 @@ class UserProfile(models.Model):
         return f"User {self.user.username}"
 
     class Meta:
-        verbose_name = 'User'
-        verbose_name_plural = 'Users'
+        verbose_name = 'User Profile'
+        verbose_name_plural = 'User Profiles'
 
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
