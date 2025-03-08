@@ -30,7 +30,7 @@ class UserProfileAdmin(admin.ModelAdmin):
 
 @admin.register(Game)
 class GameAdmin(admin.ModelAdmin):
-    list_display = ('game_id', 'player_hp', 'player_ap', 'player_speed', 'player_food', 'player_weapon', 'game_enemies_killed', 'game_day', 'game_difficulty', 'game_map')
+    list_display = ('user_game', 'player_hp', 'player_ap', 'player_speed', 'player_food', 'player_weapon', 'game_enemies_killed', 'game_day', 'game_difficulty', 'game_map')
     list_filter = ('game_difficulty', 'game_map')
-    search_fields = ('game_id', 'player_weapon__name')
-    readonly_fields = ('game_id',)
+    search_fields = ('user_game', 'player_weapon__name')
+    readonly_fields = ('user_game',)

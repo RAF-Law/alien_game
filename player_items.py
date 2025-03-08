@@ -38,6 +38,7 @@ artifact_icon_paths = {
     "Shimschnar's Left Hand Glove": "Shimschnar's Left Hand Glove.png",
     "The Dictionary of the Ancients": "The Dictionary of the Ancients.png",
     "The Orb of Time": "The Orb of Time.png",
+    "The Eye of Schmelborg": "The Eye of Schmelborg.png",
 }
 
 
@@ -284,4 +285,11 @@ artifacts = {
         'icon': File(open(static_artifact_path + artifact_icon_paths["The Orb of Time"], 'rb')),
         'rarity': 4,
     },
+    "The Eye of Schmelborg": {
+        'artifact_id': 21,
+        'name': "The Eye of Schmelborg",
+        'description': "While conquering planets, Schmelborg lost his eye. Now you found it. Well done I guess.",
+        'icon': File(open(static_artifact_path + artifact_icon_paths["The Eye of Schmelborg"], 'rb')),
+        'rarity': 6,
+    }
 }
