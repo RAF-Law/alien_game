@@ -9,13 +9,14 @@ django.setup()
 
 from django.contrib.auth import get_user_model
 from django.core.management import call_command
+
 from player_items import weapons, artifacts
 from gameApp.models import Weapon, Artifact, UserProfile as User, Game
 
 WIPE_DATABASE = True
 POPULATE_DATABASE = True
 CREATE_ADMIN = True
-AUTO_RUN_SERVER = True
+AUTO_RUN_SERVER = False
 
 def django_auto_runserver():
 
@@ -69,7 +70,7 @@ def django_auto_migrate():
     call_command('migrate')
     print('Prerequisites set up!')
 
-def populate():
+def populate_database():
 
     print('Starting database population script...')
 
@@ -94,7 +95,7 @@ if __name__ == '__main__':
     if WIPE_DATABASE:
         django_auto_migrate()
     if POPULATE_DATABASE:
-        populate()
+        populate_database()
     if CREATE_ADMIN:
         create_superuser()
     if AUTO_RUN_SERVER:

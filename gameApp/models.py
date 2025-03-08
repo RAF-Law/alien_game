@@ -60,7 +60,6 @@ class Artifact(models.Model):
 class UserProfile(models.Model):
 
     user = models.OneToOneField(DjangoUser, on_delete=models.CASCADE, primary_key=True)
-    user = models.OneToOneField(DjangoUser, on_delete=models.CASCADE, primary_key=True)
 
     most_enemies_killed = models.IntegerField(default=0)
     most_days_survived = models.IntegerField(default=0)
@@ -95,9 +94,13 @@ def create_user_profile(sender, instance, created, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)
 
+def create_user_game(sender, instance, created, **kwargs):
+    if created:
+        Game.objects.create(game_id=instance)
+
 class Game(models.Model):
     # Primary key for game (Map)
-    game_id = models.AutoField(primary_key=True)
+    game_id = models.OneToOneField(DjangoUser, on_delete=models.CASCADE, primary_key=True)
 
     # Player attributes
     player_hp = models.IntegerField(default=100)
@@ -134,5 +137,6 @@ class Game(models.Model):
         verbose_name_plural = 'Games'
 
 post_save.connect(create_user_profile, sender=DjangoUser)
+post_save.connect(create_user_game, sender=DjangoUser)
 
 #https://docs.djangoproject.com/en/5.1/ref/signals/ - Really useful stuff
