@@ -91,10 +91,17 @@ body {
 
     z-index:2;
 }
-
 html, body {
     min-height: 100vh;
     position: relative;
+}
+
+.star{
+    height: 4px;
+    width: 4px;
+    image-rendering: pixelated;
+
+    background-color:white;
 }
 
 #login_img{ /* all log-in related elements are id not class cuz it's only used once */

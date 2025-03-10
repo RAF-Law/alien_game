@@ -67,11 +67,3 @@
 
     z-index:2;
 }
-
-.star{
-    height: 4px;
-    width: 4px;
-    image-rendering: pixelated;
-
-    background-color:white;
-}
