@@ -1,6 +1,5 @@
-function logoMoving(elementId, length, move, speed) {
+function logoMoving(elementId, length, move, speed,direction) {
     let element = document.getElementById(elementId);
-    let direction = -1;
     let step = 0;
 
     function movefunc() {
@@ -50,9 +49,9 @@ function loginGlitching(elementId){
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    logoMoving("logo_centre", 10, 5, 800);
-    logoMoving("logo_front", 12, 4, 400);
-    logoMoving("logo_back", 8, 6, 600);
+    logoMoving("logo_centre", 10, 5, 800,-1);
+    logoMoving("logo_front", 12, 4, 400,-1);
+    logoMoving("logo_back", 8, 6, 600,-1);
 
     stars();
 
