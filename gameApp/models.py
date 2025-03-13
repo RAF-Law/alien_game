@@ -13,6 +13,8 @@ class Weapon(models.Model):
     rarity = models.IntegerField(default=1)
     icon = models.ImageField(upload_to='static/weapon_icons/', blank=True)
 
+
+
     def __str__(self):
         return self.name
 
