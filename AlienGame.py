@@ -503,7 +503,7 @@ def play(player_init):
             time.sleep(2)
             printS("As you walk down the hallway, you notice a podium right at the end.")
             time.sleep(2)
-            printS("As you approach the podium, you notice an old book, so old that you are hesitent to touch it.")
+            printS("As you approach the podium, you notice an old book, so old that you are hesitant to touch it.")
             time.sleep(2)
             printS("Despite your fear, you pick it up")
             time.sleep(2)
