@@ -1,24 +1,21 @@
-function loginGlitching(elementId){
+export function loginGlitching(elementId,variation,time){
     let element = document.getElementById(elementId);
     let currentcolor = window.getComputedStyle(element).backgroundColor.match(/\d+/g).map(Number);
-    //right, chatgpt taught me to get a numeric stuff like this, the format looks so evil
-    //that match returns a string list and map turns it into integers
     let direction = 1;
 
     function colorchange(){
-        let r = currentcolor[0]+direction*3;
-        let g = currentcolor[1]+direction*3;
-        let b = currentcolor[2]+direction*3;
+        let r = currentcolor[0]+direction*variation;
+        let g = currentcolor[1]+direction*variation;
+        let b = currentcolor[2]+direction*variation;
         element.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
         direction *= -1;
     }
 
-    setInterval(colorchange, 50);
+    setInterval(colorchange, time);
 }
 
-function logoMoving(elementId, length, move, speed) {
+export function logoMoving(elementId, length, move, speed,direction) {
     let element = document.getElementById(elementId);
-    let direction = -1;
     let step = 0;
 
     function movefunc() {
@@ -35,6 +32,20 @@ function logoMoving(elementId, length, move, speed) {
     setInterval(movefunc, speed);
 }
 
+export function stars(){ //random stars each time the page is loaded
+    for (let i = 0; i < 50; i++) {
+        let div = document.createElement("div");
+        div.classList.add("star");
+        
+        div.style.position = "fixed";
+        div.style.left = `${Math.random() * window.innerWidth}px`;
+        div.style.top = `${Math.random() * window.innerHeight}px`;
+        div.style.transform = `scale(${Math.random()})`;
+
+        document.body.appendChild(div);
+    }
+}
+
 document.addEventListener("DOMContentLoaded", function () {
-    loginGlitching("login_bg");
+    loginGlitching("login_bg",3,50);
 })

@@ -16,15 +16,21 @@ class ArtifactAdmin(admin.ModelAdmin):
     readonly_fields = ('artifact_id',)
 
 @admin.register(UserProfile)
-class UserAdmin(admin.ModelAdmin):
-    list_display = ('user', 'most_enemies_killed', 'most_days_survived', 'games_played')
-    search_fields = ('user',)
-    readonly_fields = ('user',)
-    filter_horizontal = ('artifacts_earned', 'weapons_earned')
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', 'most_enemies_killed', 'most_days_survived', 'games_played', 'get_artifacts', 'get_weapons', 'icon')
+
+    def get_artifacts(self, obj):
+        return ", ".join([artifact.artifact_id for artifact in obj.artifacts_earned.all()])
+    get_artifacts.short_description = 'Artifacts Earned'
+
+    def get_weapons(self, obj):
+        return ", ".join([weapon.weapon_id for weapon in obj.weapons_earned.all()])
+    get_weapons.short_description = 'Weapons Earned'
+
 
 @admin.register(Game)
 class GameAdmin(admin.ModelAdmin):
-    list_display = ('game_id', 'player_hp', 'player_ap', 'player_speed', 'player_food', 'player_weapon', 'game_enemies_killed', 'game_day', 'game_difficulty', 'game_map')
+    list_display = ('user_game', 'player_hp', 'player_ap', 'player_speed', 'player_food', 'player_weapon', 'game_enemies_killed', 'game_day', 'game_difficulty', 'game_map')
     list_filter = ('game_difficulty', 'game_map')
-    search_fields = ('game_id', 'player_weapon__name')
-    readonly_fields = ('game_id',)
+    search_fields = ('user_game', 'player_weapon__name')
+    readonly_fields = ('user_game',)

@@ -1,0 +1,49 @@
+{% extends 'gameApp/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+	Login
+{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/loginStyle.css' %}">
+    <script type="module" src="{% static 'js/login.js' %}"></script>
+{% endblock %}
+
+{% block body_block %}
+    <div class="circle">
+    </div>
+
+    <div id="text_username" class="text_preinput">
+        User Name:
+    </div>
+    <div id="text_password" class="text_preinput">
+        Password:
+    </div>
+
+    <div id="loginFrame"></div>
+    <div id="loginFrame_bg"></div>
+
+    <form id="login_form" method="post" action="{% url 'gameApp:login' %}">
+        {% csrf_token %}
+        <div id="input_username" class="inputcontainer">
+            <input class="styled-input" type="text" name="username" value="" size="50">
+        </div>
+        <div id="input_password" class="inputcontainer">
+            <input class="styled-input" type="password" name="password" value="" size="50">
+        </div>
+        <div id="submitcontainer" class="inputcontainer">
+            <input class="styled-submit" type="submit" value="submit" />
+        </div>
+    </form>
+
+    <div class="text_signup">
+        Do not have an account?<br>
+        <a href="{% url 'gameApp:register' %}" class="link">sign up</a> here!
+    </div>
+
+{% endblock %}
+
+{% block heading %}
+    Login
+{% endblock %}

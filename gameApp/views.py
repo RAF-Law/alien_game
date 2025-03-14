@@ -58,8 +58,8 @@ def register(request):
             profile = profile_form.save(commit=False)
             profile.user = user
 
-            if 'picture' in request.FILES:
-                profile.picture = request.FILES['picture']
+            if 'icon' in request.FILES:
+                profile.icon = request.FILES['icon']
 
             profile.save()
 
@@ -80,7 +80,7 @@ def register(request):
 # Visiblity: UNAUTHENTICATED users
 # URL: gameApp/login/
 # Template: gameApp/login.html
-def user_login(request):
+def login(request):
     if request.method == "POST":
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -97,7 +97,7 @@ def user_login(request):
             print(f"Invalid login details: {username}, {password}")
             return HttpResponse("Invalid login details supplied.")
     else:
-        return render(request, 'gameApp/user_login.html')
+        return render(request, 'gameApp/login.html')
 
 
 # Logout
@@ -202,3 +202,7 @@ def play(request):
 def gameScene(request):
     context_dict={}
     return render(request, 'gameApp/gameScene.html', context= context_dict)
+
+def gameCreation(request):
+    context_dict={}
+    return render(request, 'gameApp/gameCreation.html', context= context_dict)

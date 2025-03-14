@@ -36,16 +36,16 @@ body {
   background-size: cover;
 }
 
-.left { right: 1200px; }
+.left { right: calc(50% + 330px); }
 
-.right { left: 1200px; }
+.right { left: calc(50% + 330px); }
 
-#left_1 { background-image: url("{% static 'images/ins_left_1.png' %}"); top: 100px; }
-#left_2 { background-image: url("{% static 'images/ins_left_2.png' %}"); top: 120px; }
-#left_3 { background-image: url("{% static 'images/ins_left_3.png' %}"); top: 110px; }
-#right_1 { background-image: url("{% static 'images/ins_right_1.png' %}"); top: 100px; }
-#right_2 { background-image: url("{% static 'images/ins_right_2.png' %}"); top: 120px; }
-#right_3 { background-image: url("{% static 'images/ins_right_3.png' %}"); top: 110px; }
+#left_1 { background-image: url('../images/ins_left_1.png'); top: 100px; }
+#left_2 { background-image: url('../images/ins_left_2.png'); top: 120px; }
+#left_3 { background-image: url('../images/ins_left_3.png'); top: 110px; }
+#right_1 { background-image: url('../images/ins_right_1.png'); top: 100px; }
+#right_2 { background-image: url('../images/ins_right_2.png'); top: 120px; }
+#right_3 { background-image: url('../images/ins_right_3.png'); top: 110px; }
 
 .instruction_frame, /*given by some generator, will state the source in document */
 .instruction_frame--wrapper {
@@ -53,10 +53,9 @@ body {
     width:80vw;
     height:auto;
     position:absolute;
-    top:180px;
+    top: 201px; /*stange things happen. after django runs it, the layout changes a bit and I have to adjust them */
     left: 50%;
     transform: translate(-50%);
-    background-color: rgb(18, 46, 70);
     background-image: linear-gradient(180deg,rgb(18, 46, 70) 50%,rgb(50, 17, 91));
     
 
