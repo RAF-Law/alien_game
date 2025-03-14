@@ -13,15 +13,12 @@ class Weapon(models.Model):
     rarity = models.IntegerField(default=1)
     icon = models.ImageField(upload_to='static/weapon_icons/', blank=True)
 
-
-
     def __str__(self):
         return self.name
 
     class Meta:
         verbose_name = 'Weapon'
         verbose_name_plural = 'Weapons'
-
 
 class Artifact(models.Model):
 
