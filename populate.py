@@ -16,7 +16,7 @@ from gameApp.models import Weapon, Artifact, UserProfile as User, Game
 WIPE_DATABASE = True
 POPULATE_DATABASE = True
 CREATE_ADMIN = True
-AUTO_RUN_SERVER = False
+AUTO_RUN_SERVER = True
 
 def django_auto_runserver():
 
