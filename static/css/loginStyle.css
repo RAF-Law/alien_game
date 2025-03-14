@@ -20,7 +20,7 @@
     width:500px;
     height:700px;
 
-    background: url(loginframe.png) no-repeat;
+    background: url("../images/loginframe.png") no-repeat;
     background-size: contain;
     image-rendering: pixelated;
 
@@ -88,8 +88,8 @@ body { /* override the body attribute, so it has a fixed height, the declaration
     letter-spacing: 1px;
     font-family: 'Fixedys', sans-serif;
     border: none;
-    background: #354858;
-    color: #e0fcff;
+    background: #354858 !important;
+    color: #e0fcff !important;
 }
 
 .styled-submit{
@@ -105,15 +105,15 @@ body { /* override the body attribute, so it has a fixed height, the declaration
 #submitcontainer{
     width:120px;
     left:calc(50% + 80px);
-    top:472px;
+    top:493px;
     transform: translate(-50%);
 }
 
 #input_username{
-    top:350px;
+    top:371px;
 }
 #input_password{
-    top:420px;
+    top:441px;
 }
 
 .inputcontainer,

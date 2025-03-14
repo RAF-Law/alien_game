@@ -1,6 +1,6 @@
 @font-face { /* import the font */
     font-family: 'Fixedys';
-    src: url("{% static 'fonts/FSEX300.ttf' %}") format('truetype'); 
+    src: url("../fonts/FSEX300.ttf") format('truetype'); 
 }
 
 body {
@@ -108,7 +108,7 @@ html, body {
     height:100px;
     width:310px;
 
-    background: url("{% static 'icons/login.png' %}") no-repeat;
+    background: url('../icons/login.png') no-repeat;
     background-size: contain;
     image-rendering: pixelated;
 
