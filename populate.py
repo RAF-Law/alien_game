@@ -90,7 +90,8 @@ def populate_database():
         populate_model(Artifact, artifacts, 'artifact_id')
 
     except Exception as e:
-        print(f'Error: {str(e)}, stopping execution.')
+        print(f'Error: {str(e)}, re-wiping database and stopping execution.')
+        django_auto_migrate()
         return False
 
     print('Database populated!')
