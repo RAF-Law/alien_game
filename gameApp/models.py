@@ -45,7 +45,7 @@ class UserProfile(models.Model):
     artifacts_earned = models.ManyToManyField(Artifact, blank=True)
     weapons_earned = models.ManyToManyField(Weapon, blank=True)
 
-    icon = models.ImageField(upload_to='media/static/user_icons/', blank=True, default =
+    icon = models.ImageField(upload_to='static/user_icons/', blank=True, default =
     File(open('static/user_icons/Default Icon.png', 'rb')))
 
     def update_most_enemies_killed(self, current_game_enemies_killed):

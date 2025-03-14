@@ -51,8 +51,9 @@ def check_database_exists():
 
     db_weapon_icon_path = 'media/static/artifact_icons/static/artifact_icons'
     db_artifact_icon_path = 'media/static/weapon_icons/static/weapon_icons'
+    db_user_icon_path = 'media/static/user_icons/static/user_icons'
 
-    print('Checking if weapon and artifact icon duplicates exist...')
+    print('Checking if weapon, artifact and user icon duplicates exist...')
 
     if os.path.exists(db_weapon_icon_path):
         print('Weapon icon duplicates exist, deleting...')
@@ -61,6 +62,10 @@ def check_database_exists():
     if os.path.exists(db_artifact_icon_path):
         print('Artifact icon duplicates exist, deleting...')
         shutil.rmtree(db_artifact_icon_path)
+
+    if os.path.exists(db_user_icon_path):
+        print('User icon duplicates exist, deleting...')
+        shutil.rmtree(db_user_icon_path)
 
 def django_auto_migrate():
 
