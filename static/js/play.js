@@ -1,5 +1,5 @@
-import "./base.js"
+import * as base from "./base.js";
 
 document.addEventListener("DOMContentLoaded", function () {
-    stars();
+    base.stars();
 })

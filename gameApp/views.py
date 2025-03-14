@@ -45,9 +45,9 @@ def register(request):
 # Visiblity: UNAUTHENTICATED users
 # URL: gameApp/login/
 # Template: gameApp/login.html
-def user_login(request):
+def login(request):
     context_dict={}
-    return render(request, 'gameApp/user_login.html', context=context_dict)
+    return render(request, 'gameApp/login.html', context=context_dict)
 
 
 # Logout
@@ -121,3 +121,7 @@ def play(request):
 def gameScene(request):
     context_dict={}
     return render(request, 'gameApp/gameScene.html', context= context_dict)
+
+def gameCreation(request):
+    context_dict={}
+    return render(request, 'gameApp/gameCreation.html', context= context_dict)

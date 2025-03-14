@@ -1,4 +1,4 @@
-function loginGlitching(elementId,variation,time){
+export function loginGlitching(elementId,variation,time){
     let element = document.getElementById(elementId);
     let currentcolor = window.getComputedStyle(element).backgroundColor.match(/\d+/g).map(Number);
     let direction = 1;
@@ -14,9 +14,8 @@ function loginGlitching(elementId,variation,time){
     setInterval(colorchange, time);
 }
 
-function logoMoving(elementId, length, move, speed) {
+export function logoMoving(elementId, length, move, speed,direction) {
     let element = document.getElementById(elementId);
-    let direction = -1;
     let step = 0;
 
     function movefunc() {
@@ -33,7 +32,7 @@ function logoMoving(elementId, length, move, speed) {
     setInterval(movefunc, speed);
 }
 
-function stars(){ //random stars each time the page is loaded
+export function stars(){ //random stars each time the page is loaded
     for (let i = 0; i < 50; i++) {
         let div = document.createElement("div");
         div.classList.add("star");

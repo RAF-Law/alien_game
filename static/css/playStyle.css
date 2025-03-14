@@ -1,10 +1,10 @@
-@import "1/baseStyle.css";
+@import "baseStyle.css";
 
 #new{
-    background-image: url("{% static 'icons/new.png' %}");
+    background-image: url('../icons/new_icon.png');
 }
 #continue{
-    background-image: url("{% static 'icons/continue.png' %}");
+    background-image: url('../icons/continue_icon.png');
 }
 
 .game_icon{

@@ -1,11 +1,11 @@
-import "./base.js"
+import * as base from "./base.js";
 
 document.addEventListener("DOMContentLoaded", function () {
-    logoMoving("logo_centre", 10, 5, 800);
-    logoMoving("logo_front", 12, 4, 400);
-    logoMoving("logo_back", 8, 6, 600);
+    base.logoMoving("logo_centre", 10, 5, 800,-1);
+    base.logoMoving("logo_front", 12, 4, 400,-1);
+    base.logoMoving("logo_back", 8, 6, 600,-1);
 
-    stars();
+    base.stars();
 })
 
 
