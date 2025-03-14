@@ -10,7 +10,7 @@ MOCK_WEAPONS = [
 MOCK_ARTIFACTS = [
     {"name": "Amulet of Power", "description": "Increases your strength.", "rarity": 4},
     {"name": "Ring of Speed", "description": "Makes you faster.", "rarity": 3},
-    {"name": "Cloak of Invisibility", "description": "Makes you invisible.", "rarity": 5},
+    {"name": "Cloak of Invisibility", "description": "Makes you invisible.", "rarity": 2},
     {"name": "The Orb of Time", "description": "Makes you sigma.", "rarity": 5},
 ]
 
@@ -208,8 +208,9 @@ class Player:
     def move(self, house):
         house_key = f"house {house}"
 
-        if house_key in MAP["empty_houses"]:
+        if house_key in MAP["empty_houses"] and not self.FOUND_SECRET:
             print_message("This house is empty.")
+            MAP[house_key]["times_entered"] += 1
             return
 
         MAP[house_key]["times_entered"] += 1
@@ -291,7 +292,7 @@ class Battle:
         if random.randint(1, 30) == 21 and not self.player.FOUND_GLOVE:
             print_message("You find a mysterious glove!")
             self.player.inventory.append(ARTIFACTS["Shimschnar's Left Hand Glove"])
-            print_message(f"You now have {ARTIFACTS['Shimschnar\'s Left Hand Glove']}.")
+            print_message(f"You now have {ARTIFACTS["Shimschnar's Left Hand Glove"]}.")
             self.player.FOUND_GLOVE = True
 
     def handle_defeat(self):
