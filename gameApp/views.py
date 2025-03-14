@@ -58,8 +58,8 @@ def register(request):
             profile = profile_form.save(commit=False)
             profile.user = user
 
-            if 'picture' in request.FILES:
-                profile.picture = request.FILES['picture']
+            if 'icon' in request.FILES:
+                profile.icon = request.FILES['icon']
 
             profile.save()
 
