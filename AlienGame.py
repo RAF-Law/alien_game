@@ -1,5 +1,6 @@
 import random
 import time
+from flask import Flask, request, jsonify
 
 MOCK_WEAPONS = [
     {"name": "Sword", "description": "A sharp blade.", "damage": 10, "attack_message": "You slash the enemy.", "rarity": 2},
@@ -86,6 +87,7 @@ REPEAT_SECRET = False
 DAY = 1
 DIFFICULTY = 1
 CURRENT_ROOM_COUNT = 0
+global current_message
 
 WEAPONS = fetch_weapons()
 ARTIFACTS = fetch_artifacts()
@@ -96,11 +98,19 @@ MAP = {
     **{f"house {i}": {"empty_rooms": set(), "times_entered": 0} for i in range(1, 11)},
 }
 
-def print_message(message):
-    print(message)
+app = Flask(__name__)
 
+@app.route('/get_message', methods=['GET'])
+def print_message(message):
+    return jsonify({"response" : message})
+    #global current_message
+    #current_message += message + "\n"
+
+@app.route('/send_input', methods=['POST'])
 def get_input():
-    return input().strip()
+    user_input = request.json.get("user_input", "")
+    return user_input.strip()
+    #return input().strip()
 
 
 class Room:
