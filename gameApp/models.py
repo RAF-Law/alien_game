@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User as DjangoUser
 from django.db.models.signals import post_save
-
+from django.core.files.base import File
 
 class Weapon(models.Model):
 
@@ -45,7 +45,8 @@ class UserProfile(models.Model):
     artifacts_earned = models.ManyToManyField(Artifact, blank=True)
     weapons_earned = models.ManyToManyField(Weapon, blank=True)
 
-    icon = models.ImageField(upload_to='media/static/user_icons/', blank=True)
+    icon = models.ImageField(upload_to='media/static/user_icons/', blank=True, default =
+    File(open('static/user_icons/Default Icon.png', 'rb')))
 
     def update_most_enemies_killed(self, current_game_enemies_killed):
         if current_game_enemies_killed > self.most_enemies_killed:

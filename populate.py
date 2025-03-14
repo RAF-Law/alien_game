@@ -92,6 +92,7 @@ def populate_database():
     return True
 
 if __name__ == '__main__':
+
     if WIPE_DATABASE:
         django_auto_migrate()
     if POPULATE_DATABASE:
