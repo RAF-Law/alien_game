@@ -1,0 +1,39 @@
+{% extends 'gameApp/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+	Play
+{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/playStyle.css' %}">
+    <script type="module" src="{% static 'js/play.js' %}"></script>
+{% endblock %}
+
+{% block body_block %}
+    <div class="circle">
+    </div>
+
+    <div class="game_frame" id="game_creation">
+        <a href="{% url 'gameApp:gameCreation' %}" class="no_underline">
+            <div class="hyperlink">
+                <div class="game_text">New game</div>
+                <div class="game_icon" id="new"></div>
+            </div>
+        </a>
+    </div>
+
+
+    <div class="game_frame" id="game_scene">
+        <a href="{% url 'gameApp:gameScene' %}" class="no_underline"> <!-- must apply it in <a> -->
+            <div class="hyperlink">
+                <div class="game_text">Continue</div>
+                <div class="game_icon" id="continue"></div>
+            </div>
+        </a>
+    </div>
+{% endblock %}
+
+{% block heading %}
+    Play
+{% endblock %}

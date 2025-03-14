@@ -57,7 +57,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Game',
             fields=[
-                ('game_id', models.AutoField(primary_key=True, serialize=False)),
+                ('user_game', models.AutoField(primary_key=True, serialize=False)),
                 ('player_hp', models.IntegerField(default=100)),
                 ('player_ap', models.IntegerField(default=10)),
                 ('player_speed', models.IntegerField(default=5)),

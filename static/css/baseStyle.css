@@ -1,6 +1,6 @@
 @font-face { /* import the font */
     font-family: 'Fixedys';
-    src: url("{% static 'fonts/FSEX300.ttf' %}") format('truetype'); 
+    src: url("../fonts/FSEX300.ttf") format('truetype'); 
 }
 
 body {
@@ -49,6 +49,8 @@ body {
     font-family: 'Fixedys', sans-serif;
     font-size: 80px;
     color:rgb(245, 250, 255);
+
+    white-space: nowrap; /* make them stay in one line */
     
     z-index:2;
 }
@@ -66,10 +68,17 @@ body {
 
     z-index:2;
 }
-
 html, body {
     min-height: 100vh;
     position: relative;
+}
+
+.star{
+    height: 4px;
+    width: 4px;
+    image-rendering: pixelated;
+
+    background-color:white;
 }
 
 .circle {
@@ -99,7 +108,7 @@ html, body {
     height:100px;
     width:310px;
 
-    background: url("{% static 'icons/login.png' %}") no-repeat;
+    background: url('../icons/login.png') no-repeat;
     background-size: contain;
     image-rendering: pixelated;
 
