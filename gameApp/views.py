@@ -25,8 +25,7 @@ from gameApp.forms import UserProfileForm
 # URL: gameApp/
 # Template: gameApp/home.html
 def home(request):
-    context_dict={}
-    return render(request, 'gameApp/home.html', context=context_dict)
+    return render(request, 'gameApp/home.html')
 
 
 # Instructions view
@@ -34,8 +33,7 @@ def home(request):
 # URL: gameApp/instructions/
 # Template: gameApp/instructions.html
 def instructions(request):
-    context_dict={}
-    return render(request, 'gameApp/instructions.html', context=context_dict)
+    return render(request, 'gameApp/instructions.html')
 
 
 # Register view
@@ -73,7 +71,7 @@ def register(request):
 
     return render(request, 'gameApp/register.html', context = {'user_form': user_form,
                                                                'profile_form': profile_form,
-                                                                'registered': registered,})
+                                                               'registered': registered,})
 
 
 # Login view
@@ -92,7 +90,7 @@ def user_login(request):
                 login(request, user)
                 return redirect(reverse("gameApp:home"))
             else:
-                return HttpResponse("Your Account has been disabled :[]")
+                return HttpResponse("Your Account has been disabled :[")
         else:
             print(f"Invalid login details: {username}, {password}")
             return HttpResponse("Invalid login details supplied.")
@@ -146,13 +144,13 @@ def user_history(request):
 def user_handbook(request):
 
     # Get user specific artifacts earned
-    user_artifacts_list = User.objects.get('-artifacts_earned')
-    # Get all artifacts 
+    user_artifacts_list = User.objects.get('artifacts_earned')
+    # Get all artifacts to compare to earned
     artifacts_list = Artifact.objects.all()
 
     # Get user specific weapons earned
-    user_weapons_list = User.objects.get('-weapons_earned')
-    # Get all weapons
+    user_weapons_list = User.objects.get('weapons_earned')
+    # Get all weapons to compare to earned
     weapons_list = Weapon.objects.all()
 
     # Store user specific artifacts and weapons, with all artifacts and weapons into context dictionary 
