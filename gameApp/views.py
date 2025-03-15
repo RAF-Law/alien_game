@@ -80,7 +80,7 @@ def register(request):
 # Visiblity: UNAUTHENTICATED users
 # URL: gameApp/login/
 # Template: gameApp/login.html
-def login(request):
+def user_login(request):
     if request.method == "POST":
         username = request.POST.get('username')
         password = request.POST.get('password')

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html>
+    <head lang="en">
+        <meta charset="UTF-8" />
+        <title>Test gameScene</title>
+    </head>
+
+
+    <!-- without any styling -->
+    <!-- I gave every element an id so you can easily locate and change them -->
+    <body>
+        <!-- player character info -->
+        <div class="user_pfp">
+            <img id="user_pfp" alt="user_pfp">
+        </div>
+        <div class="weapon">
+            <img id="weapon" alt="weapon">
+        </div>
+        <!-- the ajax stuff should be able to change the image, the above 2 are just placeholders -->
+
+        <!-- number based attributes -->
+        <div id="hp">
+            HP: 0/0
+        </div>
+        <div id="ap">
+            Attack Point: 0
+        </div>
+        <div id="speed">
+            Speed: 0
+        </div>
+        <div id="food">
+            Food: 0
+        </div>
+
+        <!-- a save button to update all the locally stored info to the database -->
+        <button id="save">
+            Save
+        </button>
+
+        <!-- main game area -->
+        <div id="text_content">
+            Some actual game text.<br>
+            Remember to use "br" for another line.
+        </div>
+        <button id="option1">
+            This is an option
+        </button><br>
+        <button id="option2">
+            This is another option
+        </button>
+        <!-- the number of options should be dynamically changed -->
+
+        <!-- additional info to be shown -->
+        <div id="enemy_killed">
+            10
+        </div>
+        <div id="survive_days">
+            6
+        </div>
+
+    </body>
+</html>
