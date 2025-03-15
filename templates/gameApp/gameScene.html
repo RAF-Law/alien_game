@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+
+<html>
+    <head lang="en">
+        <meta charset="UTF-8" />
+        <title>Test gameScene</title>
+    </head>
+
+
+    <!-- without any styling -->
+    <!-- I gave every element an id so you can easily locate and change them -->
+    <body>
+        <!-- player character info -->
+        <div class="user_pfp">
+            <img id="user_pfp" alt="user_pfp">
+        </div>
+        <div class="weapon">
+            <img id="weapon" alt="weapon">
+        </div>
+        <!-- the ajax stuff should be able to change the image, the above 2 are just placeholders -->
+
+        <!-- number based attributes -->
+        <div id="hp">
+            HP: 0/0
+        </div>
+        <div id="ap">
+            Attack Point: 0
+        </div>
+        <div id="speed">
+            Speed: 0
+        </div>
+        <div id="food">
+            Food: 0
+        </div>
+
+        <!-- a save button to update all the locally stored info to the database -->
+        <button id="save">
+            Save
+        </button>
+        <div id="game-container">
+            <h1>Text Adventure Game</h1>
+            <div id="messages"></div>
+            <div id="options"></div>
+        </div>
+    
+        <script>
+            function fetchMessages() {
+                fetch('/get_message')
+                    .then(response => response.json())
+                    .then(data => {
+                        let messagesDiv = document.getElementById("messages");
+                        let optionsDiv = document.getElementById("options");
+                        optionsDiv.innerHTML = ""; // Clear old options
+    
+                        // Get the response text and split into lines
+                        let lines = data.response.split("\\n").filter(line => line.trim() !== "");
+    
+                        // Display all messages
+                        messagesDiv.innerHTML = lines.slice(0, -1).map(line => `<p>${line}</p>`).join("");
+    
+                        // Extract the last line as options (e.g., "attack/run")
+                        let lastLine = lines[lines.length - 1];
+                        let choices = lastLine.match(/\b(\w+\/\w+)\b/); // Find "attack/run" pattern
+    
+                        if (choices) {
+                            let options = choices[0].split("/");
+                            options.forEach(option => {
+                                let btn = document.createElement("button");
+                                btn.innerText = option;
+                                btn.className = "option-btn";
+                                btn.onclick = function() { sendInput(option); };
+                                optionsDiv.appendChild(btn);
+                            });
+                        }
+                    })
+                    .catch(error => console.error("Error fetching messages:", error));
+            }
+    
+            function sendInput(userInput) {
+                fetch('/send_input', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_input: userInput })
+                })
+                .then(response => response.text())
+                .then(() => fetchMessages()); // Refresh messages after sending input
+            }
+    
+            // Fetch messages every 2 seconds
+            setInterval(fetchMessages, 2000);
+            fetchMessages();
+        </script>
+
+        <div id="option_container"></div>
+
+        <!-- main game area -->
+        <div id="text_content">
+            Some actual game text.<br>
+            Remember to use "br" for another line.
+        </div>
+        <button id="option1">
+            This is an option
+        </button><br>
+        <button id="option2">
+            This is another option
+        </button>
+        <!-- the number of options should be dynamically changed -->
+
+        <!-- additional info to be shown -->
+        <div id="enemy_killed">
+            10
+        </div>
+        <div id="survive_days">
+            6
+        </div>
+
+    </body>
+</html>

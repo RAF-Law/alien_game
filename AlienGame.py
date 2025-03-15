@@ -97,9 +97,16 @@ app = Flask(__name__)
 
 @app.route('/get_message', methods=['GET'])
 def print_message(message):
-    return jsonify({"response" : message})
-    #global current_message
-    #current_message += message + "\n"
+    #return jsonify({"messages" : message})
+    global current_message
+    current_message += message + "\n"
+
+def send_message(choices):
+    global current_message
+    pack = jsonify({"messages" : current_message, "options" : choices})
+    current_message = ""
+    return pack
+
 
 @app.route('/send_input', methods=['POST'])
 def get_input():
@@ -142,15 +149,16 @@ class Room:
 def handle_loot(self, player, loot_type):
     print_message(f"You find yourself in a room filled with {loot_type}s.")
 
-    time.sleep(1)
+    #time.sleep(1)
     print_message("You search the room and find:")
 
-    time.sleep(1)
+    #time.sleep(1)
     for index, item in enumerate(self.loot):
         print_message(f"{index + 1}: {item}")
-        time.sleep(1)
+        #time.sleep(1)
 
-    print_message("Would you like to take any of these items? (yes/no)")
+    print_message("Would you like to take any of these items?")
+    send_message("yes/no")
 
     def get_choice():
 
@@ -158,6 +166,7 @@ def handle_loot(self, player, loot_type):
 
         if user_input not in ("yes", "no", "q", "y", "n"):
             print_message("Invalid input. Enter 'yes', 'no', or 'q' to quit.")
+            send_message("yes/no/q")
             get_choice()
 
         return user_input
@@ -167,6 +176,10 @@ def handle_loot(self, player, loot_type):
     match choice:
         case "yes", "y":
             print_message(f"Which {loot_type} would you like to take?")
+            sending_msg = ""
+            for i in range(len(self.loot)):
+                sending_msg += str(i+1) + "/"
+            send_message(sending_msg)
 
             try:
                 item_choice = int(get_input()) - 1
@@ -224,7 +237,7 @@ class Player:
         if map[house_key]["times_entered"] == 5 and not self.secrets_found['The Orb of Time']:
 
             print_message("You have spent so much time in this house that you find a hidden artifact!")
-            time.sleep(1)
+            #time.sleep(1)
             player.inventory.add(ARTIFACTS["The Orb of Time"])
             print_message(f"You now have {ARTIFACTS['The Orb of Time']}.")
 
@@ -244,6 +257,9 @@ class Player:
             map[house_key][room_key] = Room(room_type)
 
         print_message(f"There are {num_rooms} rooms in this house. Which room would you like to enter?")
+        sending_msg = ""
+        for i in range(num_rooms):
+            sending_msg + str(i+1) + "/"
 
         room_num = int(get_input())
         room_key = f"room {room_num}"
@@ -277,7 +293,7 @@ class Battle:
                 if self.player.hp > 0:
                     self.player_attack()
 
-            time.sleep(1)
+            #time.sleep(1)
             print_message(f"You: {self.player.hp} HP")
             print_message(f"{self.alien.name}: {self.alien.hp} HP")
 
@@ -309,8 +325,9 @@ class Battle:
         print_message(
             f"You encounter an alien named {self.alien.name}.\n"
             f"{self.alien.name} has a {self.alien.weapon}.\n"
-            "What would you like to do? (attack/run)"
+            "What would you like to do?"
         )
+        send_message("attack/run")
 
         def get_choice():
             while True:
@@ -331,7 +348,7 @@ class Battle:
         if random.randint(1, self.player.speed + self.alien.speed) <= self.player.speed:
             print_message("You escape successfully.")
         else:
-            print_message("You were too slow and the alien attacks you!")
+            print_message(f"You were too slow and {self.alien.name} attacks you!")
             self.alien_attack()
         self.player.food -= 1
 
@@ -362,6 +379,7 @@ def play(player):
         print_message(player)
         print_message(f"Score: {difficulty}")
         print_message("Which house would you like to enter? (1-10)")
+        send_message("1/2/3/4/5/6/7/8/9/10/q")
         house_num = get_input()
         if house_num.lower() == "q":
             end_game = True

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html>
+    <head lang="en">
+        <meta charset="UTF-8" />
+        <title>Test register</title>
+    </head>
+
+    <body>
+        <!-- mostly just copied from rango -->
+        {% if registered %}
+        <strong>Successfully registered</strong>
+        <a href="{% url 'gameApp:home' %}">Return to the homepage</a><br />
+        {% else %}
+        <strong>User registration</strong><br />
+        <form id="user_form" method="post" action="{% url 'gameApp:register' %}" enctype="multipart/form-data"> 
+            {% csrf_token %}
+
+            <!-- Display each form -->
+            {{ user_form.as_p }}
+            {{ profile_form.as_p }}
+            <!-- form from gameApp/forms.py -->
+
+            <input type="submit" name="submit" value="Register" />
+        </form>
+        {% endif %}
+
+    </body>
+</html>
