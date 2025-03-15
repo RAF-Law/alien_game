@@ -2,18 +2,18 @@ import random
 import time
 from flask import Flask, request, jsonify
 
-MOCK_WEAPONS = [
+MOCK_WEAPONS = (
     {"name": "Sword", "description": "A sharp blade.", "damage": 10, "attack_message": "You slash the enemy.", "rarity": 2},
     {"name": "Bow", "description": "A ranged weapon.", "damage": 8, "attack_message": "You shoot an arrow.", "rarity": 1},
     {"name": "Axe", "description": "A heavy weapon.", "damage": 15, "attack_message": "You chop the enemy.", "rarity": 3},
-]
+)
 
-MOCK_ARTIFACTS = [
+MOCK_ARTIFACTS = (
     {"name": "Amulet of Power", "description": "Increases your strength.", "rarity": 4},
     {"name": "Ring of Speed", "description": "Makes you faster.", "rarity": 3},
     {"name": "Cloak of Invisibility", "description": "Makes you invisible.", "rarity": 5},
     {"name": "The Orb of Time", "description": "Makes you sigma.", "rarity": 5},
-]
+)
 
 def fetch_weapons():
     weapons = {}
@@ -77,7 +77,7 @@ ALIEN_WEAPONS = {
     "Zorblax": Weapon("Zorblax", "A weapon that shoots energy beams.", 25, "The alien fires a beam at you.", 3),
 }
 
-ALIEN_NAMES = ["Zog", "Gorp", "Prip", "Geggin", "Nairn", "Hojjim", "Kada"]
+ALIEN_NAMES = ("Zog", "Gorp", "Prip", "Geggin", "Nairn", "Hojjim", "Kada")
 
 end_game = False
 day = 1
@@ -145,7 +145,6 @@ class Room:
                 print_message("Invalid room type.")
                 return
 
-
 def handle_loot(self, player, loot_type):
     print_message(f"You find yourself in a room filled with {loot_type}s.")
 
@@ -205,7 +204,6 @@ def handle_loot(self, player, loot_type):
             self.handle_loot(player, loot_type)
             return
 
-
 class Player:
     def __init__(self, hp, attack_points, speed, food, location):
         self.hp = hp
@@ -220,7 +218,6 @@ class Player:
             "The Orb of Time": False,
             "The Glove of Power": False,
         }
-
 
     def __str__(self):
         return f"HP: {self.hp} | Attack Points: {self.attack_points} | Speed: {self.speed} | Food: {self.food}"
@@ -272,7 +269,6 @@ class Player:
         if len(map[house_key]["empty_rooms"]) == num_rooms:
             print_message("You have emptied all rooms in this house.")
             map["empty_houses"].add(house_key)
-
 
 class Battle:
     def __init__(self, player, alien):
@@ -359,6 +355,7 @@ class Battle:
     def alien_attack(self):
         self.player.hp -= self.alien.weapon.damage
         print_message(self.alien.weapon.attack_message)
+
 def create_alien():
     weapon = random.choice(list(ALIEN_WEAPONS.values()))
     name = random.choice(ALIEN_NAMES)
