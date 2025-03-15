@@ -1,0 +1,57 @@
+{% extends 'gameApp/base.html' %}
+{% load static %}
+
+{% block title_block %}
+    Leaderboard
+{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/instructionStyle.css' %}">
+    <script type="module" src="{% static 'js/instruction.js' %}"></script>
+{% endblock %}
+
+{% block body_block %}
+    <div id="left_1" class="side left"></div>
+    <div id="left_2" class="side left"></div>
+    <div id="left_3" class="side left"></div>
+    <div id="right_1" class="side right"></div>
+    <div id="right_2" class="side right"></div>
+    <div id="right_3" class="side right"></div>
+
+    <div class="instruction_frame">
+        <div class="instruction_subheading">
+            TOP 10 PLAYERS - MOST ENEMIES KILLED
+        </div>
+        {% for user in player_enemies %}
+            <div class="user_block">
+                <div class="user_icon">
+                    <img src="{{ user.userprofile.icon.url }}" alt="{{ user.username }}'s icon">
+                </div>
+                <div class="user_info">
+                    <p><strong>Username:</strong> {{ user.name}}</p>
+                    <p><strong>Enemies Killed:</strong> {{ user.userprofile.most_enemies_killed }}</p>
+                </div>
+            </div>
+        {% endfor %}
+
+
+        <div class="instruction_subheading">
+            TOP 10 PLAYERS - MOST DAYS SURVIVED
+        </div>
+        {% for user in player_days %}
+            <div class="user_block">
+                <div class="user_icon">
+                    <img src="{{ user.userprofile.icon.url }}" alt="{{ user.username }}'s icon">
+                </div>
+                <div class="user_info">
+                    <p><strong>Username:</strong> {{ user.username }}</p>
+                    <p><strong>Days Survived:</strong> {{ user.userprofile.most_days_survived }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block heading %}
+    Leaderboard
+{% endblock %}
