@@ -11,13 +11,16 @@ from django.contrib.auth import get_user_model
 from django.core.management import call_command
 
 from player_items import weapons, artifacts
-from gameApp.models import Weapon, Artifact, UserProfile as User, Game
+from gameApp.models import Weapon, Artifact
 
 WIPE_DATABASE = True
 POPULATE_DATABASE = True
+
 CREATE_ADMIN = True
 CREATE_USER = True
 GENERATE_USERS = True
+USER_GENERATION_COUNT = 10
+
 AUTO_RUN_SERVER = False
 
 def django_auto_runserver():
@@ -53,7 +56,7 @@ def create_user(username='test_user', email='test_user@user.com', password='123'
 
 def generate_user_accounts(amount):
     for x in range(amount):
-        create_user(f'test_user_{x}', f'test_user_{x}@user.com', f'123')
+        create_user(f'test_user_{x + 1}', f'test_user_{x + 1}@user.com', f'123')
 
 
 def check_database_exists():
@@ -125,6 +128,6 @@ if __name__ == '__main__':
     if CREATE_USER:
         create_user()
         if GENERATE_USERS:
-            generate_user_accounts(10)
+            generate_user_accounts(USER_GENERATION_COUNT)
     if AUTO_RUN_SERVER:
         django_auto_runserver()
