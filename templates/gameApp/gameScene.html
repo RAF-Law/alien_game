@@ -50,17 +50,14 @@
                     .then(data => {
                         let messagesDiv = document.getElementById("messages");
                         let optionsDiv = document.getElementById("options");
-                        optionsDiv.innerHTML = ""; // Clear old options
+                        optionsDiv.innerHTML = "";
     
-                        // Get the response text and split into lines
                         let lines = data.response.split("\\n").filter(line => line.trim() !== "");
     
-                        // Display all messages
                         messagesDiv.innerHTML = lines.slice(0, -1).map(line => `<p>${line}</p>`).join("");
     
-                        // Extract the last line as options (e.g., "attack/run")
                         let lastLine = lines[lines.length - 1];
-                        let choices = lastLine.match(/\b(\w+\/\w+)\b/); // Find "attack/run" pattern
+                        let choices = lastLine.match(/\b(\w+\/\w+)\b/);
     
                         if (choices) {
                             let options = choices[0].split("/");
@@ -83,10 +80,9 @@
                     body: JSON.stringify({ user_input: userInput })
                 })
                 .then(response => response.text())
-                .then(() => fetchMessages()); // Refresh messages after sending input
+                .then(() => fetchMessages());
             }
     
-            // Fetch messages every 2 seconds
             setInterval(fetchMessages, 2000);
             fetchMessages();
         </script>
