@@ -11,7 +11,7 @@ MOCK_WEAPONS = [
 MOCK_ARTIFACTS = [
     {"name": "Amulet of Power", "description": "Increases your strength.", "rarity": 4},
     {"name": "Ring of Speed", "description": "Makes you faster.", "rarity": 3},
-    {"name": "Cloak of Invisibility", "description": "Makes you invisible.", "rarity": 2},
+    {"name": "Cloak of Invisibility", "description": "Makes you invisible.", "rarity": 5},
     {"name": "The Orb of Time", "description": "Makes you sigma.", "rarity": 5},
 ]
 
@@ -39,7 +39,6 @@ def fetch_artifacts():
         artifacts[artifact.name] = artifact
     return artifacts
 
-# Rest of the code remains the same
 class Alien:
     def __init__(self, name, hp, weapon, speed):
         self.name = name
@@ -80,19 +79,15 @@ ALIEN_WEAPONS = {
 
 ALIEN_NAMES = ["Zog", "Gorp", "Prip", "Geggin", "Nairn", "Hojjim", "Kada"]
 
-END_GAME = False
-FOUND_GLOVE = False
-global REPEAT_SECRET
-REPEAT_SECRET = False
-DAY = 1
-DIFFICULTY = 1
-CURRENT_ROOM_COUNT = 0
-global current_message
+end_game = False
+day = 1
+difficulty = 1
+current_room_count = 0
 
 WEAPONS = fetch_weapons()
 ARTIFACTS = fetch_artifacts()
 
-MAP = {
+map = {
     "street": "street",
     "empty_houses": set(),
     **{f"house {i}": {"empty_rooms": set(), "times_entered": 0} for i in range(1, 11)},
@@ -111,7 +106,6 @@ def get_input():
     user_input = request.json.get("user_input", "")
     return user_input.strip()
     #return input().strip()
-
 
 class Room:
     def __init__(self, room_type, alien=None):
@@ -191,8 +185,8 @@ def handle_loot(self, player, loot_type):
             print_message("You decide not to take any items.")
             return
         case "q":
-            global END_GAME
-            END_GAME = True
+            global end_game
+            end_game = True
             return
         case _:
             self.handle_loot(player, loot_type)
@@ -209,8 +203,11 @@ class Player:
         self.food = food
         self.location = location
         self.enemies_killed = 0
-        self.FOUND_SECRET = False
-        self.FOUND_GLOVE = False
+        self.secrets_found = {
+            "The Orb of Time": False,
+            "The Glove of Power": False,
+        }
+
 
     def __str__(self):
         return f"HP: {self.hp} | Attack Points: {self.attack_points} | Speed: {self.speed} | Food: {self.food}"
@@ -218,21 +215,20 @@ class Player:
     def move(self, house):
         house_key = f"house {house}"
 
-        if house_key in MAP["empty_houses"] and not self.FOUND_SECRET:
+        if house_key in map["empty_houses"]:
             print_message("This house is empty.")
-            MAP[house_key]["times_entered"] += 1
             return
 
-        MAP[house_key]["times_entered"] += 1
+        map[house_key]["times_entered"] += 1
 
-        if MAP[house_key]["times_entered"] == 5 and not self.FOUND_SECRET:
+        if map[house_key]["times_entered"] == 5 and not self.secrets_found['The Orb of Time']:
 
             print_message("You have spent so much time in this house that you find a hidden artifact!")
             time.sleep(1)
             player.inventory.add(ARTIFACTS["The Orb of Time"])
             print_message(f"You now have {ARTIFACTS['The Orb of Time']}.")
 
-            self.REPEAT_SECRET = True
+            self.secrets_found['The Orb of Time'] = True
 
         else:
             print_message(f"You enter {house_key}.")
@@ -245,21 +241,21 @@ class Player:
         for i in range(1, num_rooms + 1):
             room_key = f"room {i}"
             room_type = random.randint(0, 3)
-            MAP[house_key][room_key] = Room(room_type)
+            map[house_key][room_key] = Room(room_type)
 
         print_message(f"There are {num_rooms} rooms in this house. Which room would you like to enter?")
 
         room_num = int(get_input())
         room_key = f"room {room_num}"
 
-        self.location = MAP[house_key][room_key]
+        self.location = map[house_key][room_key]
         self.location.search_room(self)
 
-        if room_key not in MAP[house_key]["empty_rooms"]:
-            MAP[house_key]["empty_rooms"].add(room_key)
-        if len(MAP[house_key]["empty_rooms"]) == num_rooms:
+        if room_key not in map[house_key]["empty_rooms"]:
+            map[house_key]["empty_rooms"].add(room_key)
+        if len(map[house_key]["empty_rooms"]) == num_rooms:
             print_message("You have emptied all rooms in this house.")
-            MAP["empty_houses"].add(house_key)
+            map["empty_houses"].add(house_key)
 
 
 class Battle:
@@ -299,11 +295,11 @@ class Battle:
         self.player.food += 2
         self.player.enemies_killed += 1
 
-        if random.randint(1, 30) == 21 and not self.player.FOUND_GLOVE:
+        if random.randint(1, 30) == 21 and not self.player.secrets_found['The Glove of Power']:
             print_message("You find a mysterious glove!")
-            self.player.inventory.append(ARTIFACTS["Shimschnar's Left Hand Glove"])
-            print_message(f"You now have {ARTIFACTS["Shimschnar's Left Hand Glove"]}.")
-            self.player.FOUND_GLOVE = True
+            self.player.inventory.add(ARTIFACTS["Shimschnar's Left Hand Glove"])
+            print_message(f"You now have {ARTIFACTS['Shimschnar\'s Left Hand Glove']}.")
+            self.player.secrets_found['The Glove of Power'] = True
 
     def handle_defeat(self):
         print_message("You have been defeated.")
@@ -349,37 +345,37 @@ class Battle:
 def create_alien():
     weapon = random.choice(list(ALIEN_WEAPONS.values()))
     name = random.choice(ALIEN_NAMES)
-    hp = 20 + (DIFFICULTY * 10)
-    speed = 0 + (DIFFICULTY * 10)
+    hp = 20 + (difficulty * 10)
+    speed = 0 + (difficulty * 10)
     return Alien(name, hp, weapon, speed)
 
 def game_over():
     print_message("Game Over")
-    print_message(f"Score: {DIFFICULTY}")
-    print_message(f"You made it to day {DAY}.")
+    print_message(f"Score: {difficulty}")
+    print_message(f"You made it to day {day}.")
     exit()
 
 def play(player):
-    global END_GAME, DAY, DIFFICULTY, CURRENT_ROOM_COUNT
+    global end_game, day, difficulty, current_room_count
     print_message("You are in the street. You can enter any house numbered 1-10. Enter 'q' to quit.")
-    while not END_GAME:
+    while not end_game:
         print_message(player)
-        print_message(f"Score: {DIFFICULTY}")
+        print_message(f"Score: {difficulty}")
         print_message("Which house would you like to enter? (1-10)")
         house_num = get_input()
         if house_num.lower() == "q":
-            END_GAME = True
+            end_game = True
             break
         try:
             house_num = int(house_num)
             if 1 <= house_num <= 10:
                 player.move(house_num)
-                CURRENT_ROOM_COUNT += 1
-                if CURRENT_ROOM_COUNT == 5:
-                    DAY += 1
-                    DIFFICULTY += 1
-                    CURRENT_ROOM_COUNT = 0
-                    print_message(f"It is now day {DAY}. You rest and gain 20 HP.")
+                current_room_count += 1
+                if current_room_count == 5:
+                    day += 1
+                    difficulty += 1
+                    current_room_count = 0
+                    print_message(f"It is now day {day}. You rest and gain 20 HP.")
                     player.hp += 20
             else:
                 print_message("Invalid input. Enter a number between 1 and 10.")
@@ -388,5 +384,5 @@ def play(player):
     game_over()
 
 if __name__ == "__main__":
-    player = Player(100, 5, 10, 10, MAP["street"])
+    player = Player(100, 5, 10, 10, map["street"])
     play(player)
