@@ -16,7 +16,7 @@ from gameApp.models import Weapon, Artifact, UserProfile as User, Game
 WIPE_DATABASE = True
 POPULATE_DATABASE = True
 CREATE_ADMIN = True
-AUTO_RUN_SERVER = False
+AUTO_RUN_SERVER = True
 
 def django_auto_runserver():
 
@@ -51,8 +51,9 @@ def check_database_exists():
 
     db_weapon_icon_path = 'media/static/artifact_icons/static/artifact_icons'
     db_artifact_icon_path = 'media/static/weapon_icons/static/weapon_icons'
+    db_user_icon_path = 'media/static/user_icons/static/user_icons'
 
-    print('Checking if weapon and artifact icon duplicates exist...')
+    print('Checking if weapon, artifact and user icon duplicates exist...')
 
     if os.path.exists(db_weapon_icon_path):
         print('Weapon icon duplicates exist, deleting...')
@@ -61,6 +62,10 @@ def check_database_exists():
     if os.path.exists(db_artifact_icon_path):
         print('Artifact icon duplicates exist, deleting...')
         shutil.rmtree(db_artifact_icon_path)
+
+    if os.path.exists(db_user_icon_path):
+        print('User icon duplicates exist, deleting...')
+        shutil.rmtree(db_user_icon_path)
 
 def django_auto_migrate():
 
@@ -85,13 +90,15 @@ def populate_database():
         populate_model(Artifact, artifacts, 'artifact_id')
 
     except Exception as e:
-        print(f'Error: {str(e)}, stopping execution.')
+        print(f'Error: {str(e)}, re-wiping database and stopping execution.')
+        django_auto_migrate()
         return False
 
     print('Database populated!')
     return True
 
 if __name__ == '__main__':
+
     if WIPE_DATABASE:
         django_auto_migrate()
     if POPULATE_DATABASE:
