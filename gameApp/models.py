@@ -41,7 +41,6 @@ class Artifact(models.Model):
 class UserProfile(models.Model):
 
     user = models.OneToOneField(DjangoUser, on_delete=models.CASCADE, primary_key=True)
-    picture = models.ImageField(upload_to='profile_images', blank=True)
 
     most_enemies_killed = models.IntegerField(default=0)
     most_days_survived = models.IntegerField(default=0)
