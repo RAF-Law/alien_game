@@ -26,6 +26,46 @@
                     <a href="{% url 'gameApp:instructions' %}">
                         <img class="icons" src="{% static 'icons/instructions_icon.png' %}" alt="Instructions">
                     </a>
+                    <a href="#" onclick="toggleMusic()">
+                        <img class="icons" src="{% static 'icons/musicOff.png' %}" alt="Music">
+                    </a>
+                    <audio id="backgroundMusic" loop>
+                        <!-- https://pixabay.com/music/main-title-stealth-battle-205902/ -->
+                        <source src="{% static 'music/stealth-battle.mp3' %}" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <script>
+                        function toggleMusic() {
+                            var music = document.getElementById("backgroundMusic");
+                            var musicIcon = document.querySelector("a[onclick='toggleMusic()'] img");
+                            if (music.paused) {
+                                music.play();
+                                musicIcon.src = "{% static 'icons/musicOn.png' %}";
+                                localStorage.setItem('musicPlaying', 'true');
+                                localStorage.setItem('musicCurrentTime', music.currentTime);
+                            } else {
+                                music.pause();
+                                musicIcon.src = "{% static 'icons/musicOff.png' %}";
+                                localStorage.setItem('musicPlaying', 'false');
+                                localStorage.setItem('musicCurrentTime', music.currentTime);
+                            }
+                        }
+
+                        document.addEventListener("DOMContentLoaded", function() {
+                            var music = document.getElementById("backgroundMusic");
+                            var musicIcon = document.querySelector("a[onclick='toggleMusic()'] img");
+                            var musicPlaying = localStorage.getItem('musicPlaying') === 'true';
+                            var musicCurrentTime = localStorage.getItem('musicCurrentTime') || 0;
+                            if (musicPlaying) {
+                                music.currentTime = musicCurrentTime;
+                                music.play();
+                                musicIcon.src = "{% static 'icons/musicOn.png' %}";
+                            } else {
+                                music.pause();
+                                musicIcon.src = "{% static 'icons/musicOff.png' %}";
+                            }
+                        });
+                    </script>
 
                     {% if user.is_authenticated %}
                         <a href="{% url 'gameApp:play' %}">
