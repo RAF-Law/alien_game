@@ -24,12 +24,8 @@
         </div>
         {% for user in player_enemies %}
             <div class="user_block">
-                <div class="user_icon">
-                    <img src="{{ user.userprofile.icon.url }}" alt="{{ user.username }}'s icon">
-                </div>
                 <div class="user_info">
-                    <p><strong>Username:</strong> {{ user.name}}</p>
-                    <p><strong>Enemies Killed:</strong> {{ user.userprofile.most_enemies_killed }}</p>
+                    <p><strong> {{ user }} - {{ user.most_enemies_killed }} </strong></p>
                 </div>
             </div>
         {% endfor %}
@@ -40,12 +36,8 @@
         </div>
         {% for user in player_days %}
             <div class="user_block">
-                <div class="user_icon">
-                    <img src="{{ user.userprofile.icon.url }}" alt="{{ user.username }}'s icon">
-                </div>
                 <div class="user_info">
-                    <p><strong>Username:</strong> {{ user.username }}</p>
-                    <p><strong>Days Survived:</strong> {{ user.userprofile.most_days_survived }}</p>
+                    <p><strong> {{ user }} - {{ user.most_days_survived }}</strong></p>
                 </div>
             </div>
         {% endfor %}
