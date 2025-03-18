@@ -63,7 +63,7 @@ class UserProfile(models.Model):
         self.save()
 
     def __str__(self):
-        return f"User {self.user.username}"
+        return self.user.username
 
     class Meta:
         verbose_name = 'User Profile'

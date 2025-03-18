@@ -32,6 +32,24 @@ export function logoMoving(elementId, length, move, speed,direction) {
     setInterval(movefunc, speed);
 }
 
+export function logoMovingTop(elementId, length, move, speed,direction) {
+    let element = document.getElementById(elementId);
+    let step = 0;
+
+    function movefunc() {
+        let current = parseInt(window.getComputedStyle(element).top);
+        element.style.top = (current + length * direction) + "px";
+        step++;
+
+        if (step >= move) {
+            direction *= -1;  
+            step = 0; 
+        }
+    }
+
+    setInterval(movefunc, speed);
+}
+
 export function stars(){ //random stars each time the page is loaded
     for (let i = 0; i < 50; i++) {
         let div = document.createElement("div");

@@ -1,0 +1,288 @@
+@import "1/baseStyle.css";
+
+.logo {
+    position: fixed;
+    top:15vh;
+}
+
+.logo img {
+    height: 50vh;
+    width: 17vw;
+    object-fit: contain;
+    image-rendering: pixelated;
+}
+
+.kill{
+    left:7vw;
+}
+.survive{
+    right:7vw;
+}
+
+#kill_back { z-index: 2; }
+#kill_centre { z-index: 3; }
+#kill_front { z-index: 4; }
+#survive_back { z-index: 2; }
+#survive_centre { z-index: 3; }
+#survive_front { z-index: 4; }
+
+.logo_text{
+    position:fixed;
+    top:13vh;
+    height: 47vh;
+    width: 14vw;
+    line-height: 50vh;
+
+    text-align: center;
+    font-family: 'Fixedys', sans-serif;
+    font-size:10vw;
+    color:white;
+    text-shadow: 3px 3px 0px #2fd2f7,-3px -3px 0px #f73333;
+
+    z-index:4;
+}
+#kill_num{
+    left:7vw;
+}
+#survive_num{
+    right:10vw;
+}
+
+/* above are for images */
+
+.user_name{
+  line-height: 5vh; /* make it alined vertically */
+  padding-left: 1vw;
+  font-family: 'Fixedys', sans-serif;
+  font-size:2vw;
+  color:rgb(236, 255, 237);
+  text-shadow: 1px 1px 0px rgba(112, 80, 149, 0.4);
+}
+.user_stats{
+  line-height: 5vh; /* make it alined vertically */
+  padding-right: 1vw;
+  text-align: right;
+  font-family: 'Fixedys', sans-serif;
+  font-size:2.5vw;
+  color:rgb(255, 255, 255);
+  text-shadow: 1px 1px 0px rgb(161, 30, 218);
+}
+
+.user_content{
+  margin-top: 1.9vh;
+  width:17vw;
+  height:5vh;
+  position: relative;
+  left:50%;
+  transform: translate(-50%);
+  background-color: rgb(78, 122, 98);
+  border-radius: 3px;
+
+  display:flex; /*approach here by chatgpt, to make stats & username in a same line */
+  justify-content: space-between; /* Ensures spacing between name and stats */
+}
+
+.first_place{ background-color: rgb(182, 159, 67);}
+.second_place{ background-color: rgb(132, 154, 77);}
+
+.subheading{
+  position:relative;
+  top:1%;
+  text-align: center;
+  font-family: 'Fixedys', sans-serif;
+  font-size:4vw;
+  color:white;
+}
+.left{
+    left:26%;
+}
+.right{
+    right:26%;
+}
+.frame,
+.frame--wrapper {
+    position: fixed;
+    top:23vh;
+    width:20vw;
+    height:65vh;
+    z-index: 2;
+    background-image: linear-gradient(180deg,rgb(18, 46, 70) 50%,rgb(50, 17, 91));
+
+  clip-path: polygon(0px calc(100% - 20px),
+    4px calc(100% - 20px),
+    4px calc(100% - 12px),
+    8px calc(100% - 12px),
+    8px calc(100% - 8px),
+    12px calc(100% - 8px),
+    12px calc(100% - 4px),
+    20px calc(100% - 4px),
+    20px 100%,
+    calc(100% - 20px) 100%,
+    calc(100% - 20px) calc(100% - 4px),
+    calc(100% - 12px) calc(100% - 4px),
+    calc(100% - 12px) calc(100% - 8px),
+    calc(100% - 8px) calc(100% - 8px),
+    calc(100% - 8px) calc(100% - 12px),
+    calc(100% - 4px) calc(100% - 12px),
+    calc(100% - 4px) calc(100% - 20px),
+    100% calc(100% - 20px),
+    100% 20px,
+    calc(100% - 4px) 20px,
+    calc(100% - 4px) 12px,
+    calc(100% - 8px) 12px,
+    calc(100% - 8px) 8px,
+    calc(100% - 12px) 8px,
+    calc(100% - 12px) 4px,
+    calc(100% - 20px) 4px,
+    calc(100% - 20px) 0px,
+    20px 0px,
+    20px 4px,
+    12px 4px,
+    12px 8px,
+    8px 8px,
+    8px 12px,
+    4px 12px,
+    4px 20px,
+    0px 20px);
+}
+.frame {
+  border: 4px solid transparent;
+}
+.frame--wrapper {
+  width: fit-content;
+  height: fit-content;
+}
+.frame--wrapper .frame {
+  display: block;
+  clip-path: polygon(4px 20px,
+    8px 20px,
+    8px 12px,
+    12px 12px,
+    12px 8px,
+    20px 8px,
+    20px 4px,
+    calc(100% - 20px) 4px,
+    calc(100% - 20px) 8px,
+    calc(100% - 12px) 8px,
+    calc(100% - 12px) 12px,
+    calc(100% - 8px) 12px,
+    calc(100% - 8px) 20px,
+    calc(100% - 4px) 20px,
+    calc(100% - 4px) calc(100% - 20px),
+    calc(100% - 8px) calc(100% - 20px),
+    calc(100% - 8px) calc(100% - 12px),
+    calc(100% - 12px) calc(100% - 12px),
+    calc(100% - 12px) calc(100% - 8px),
+    calc(100% - 20px) calc(100% - 8px),
+    calc(100% - 20px) calc(100% - 4px),
+    20px calc(100% - 4px),
+    20px calc(100% - 8px),
+    12px calc(100% - 8px),
+    12px calc(100% - 12px),
+    8px calc(100% - 12px),
+    8px calc(100% - 20px),
+    4px calc(100% - 20px));
+}
+.frame::after,
+.frame--wrapper::after {
+  content: "";
+  position: absolute;
+  clip-path: polygon(0px calc(100% - 20px),
+    4px calc(100% - 20px),
+    4px calc(100% - 12px),
+    8px calc(100% - 12px),
+    8px calc(100% - 8px),
+    12px calc(100% - 8px),
+    12px calc(100% - 4px),
+    20px calc(100% - 4px),
+    20px 100%,
+    calc(100% - 20px) 100%,
+    calc(100% - 20px) calc(100% - 4px),
+    calc(100% - 12px) calc(100% - 4px),
+    calc(100% - 12px) calc(100% - 8px),
+    calc(100% - 8px) calc(100% - 8px),
+    calc(100% - 8px) calc(100% - 12px),
+    calc(100% - 4px) calc(100% - 12px),
+    calc(100% - 4px) calc(100% - 20px),
+    100% calc(100% - 20px),
+    100% 20px,
+    calc(100% - 4px) 20px,
+    calc(100% - 4px) 12px,
+    calc(100% - 8px) 12px,
+    calc(100% - 8px) 8px,
+    calc(100% - 12px) 8px,
+    calc(100% - 12px) 4px,
+    calc(100% - 20px) 4px,
+    calc(100% - 20px) 0px,
+    20px 0px,
+    20px 4px,
+    12px 4px,
+    12px 8px,
+    8px 8px,
+    8px 12px,
+    4px 12px,
+    4px 20px,
+    0px 20px,
+    0px 50%,
+    4px 50%,
+    4px 20px,
+    8px 20px,
+    8px 12px,
+    12px 12px,
+    12px 8px,
+    20px 8px,
+    20px 4px,
+    calc(100% - 20px) 4px,
+    calc(100% - 20px) 8px,
+    calc(100% - 12px) 8px,
+    calc(100% - 12px) 12px,
+    calc(100% - 8px) 12px,
+    calc(100% - 8px) 20px,
+    calc(100% - 4px) 20px,
+    calc(100% - 4px) calc(100% - 20px),
+    calc(100% - 8px) calc(100% - 20px),
+    calc(100% - 8px) calc(100% - 12px),
+    calc(100% - 12px) calc(100% - 12px),
+    calc(100% - 12px) calc(100% - 8px),
+    calc(100% - 20px) calc(100% - 8px),
+    calc(100% - 20px) calc(100% - 4px),
+    20px calc(100% - 4px),
+    20px calc(100% - 8px),
+    12px calc(100% - 8px),
+    12px calc(100% - 12px),
+    8px calc(100% - 12px),
+    8px calc(100% - 20px),
+    4px calc(100% - 20px),
+    4px 50%,
+    0px 50%);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #13ffef;
+  display: block;
+  pointer-events: none;
+}
+.frame::after {
+  margin: -4px;
+}
+
+@media (max-height:600px){
+  body{
+    height:700px;
+  }
+  .frame{
+    position: absolute;
+    top:200px;
+    height:400px;
+  }
+  .user_content{
+    min-height: 30px;
+  }
+  .user_name{
+    line-height: 30px;
+  }
+  .user_stats{
+    line-height: 30px;
+  }
+}

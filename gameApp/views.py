@@ -171,10 +171,10 @@ def user_handbook(request):
 # Template: gameApp/leaderboard.html
 def leaderboard(request):
 
-    # Get top 10 players with most kills
-    player_enemies_list = User.objects.order_by('-most_enemies_killed')[:10] 
-    # Get top 10 players with most days survived
-    player_days_list = User.objects.order_by('-most_days_survived')[:10] 
+    # Get top 8 players with most kills
+    player_enemies_list = User.objects.order_by('-most_enemies_killed')[:8] 
+    # Get top 8 players with most days survived
+    player_days_list = User.objects.order_by('-most_days_survived')[:8] 
 
     # Store player lists into context dictionary, to be used in html
     context_dict={}
@@ -203,6 +203,7 @@ def gameScene(request):
     context_dict={}
     return render(request, 'gameApp/gameScene.html', context= context_dict)
 
+@login_required
 def gameCreation(request):
     context_dict={}
     return render(request, 'gameApp/gameCreation.html', context= context_dict)

@@ -27,8 +27,8 @@ body {
 
 @media (max-width:800px){ /* elements get denser & smaller if you shrink window */
     .icons { /* only override changed part */
-        width: 25px;
-        margin-top:14px;
+        width: 23px;
+        margin-top:15px;
         margin-left:3px;
         margin-right:3px;
     }
