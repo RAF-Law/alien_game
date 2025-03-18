@@ -11,11 +11,16 @@ from django.contrib.auth import get_user_model
 from django.core.management import call_command
 
 from player_items import weapons, artifacts
-from gameApp.models import Weapon, Artifact, UserProfile as User, Game
+from gameApp.models import Weapon, Artifact
 
 WIPE_DATABASE = True
 POPULATE_DATABASE = True
+
 CREATE_ADMIN = True
+CREATE_USER = True
+GENERATE_USERS = True
+USER_GENERATION_COUNT = 10
+
 AUTO_RUN_SERVER = False
 
 def django_auto_runserver():
@@ -39,6 +44,21 @@ def create_superuser(username='test_admin', email='test_admin@admin.com', passwo
     else:
         print(f"{username} already exists!")
 
+def create_user(username='test_user', email='test_user@user.com', password='123'):
+
+    print(f'Creating superuser {username}...')
+    user = get_user_model()
+    if not user.objects.filter(username=username).exists():
+        user.objects.create_user(username=username, email=email, password=password)
+        print(f"Created user {username}.")
+    else:
+        print(f"{username} already exists!")
+
+def generate_user_accounts(amount):
+    for x in range(amount):
+        create_user(f'test_user_{x + 1}', f'test_user_{x + 1}@user.com', f'123')
+
+
 def check_database_exists():
 
     print('Checking if database exists...')
@@ -51,8 +71,9 @@ def check_database_exists():
 
     db_weapon_icon_path = 'media/static/artifact_icons/static/artifact_icons'
     db_artifact_icon_path = 'media/static/weapon_icons/static/weapon_icons'
+    db_user_icon_path = 'media/static/user_icons/static/user_icons'
 
-    print('Checking if weapon and artifact icon duplicates exist...')
+    print('Checking if weapon, artifact and user icon duplicates exist...')
 
     if os.path.exists(db_weapon_icon_path):
         print('Weapon icon duplicates exist, deleting...')
@@ -61,6 +82,10 @@ def check_database_exists():
     if os.path.exists(db_artifact_icon_path):
         print('Artifact icon duplicates exist, deleting...')
         shutil.rmtree(db_artifact_icon_path)
+
+    if os.path.exists(db_user_icon_path):
+        print('User icon duplicates exist, deleting...')
+        shutil.rmtree(db_user_icon_path)
 
 def django_auto_migrate():
 
@@ -85,18 +110,24 @@ def populate_database():
         populate_model(Artifact, artifacts, 'artifact_id')
 
     except Exception as e:
-        print(f'Error: {str(e)}, stopping execution.')
+        print(f'Error: {str(e)}, re-wiping database and stopping execution.')
+        django_auto_migrate()
         return False
 
     print('Database populated!')
     return True
 
 if __name__ == '__main__':
+
     if WIPE_DATABASE:
         django_auto_migrate()
     if POPULATE_DATABASE:
         populate_database()
     if CREATE_ADMIN:
         create_superuser()
+    if CREATE_USER:
+        create_user()
+        if GENERATE_USERS:
+            generate_user_accounts(USER_GENERATION_COUNT)
     if AUTO_RUN_SERVER:
         django_auto_runserver()

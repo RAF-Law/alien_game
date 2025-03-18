@@ -1,63 +1,153 @@
 <!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alien Survival Game</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1e1e1e;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;z
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
 
-<html>
-    <head lang="en">
-        <meta charset="UTF-8" />
-        <title>Test gameScene</title>
-    </head>
+        /* Game Container */
+        #game {
+            width: 80%;
+            max-width: 800px;
+            background-color: #2c2c2c;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
 
+        /* Message Area */
+        #messages {
+            height: 400px;
+            overflow-y: auto;
+            background-color: #1e1e1e;
+            border: 1px solid #444;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 15px;
+            font-family: monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
 
-    <!-- without any styling -->
-    <!-- I gave every element an id so you can easily locate and change them -->
-    <body>
-        <!-- player character info -->
-        <div class="user_pfp">
-            <img id="user_pfp" alt="user_pfp">
-        </div>
-        <div class="weapon">
-            <img id="weapon" alt="weapon">
-        </div>
-        <!-- the ajax stuff should be able to change the image, the above 2 are just placeholders -->
+        /* Input Area */
+        #inputArea {
+            display: flex;
+            gap: 10px;
+        }
 
-        <!-- number based attributes -->
-        <div id="hp">
-            HP: 0/0
-        </div>
-        <div id="ap">
-            Attack Point: 0
-        </div>
-        <div id="speed">
-            Speed: 0
-        </div>
-        <div id="food">
-            Food: 0
-        </div>
+        #input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #444;
+            border-radius: 5px;
+            background-color: #1e1e1e;
+            color: #ffffff;
+            font-size: 14px;
+        }
 
-        <!-- a save button to update all the locally stored info to the database -->
-        <button id="save">
-            Save
-        </button>
+        #input:focus {
+            outline: none;
+            border-color: #666;
+        }
 
-        <!-- main game area -->
-        <div id="text_content">
-            Some actual game text.<br>
-            Remember to use "br" for another line.
-        </div>
-        <button id="option1">
-            This is an option
-        </button><br>
-        <button id="option2">
-            This is another option
-        </button>
-        <!-- the number of options should be dynamically changed -->
+        #submitButton {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
 
-        <!-- additional info to be shown -->
-        <div id="enemy_killed">
-            10
-        </div>
-        <div id="survive_days">
-            6
-        </div>
+        #submitButton:hover {
+            background-color: #45a049;
+        }
 
-    </body>
+        /* Scrollbar Styling */
+        #messages::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        #messages::-webkit-scrollbar-track {
+            background: #1e1e1e;
+        }
+
+        #messages::-webkit-scrollbar-thumb {
+            background: #666;
+            border-radius: 4px;
+        }
+
+        #messages::-webkit-scrollbar-thumb:hover {
+            background: #888;
+        }
+    </style>
+</head>
+<body>
+    <div id="game">
+        <!-- Message Display Area -->
+        <div id="messages"></div>
+
+        <!-- Input Area -->
+        <div id="inputArea">
+            <input type="text" id="input" placeholder="Enter your choice...">
+            <button id="submitButton">Submit</button>
+        </div>
+    </div>
+
+    <script src="{% static 'js/game.js' %}"></script>
+    <script>
+        // Utility Functions
+        function printMessage(message) {
+            const messageElement = document.createElement("div");
+            messageElement.className = "message";
+            messageElement.textContent = message;
+            messagesDiv.appendChild(messageElement);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight; // Auto-scroll to the latest message
+        }
+
+        function getInput() {
+            return inputField.value.trim();
+        }
+
+        function clearInput() {
+            inputField.value = "";
+        }
+
+        // DOM Elements
+        const messagesDiv = document.getElementById("messages");
+        const inputField = document.getElementById("input");
+        const submitButton = document.getElementById("submitButton");
+
+        // Event Listeners
+        submitButton.addEventListener("click", handleInput);
+        inputField.addEventListener("keypress", function (event) {
+            if (event.key === "Enter") {
+                handleInput();
+            }
+        });
+
+        // Initialize Game
+        printMessage("Welcome to Alien Survival Game!");
+        printMessage("You are in the street. You can enter any house numbered 1-10. Enter 'q' to quit.");
+    </script>
+</body>
 </html>
