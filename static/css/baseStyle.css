@@ -20,12 +20,17 @@ body {
     image-rendering: pixelated;
 }
 
+.music {
+    position: fixed;
+    right:310px;
+}
+
 @media (max-width:800px){ /* elements get denser & smaller if you shrink window */
     .icons { /* only override changed part */
-        width: 30px;
-        margin-top:12px;
-        margin-left:5px;
-        margin-right:5px;
+        width: 25px;
+        margin-top:14px;
+        margin-left:3px;
+        margin-right:3px;
     }
 }
 
