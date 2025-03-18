@@ -1,0 +1,14 @@
+@import "baseStyle.css";
+
+.buttons{
+    width:10vw;
+    height:90px;
+    position: absolute;
+    left:50%;
+    transform: translate(-50%);
+    top:300px;
+
+    font-family: 'Fixedys', sans-serif;
+    color:aliceblue;
+    background-color: rgb(227, 59, 124);
+}

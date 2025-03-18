@@ -1,4 +1,4 @@
-@import "1/baseStyle.css";
+@import "baseStyle.css";
 
 .logo {
     position: fixed;
@@ -54,9 +54,11 @@
   line-height: 5vh; /* make it alined vertically */
   padding-left: 1vw;
   font-family: 'Fixedys', sans-serif;
-  font-size:2vw;
+  font-size:1.5vw;
   color:rgb(236, 255, 237);
   text-shadow: 1px 1px 0px rgba(112, 80, 149, 0.4);
+  max-width: 11vw;
+  overflow: hidden;
 }
 .user_stats{
   line-height: 5vh; /* make it alined vertically */
@@ -65,7 +67,9 @@
   font-family: 'Fixedys', sans-serif;
   font-size:2.5vw;
   color:rgb(255, 255, 255);
-  text-shadow: 1px 1px 0px rgb(161, 30, 218);
+  text-shadow: 2px 2px 0px rgb(230, 13, 208);
+  max-width: 3vw;
+  overflow: hidden;
 }
 
 .user_content{

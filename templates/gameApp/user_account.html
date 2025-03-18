@@ -1,0 +1,25 @@
+{% extends 'gameApp/base.html' %}
+{% load static %}
+
+{% block title_block %}
+	My account
+{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/accountStyle.css' %}">
+    <script type="module" src="{% static 'js/account.js' %}"></script>
+{% endblock %}
+
+{% block body_block %}
+    <div class="buttons logout">
+        <a href="{% url 'gameApp:logout' %}">Logout</a>
+    </div>
+
+
+
+
+{% endblock %}
+
+{% block heading %}
+    My account
+{% endblock %}
