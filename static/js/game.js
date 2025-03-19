@@ -159,16 +159,21 @@ class Room {
             case 1:
                 this.generateLoot(WEAPONS, Math.floor(Math.random() * 3) + 1);
                 await this.handleLoot(player, "weapon");
+                this.roomType = 0;
                 break;
             case 2:
                 this.generateLoot(ARTIFACTS, Math.floor(Math.random() * 3) + 1);
                 await this.handleLoot(player, "artifact");
+                this.roomType = 0;
                 break;
             case 3:
                 if (this.alien === null) {
                     this.alien = createAlien();
                 }
                 await new Battle(player, this.alien).encounter();
+                if (this.alien.hp = 0){
+                    this.roomType = 0;
+                }
                 break;
             default:
                 await printMessage("Invalid room type.");
@@ -337,13 +342,31 @@ class Player {
         }
     }
 
-    async exploreHouse(houseKey) {
-        const numRooms = Math.floor(Math.random() * 5) + 2; // 2 to 6 rooms
+    async hasHouseBeenEntered(houseKey){
+        check = false;
+        
+    }
 
-        for (let i = 1; i <= numRooms; i++) {
-            const roomKey = `room ${i}`;
-            const roomType = Math.floor(Math.random() * 4); // 0 to 3
-            map[houseKey][roomKey] = new Room(roomType);
+    async exploreHouse(houseKey) {
+        let numRooms = null;
+        if (Object.keys(map[houseKey]).length <= 2){
+            numRooms = Math.floor(Math.random() * 5) + 2; // 2 to 6 rooms
+            await printMessage("Rooms created")
+        }
+        else{
+            numRooms = Object.keys(map[houseKey]).length - 2;
+        }
+
+        if (map[houseKey].emptyRooms.size === numRooms) {
+            await printMessage("All rooms in this house are empty.");
+            return;
+        }
+        if (Object.keys(map[houseKey]).length <= 2){
+            for (let i = 1; i <= numRooms; i++) {
+                const roomKey = `room ${i}`;
+                const roomType = Math.floor(Math.random() * 4); // 0 to 3
+                map[houseKey][roomKey] = new Room(roomType);
+            }
         }
 
         await printMessage(`There are ${numRooms} rooms in this house. Which room would you like to enter?`);
