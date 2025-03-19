@@ -54,6 +54,13 @@
     
 }
 
+.cube{
+  position:absolute;
+  image-rendering: pixelated;
+
+  z-index: 2;
+}
+
 .game_frame,
 .game_frame--wrapper {
     position: fixed;

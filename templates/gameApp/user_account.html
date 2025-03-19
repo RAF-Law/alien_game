@@ -11,9 +11,14 @@
 {% endblock %}
 
 {% block body_block %}
-    <div class="buttons logout">
-        <a href="{% url 'gameApp:logout' %}">Logout</a>
+    <div class="buttons logout_bg">
+        <a href="{% url 'gameApp:logout' %}" class="no_underline">
+            <div class="hyperlink">
+                <div class="button_text">logout</div>
+                <div class="button_icon" id="logout"></div>
+            </div>
     </div>
+    
 
 
 
