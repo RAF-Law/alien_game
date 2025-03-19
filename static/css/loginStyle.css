@@ -88,8 +88,22 @@ body { /* override the body attribute, so it has a fixed height, the declaration
     letter-spacing: 1px;
     font-family: 'Fixedys', sans-serif;
     border: none;
-    background: #354858 !important;
-    color: #e0fcff !important;
+    background: #354858;
+    color: #e0fcff;
+}
+
+/* Styling the autofilled input */
+.styled-input:-webkit-autofill {
+  background: #354858;
+  color: #e0fcff; 
+  transition: background-color 10000s ease-in-out 0s, color 5000s ease-in-out 0s;  /* Prevent autofill background from changing */
+}
+
+/* For Firefox */
+.styled-input:-moz-autofill {
+  background: #354858;
+  color: #e0fcff;
+  transition: background-color 10000s ease-in-out 0s, color 5000s ease-in-out 0s;
 }
 
 .styled-submit{

@@ -1,0 +1,187 @@
+@import "baseStyle.css";
+
+#logout{background-image: url('../icons/logout_icon.png');}
+#upload{background-image: url('../icons/pfp_icon.png');}
+#save{background-image: url('../icons/save_icon.png');}
+
+.pfp_display{
+  position:fixed;
+  top:100px;
+  left:50px;
+  width:200px;
+  height:200px;
+  object-fit: cover;
+  border: 3px solid #ac0a56; 
+}
+
+.button_icon{
+    image-rendering: pixelated;
+    margin-right: 10px;
+    width: 30px;
+    height: 30px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    align-self: center;
+}
+
+.logout_bg{background-color: rgb(240, 112, 123);}
+.upload_bg{background-color: rgb(240, 150, 112);}
+.save_bg{background: rgb(230, 178, 100);}
+
+.button_text{
+    line-height:35px;
+    padding-left: 10px;
+    padding-bottom: 5px;
+    font-size: 25px;
+    font-family: 'Fixedys', sans-serif;
+    color:rgb(255, 255, 255);
+    text-shadow: 1px 1px 0px rgba(112, 80, 149, 0.4);
+}
+
+.no_underline{
+    text-decoration: none;
+}
+.hyperlink{
+    height:100%;
+    width: 100%;
+    display:flex;
+    justify-content: space-between;
+}
+
+input[type="file"] { /* hide the default shit */
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+}
+.custom-file-upload {
+  width:160px;
+  height:40px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.styled_button {
+  width: 160px;
+  height: 40px;
+  font-size: 25px;
+
+  font-family: 'Fixedys', sans-serif;
+  border: none;
+  color: #ffffff;
+  background: transparent;
+  text-shadow: 1px 1px 0px rgba(112, 80, 149, 0.4);
+  padding-left: 10px;
+  padding-bottom: 5px;
+  text-align: left;
+}
+
+.buttons,
+.buttons--wrapper {
+    width:200px;
+    height:40px;
+    position: absolute;
+    left:50%;
+    transform: translate(-50%);
+    top:300px;
+
+  clip-path: polygon(0px calc(100% - 8px),
+    4px calc(100% - 8px),
+    4px calc(100% - 4px),
+    8px calc(100% - 4px),
+    8px 100%,
+    calc(100% - 8px) 100%,
+    calc(100% - 8px) calc(100% - 4px),
+    calc(100% - 4px) calc(100% - 4px),
+    calc(100% - 4px) calc(100% - 8px),
+    100% calc(100% - 8px),
+    100% 8px,
+    calc(100% - 4px) 8px,
+    calc(100% - 4px) 4px,
+    calc(100% - 8px) 4px,
+    calc(100% - 8px) 0px,
+    8px 0px,
+    8px 4px,
+    4px 4px,
+    4px 8px,
+    0px 8px);
+  position: relative;
+}
+.buttons {
+  border: 4px solid transparent;
+}
+.buttons--wrapper {
+  width: fit-content;
+  height: fit-content;
+}
+.buttons--wrapper .buttons {
+  display: block;
+  clip-path: polygon(4px 8px,
+    8px 8px,
+    8px 4px,
+    calc(100% - 8px) 4px,
+    calc(100% - 8px) 8px,
+    calc(100% - 4px) 8px,
+    calc(100% - 4px) calc(100% - 8px),
+    calc(100% - 8px) calc(100% - 8px),
+    calc(100% - 8px) calc(100% - 4px),
+    8px calc(100% - 4px),
+    8px calc(100% - 8px),
+    4px calc(100% - 8px));
+}
+.buttons::after,
+.buttons--wrapper::after {
+  content: "";
+  position: absolute;
+  clip-path: polygon(0px calc(100% - 8px),
+    4px calc(100% - 8px),
+    4px calc(100% - 4px),
+    8px calc(100% - 4px),
+    8px 100%,
+    calc(100% - 8px) 100%,
+    calc(100% - 8px) calc(100% - 4px),
+    calc(100% - 4px) calc(100% - 4px),
+    calc(100% - 4px) calc(100% - 8px),
+    100% calc(100% - 8px),
+    100% 8px,
+    calc(100% - 4px) 8px,
+    calc(100% - 4px) 4px,
+    calc(100% - 8px) 4px,
+    calc(100% - 8px) 0px,
+    8px 0px,
+    8px 4px,
+    4px 4px,
+    4px 8px,
+    0px 8px,
+    0px 50%,
+    4px 50%,
+    4px 8px,
+    8px 8px,
+    8px 4px,
+    calc(100% - 8px) 4px,
+    calc(100% - 8px) 8px,
+    calc(100% - 4px) 8px,
+    calc(100% - 4px) calc(100% - 8px),
+    calc(100% - 8px) calc(100% - 8px),
+    calc(100% - 8px) calc(100% - 4px),
+    8px calc(100% - 4px),
+    8px calc(100% - 8px),
+    4px calc(100% - 8px),
+    4px 50%,
+    0px 50%);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #ac0a56;
+  display: block;
+  pointer-events: none;
+}
+.buttons::after {
+  margin: -4px;
+}

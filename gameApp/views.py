@@ -1,6 +1,7 @@
 # View imports
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
 
@@ -92,10 +93,10 @@ def user_login(request):
                 login(request, user)
                 return redirect(reverse("gameApp:home"))
             else:
-                return HttpResponse("Your Account has been disabled :[]")
+                return HttpResponse("Your Account has been disabled :[]") #I dont think this part will be used
         else:
             print(f"Invalid login details: {username}, {password}")
-            return HttpResponse("Invalid login details supplied.")
+            return JsonResponse({"status": "error", "message": "Invalid login details."})
     else:
         return render(request, 'gameApp/login.html')
 
@@ -116,9 +117,22 @@ def user_logout(request):
 # Template: gameApp/user_account.html
 @login_required
 def user_account(request):
-    # Pass in user specific information 
-    context_dict={}
+    user_profile, created = User.objects.get_or_create(user=request.user)
+
+    if request.method == 'POST':
+        profile_form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
+
+        if profile_form.is_valid():
+            profile_form.save()
+            return redirect(reverse('gameApp:user_account'))  # Reload page after updating PFP
+
+    else:
+        profile_form = UserProfileForm(instance=user_profile)
+
+    # Pass form & user info to template
+    context_dict = {'profile_form': profile_form, 'user_profile': user_profile}
     return render(request, 'gameApp/user_account.html', context=context_dict)
+
 
 
 # User History view
@@ -171,10 +185,10 @@ def user_handbook(request):
 # Template: gameApp/leaderboard.html
 def leaderboard(request):
 
-    # Get top 10 players with most kills
-    player_enemies_list = User.objects.order_by('-most_enemies_killed')[:10] 
-    # Get top 10 players with most days survived
-    player_days_list = User.objects.order_by('-most_days_survived')[:10] 
+    # Get top 8 players with most kills
+    player_enemies_list = User.objects.order_by('-most_enemies_killed')[:8] 
+    # Get top 8 players with most days survived
+    player_days_list = User.objects.order_by('-most_days_survived')[:8] 
 
     # Store player lists into context dictionary, to be used in html
     context_dict={}
@@ -203,6 +217,8 @@ def gameScene(request):
     context_dict={}
     return render(request, 'gameApp/gameScene.html', context= context_dict)
 
+@login_required
 def gameCreation(request):
     context_dict={}
     return render(request, 'gameApp/gameCreation.html', context= context_dict)
+

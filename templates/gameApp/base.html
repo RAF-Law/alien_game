@@ -11,108 +11,80 @@
             {% endblock %}
         </title>
         <link rel="stylesheet" href="{% static 'css/baseStyle.css' %}">
+        <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
         {% block styles %}
         {% endblock %}
     </head>
 
-    <body>
+<body>
 
-        <div>
-            <header class="headBar">
-                <div>
-                    <a href="{% url 'gameApp:home' %}">
-                        <img class="icons" src="{% static 'icons/home_icon.png' %}" alt="Home">
-                    </a>
-                    <a href="{% url 'gameApp:instructions' %}">
-                        <img class="icons" src="{% static 'icons/instructions_icon.png' %}" alt="Instructions">
-                    </a>
-                    <a href="#" onclick="toggleMusic()">
-                        <img class="icons" src="{% static 'icons/musicOff.png' %}" alt="Music">
-                    </a>
-                    <audio id="backgroundMusic" loop>
-                        <!-- https://pixabay.com/music/main-title-stealth-battle-205902/ -->
-                        <source src="{% static 'music/stealth-battle.mp3' %}" type="audio/mpeg">
-                        Your browser does not support the audio element.
-                    </audio>
-                    <script>
-                        function toggleMusic() {
-                            var music = document.getElementById("backgroundMusic");
-                            var musicIcon = document.querySelector("a[onclick='toggleMusic()'] img");
-                            if (music.paused) {
-                                music.play();
-                                musicIcon.src = "{% static 'icons/musicOn.png' %}";
-                                localStorage.setItem('musicPlaying', 'true');
-                                localStorage.setItem('musicCurrentTime', music.currentTime);
-                            } else {
-                                music.pause();
-                                musicIcon.src = "{% static 'icons/musicOff.png' %}";
-                                localStorage.setItem('musicPlaying', 'false');
-                                localStorage.setItem('musicCurrentTime', music.currentTime);
-                            }
-                        }
-
-                        document.addEventListener("DOMContentLoaded", function() {
-                            var music = document.getElementById("backgroundMusic");
-                            var musicIcon = document.querySelector("a[onclick='toggleMusic()'] img");
-                            var musicPlaying = localStorage.getItem('musicPlaying') === 'true';
-                            var musicCurrentTime = localStorage.getItem('musicCurrentTime') || 0;
-                            if (musicPlaying) {
-                                music.currentTime = musicCurrentTime;
-                                music.play();
-                                musicIcon.src = "{% static 'icons/musicOn.png' %}";
-                            } else {
-                                music.pause();
-                                musicIcon.src = "{% static 'icons/musicOff.png' %}";
-                            }
-                        });
-                    </script>
-
-                    {% if user.is_authenticated %}
-                        <a href="{% url 'gameApp:play' %}">
-                            <img class="icons" src="{% static 'icons/play_icon.png' %}" alt="Play">
-                        </a>
-                        <a href="{% url 'gameApp:user_handbook' %}">
-                            <img class="icons" src="{% static 'icons/collections_icon.png' %}" alt="Collections">
-                        </a>
-                    {% endif %}
-
-                    <a href="{% url 'gameApp:leaderboard' %}">
-                        <img class="icons" src="{% static 'icons/leaderboard_icon.png' %}" alt="Leaderboard">
-                    </a>
-                </div>
-            </header>
-        </div>
-
-        {% if user.is_authenticated %}
-            <div id="login_bg">
-                <a href="{% url 'gameApp:user_account' %}">
-                    <div id="login_img"></div>
+    <div>
+        <header class="headBar">
+            <div>
+                <a href="{% url 'gameApp:home' %}">
+                    <img class="icons" src="{% static 'icons/home_icon.png' %}" alt="Home">
                 </a>
-                <div id="login_hello">Hello,</div>
-                <div id="login_username">{{ user.username }} !</div>
-            </div>
-        {% else %}
-            <div id="login_bg">
-                <a href="{% url 'gameApp:login' %}">
-                    <div id="login_img"></div>
+                <a href="{% url 'gameApp:instructions' %}">
+                    <img class="icons" src="{% static 'icons/instructions_icon.png' %}" alt="Instructions">
                 </a>
-                <div id="login_text">Login</div>
+
+                {% if user.is_authenticated %}
+                <a href="{% url 'gameApp:play' %}">
+                    <img class="icons" src="{% static 'icons/play_icon.png' %}" alt="Play">
+                </a>
+                <a href="{% url 'gameApp:user_handbook' %}">
+                    <img class="icons" src="{% static 'icons/collections_icon.png' %}" alt="Collections">
+                </a>
+                {% endif %}
+
+                <a href="{% url 'gameApp:leaderboard' %}">
+                    <img class="icons" src="{% static 'icons/leaderboard_icon.png' %}" alt="Leaderboard">
+                </a>
+
+                <a href="#" id="musicToggle" data-music-on="{% static 'icons/musicOn.png' %}"
+                    data-music-off="{% static 'icons/musicOff.png' %}">
+                    <img class="icons music" src="{% static 'icons/musicOff.png' %}" alt="Music">
+                </a>
+                <!-- https://pixabay.com/music/main-title-stealth-battle-205902/ -->
+                <audio id="backgroundMusic" loop>
+                    <source src="{% static 'music/stealth-battle.mp3' %}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+
             </div>
-        {% endif %}
+        </header>
+    </div>
 
-        <div class="text_headings">
-            {% block heading %} <!-- default to none -->
-            {% endblock %}
-        </div>
+    {% if user.is_authenticated %}
+    <div id="login_bg">
+        <a href="{% url 'gameApp:user_account' %}">
+            <div id="login_img"></div>
+        </a>
+        <div id="login_hello">Hello,</div>
+        <div id="login_username">{{ user.username }} !</div>
+    </div>
+    {% else %}
+    <div id="login_bg">
+        <a href="{% url 'gameApp:login' %}">
+            <div id="login_img"></div>
+        </a>
+        <div id="login_text">Login</div>
+    </div>
+    {% endif %}
 
-        <div>
-            {% block body_block %}
-            {% endblock %}
-        </div>
+    <div class="text_headings">
+        {% block heading %} <!-- default to none -->
+        {% endblock %}
+    </div>
 
-        <div class="text_declaration">
-            This project is created by: Salwa Sayed | Nairn White | Jonatan Wiankowski | Lawrence Zhang​
-        </div>
-    </body>
-    
+    <div>
+        {% block body_block %}
+        {% endblock %}
+    </div>
+
+    <div class="text_declaration">
+        This project is created by: Salwa Sayed | Nairn White | Jonatan Wiankowski | Lawrence Zhang​
+    </div>
+</body>
+
 </html>

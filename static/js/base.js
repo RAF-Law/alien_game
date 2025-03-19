@@ -32,6 +32,24 @@ export function logoMoving(elementId, length, move, speed,direction) {
     setInterval(movefunc, speed);
 }
 
+export function logoMovingTop(elementId, length, move, speed,direction) {
+    let element = document.getElementById(elementId);
+    let step = 0;
+
+    function movefunc() {
+        let current = parseInt(window.getComputedStyle(element).top);
+        element.style.top = (current + length * direction) + "px";
+        step++;
+
+        if (step >= move) {
+            direction *= -1;  
+            step = 0; 
+        }
+    }
+
+    setInterval(movefunc, speed);
+}
+
 export function stars(){ //random stars each time the page is loaded
     for (let i = 0; i < 50; i++) {
         let div = document.createElement("div");
@@ -45,6 +63,47 @@ export function stars(){ //random stars each time the page is loaded
         document.body.appendChild(div);
     }
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+    var music = document.getElementById("backgroundMusic");
+    var musicToggle = document.getElementById("musicToggle");
+    var musicIcon = musicToggle.querySelector("img");
+    var musicOnPath = musicToggle.getAttribute("data-music-on");
+    var musicOffPath = musicToggle.getAttribute("data-music-off");
+
+    // Retrieve stored music state
+    var musicPlaying = localStorage.getItem('musicPlaying') === 'true';
+    var musicCurrentTime = parseFloat(localStorage.getItem('musicCurrentTime')) || 0;
+
+    if (musicPlaying) {
+        music.currentTime = musicCurrentTime;
+        music.play().catch(err => console.warn("Autoplay blocked:", err));
+        musicIcon.src = musicOnPath;
+    } else {
+        music.pause();
+        musicIcon.src = musicOffPath;
+    }
+    window.addEventListener("beforeunload", function() {
+        localStorage.setItem('musicCurrentTime', music.currentTime);
+    });
+
+    // moved the function here
+    musicToggle.addEventListener("click", function(event) {
+        event.preventDefault(); // Prevent default anchor behavior
+
+        if (music.paused) {
+            music.play();
+            musicIcon.src = musicOnPath;
+            localStorage.setItem('musicPlaying', 'true');
+        } else {
+            music.pause();
+            musicIcon.src = musicOffPath;
+            localStorage.setItem('musicPlaying', 'false');
+        }
+
+        localStorage.setItem('musicCurrentTime', music.currentTime);
+    });
+});
 
 document.addEventListener("DOMContentLoaded", function () {
     loginGlitching("login_bg",3,50);

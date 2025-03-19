@@ -6,39 +6,75 @@
 {% endblock %}
 
 {% block styles %}
-    <link rel="stylesheet" href="{% static 'css/instructionStyle.css' %}">
-    <script type="module" src="{% static 'js/instruction.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/leaderboardStyle.css' %}">
+    <script type="module" src="{% static 'js/leaderboard.js' %}"></script>
 {% endblock %}
 
 {% block body_block %}
-    <div id="left_1" class="side left"></div>
-    <div id="left_2" class="side left"></div>
-    <div id="left_3" class="side left"></div>
-    <div id="right_1" class="side right"></div>
-    <div id="right_2" class="side right"></div>
-    <div id="right_3" class="side right"></div>
+    <div class="circle">
+    </div>
 
-    <div class="instruction_frame">
-        <div class="instruction_subheading">
-            TOP 10 PLAYERS - MOST ENEMIES KILLED
+    <div id="kill_centre" class="logo kill">
+        <img src="{% static 'images/kill_c.png' %}" alt="kill_img">
+    </div>
+    <div id="kill_back" class="logo kill">
+        <img src="{% static 'images/kill_b.png' %}" alt="kill_img">
+    </div>
+    <div id="kill_front" class="logo kill">
+        <img src="{% static 'images/kill_f.png' %}" alt="kill_img">
+    </div>
+    <div id="survive_centre" class="logo survive">
+        <img src="{% static 'images/survive_c.png' %}" alt="survive_img">
+    </div>
+    <div id="survive_back" class="logo survive">
+        <img src="{% static 'images/survive_b.png' %}" alt="survive_img">
+    </div>
+    <div id="survive_front" class="logo survive">
+        <img src="{% static 'images/survive_f.png' %}" alt="survive_img">
+    </div>
+
+    <div id="kill_num" class="logo_text">
+        {{ player_enemies.0.most_enemies_killed }}
+    </div>
+    <div id="survive_num" class="logo_text">
+        {{ player_days.0.most_days_survived }}
+    </div>
+
+    <div class="frame left">
+        <div class="subheading">
+            Kills
         </div>
-        {% for user in player_enemies %}
-            <div class="user_block">
-                <div class="user_info">
-                    <p><strong> {{ user }} - {{ user.most_enemies_killed }} </strong></p>
-                </div>
+        <div class="user_content first_place">
+            <div class="user_name">{{ player_enemies.0 }}</div>
+            <div class="user_stats">{{ player_enemies.0.most_enemies_killed }}</div>
+        </div>
+        <div class="user_content second_place">
+            <div class="user_name">{{ player_enemies.1 }}</div>
+            <div class="user_stats">{{ player_enemies.1.most_enemies_killed }}</div>
+        </div>
+        {% for user in player_enemies|slice:"2:8" %}
+            <div class="user_content">
+                <div class="user_name">{{ user }}</div>
+                <div class="user_stats">{{ user.most_enemies_killed }}</div>
             </div>
         {% endfor %}
-
-
-        <div class="instruction_subheading">
-            TOP 10 PLAYERS - MOST DAYS SURVIVED
+    </div>
+    <div class="frame right">
+        <div class="subheading">
+            Survive
         </div>
-        {% for user in player_days %}
-            <div class="user_block">
-                <div class="user_info">
-                    <p><strong> {{ user }} - {{ user.most_days_survived }}</strong></p>
-                </div>
+        <div class="user_content first_place">
+            <div class="user_name">{{ player_days.0 }}</div>
+            <div class="user_stats">{{ player_days.0.most_days_survived }}</div>
+        </div>
+        <div class="user_content second_place">
+            <div class="user_name">{{ player_days.1 }}</div>
+            <div class="user_stats">{{ player_days.1.most_days_survived }}</div>
+        </div>
+        {% for user in player_days|slice:"2:8" %}
+            <div class="user_content">
+                <div class="user_name">{{ user }}</div>
+                <div class="user_stats">{{ user.most_days_survived }}</div>
             </div>
         {% endfor %}
     </div>
