@@ -1,13 +1,23 @@
 @import "baseStyle.css";
 
-#logout{
-    background-image: url('../icons/logout_icon.png');
+#logout{background-image: url('../icons/logout_icon.png');}
+#upload{background-image: url('../icons/pfp_icon.png');}
+#save{background-image: url('../icons/save_icon.png');}
+
+.pfp_display{
+  position:fixed;
+  top:100px;
+  left:50px;
+  width:200px;
+  height:200px;
+  object-fit: cover;
+  border: 3px solid #ac0a56; 
 }
 
 .button_icon{
     image-rendering: pixelated;
-    margin-right: 5px;
-    width: 2vw;
+    margin-right: 10px;
+    width: 30px;
     height: 30px;
     background-size: contain;
     background-repeat: no-repeat;
@@ -15,16 +25,15 @@
     align-self: center;
 }
 
-.logout_bg{
-    background-color: rgb(240, 112, 123);
-}
-
+.logout_bg{background-color: rgb(240, 112, 123);}
+.upload_bg{background-color: rgb(240, 150, 112);}
+.save_bg{background: rgb(230, 178, 100);}
 
 .button_text{
     line-height:35px;
     padding-left: 10px;
     padding-bottom: 5px;
-    font-size: 2vw;
+    font-size: 25px;
     font-family: 'Fixedys', sans-serif;
     color:rgb(255, 255, 255);
     text-shadow: 1px 1px 0px rgba(112, 80, 149, 0.4);
@@ -40,9 +49,41 @@
     justify-content: space-between;
 }
 
+input[type="file"] { /* hide the default shit */
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+}
+.custom-file-upload {
+  width:160px;
+  height:40px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.styled_button {
+  width: 160px;
+  height: 40px;
+  font-size: 25px;
+
+  font-family: 'Fixedys', sans-serif;
+  border: none;
+  color: #ffffff;
+  background: transparent;
+  text-shadow: 1px 1px 0px rgba(112, 80, 149, 0.4);
+  padding-left: 10px;
+  padding-bottom: 5px;
+  text-align: left;
+}
+
 .buttons,
 .buttons--wrapper {
-    width:10vw;
+    width:200px;
     height:40px;
     position: absolute;
     left:50%;
@@ -137,7 +178,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: #d00026;
+  background: #ac0a56;
   display: block;
   pointer-events: none;
 }

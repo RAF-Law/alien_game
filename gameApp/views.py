@@ -116,9 +116,22 @@ def user_logout(request):
 # Template: gameApp/user_account.html
 @login_required
 def user_account(request):
-    # Pass in user specific information 
-    context_dict={}
+    user_profile, created = User.objects.get_or_create(user=request.user)
+
+    if request.method == 'POST':
+        profile_form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
+
+        if profile_form.is_valid():
+            profile_form.save()
+            return redirect(reverse('gameApp:user_account'))  # Reload page after updating PFP
+
+    else:
+        profile_form = UserProfileForm(instance=user_profile)
+
+    # Pass form & user info to template
+    context_dict = {'profile_form': profile_form, 'user_profile': user_profile}
     return render(request, 'gameApp/user_account.html', context=context_dict)
+
 
 
 # User History view
@@ -207,3 +220,4 @@ def gameScene(request):
 def gameCreation(request):
     context_dict={}
     return render(request, 'gameApp/gameCreation.html', context= context_dict)
+

@@ -1,3 +1,4 @@
+import os
 from django.db import models
 from django.contrib.auth.models import User as DjangoUser
 from django.db.models.signals import post_save
@@ -64,6 +65,15 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+    
+    def save(self, *args, **kwargs): #delete old pfp when uploading a new one
+        if self.pk:
+            existing = UserProfile.objects.filter(pk=self.pk).first()
+            if existing and existing.icon and self.icon != existing.icon:
+                if os.path.isfile(existing.icon.path):
+                    os.remove(existing.icon.path)
+
+        super(UserProfile, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'User Profile'
