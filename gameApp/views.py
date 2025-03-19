@@ -1,6 +1,7 @@
 # View imports
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
 
@@ -92,10 +93,10 @@ def user_login(request):
                 login(request, user)
                 return redirect(reverse("gameApp:home"))
             else:
-                return HttpResponse("Your Account has been disabled :[]")
+                return HttpResponse("Your Account has been disabled :[]") #I dont think this part will be used
         else:
             print(f"Invalid login details: {username}, {password}")
-            return HttpResponse("Invalid login details supplied.")
+            return JsonResponse({"status": "error", "message": "Invalid login details."})
     else:
         return render(request, 'gameApp/login.html')
 
