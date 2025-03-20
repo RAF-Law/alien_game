@@ -473,7 +473,7 @@ class Player {
 
             if (!["yes", "no", "q", "y", "n"].includes(userInput)) {
                 await printMessage("Invalid input. Enter 'yes', 'no', or 'q' to quit.");
-                return await getChoiceListener();
+                return await getLeaveChoiceListener();
             }
             if (userInput == "no" || userInput == "n"){
                 this.exploreHouse(houseKey);
@@ -481,17 +481,18 @@ class Player {
 
             return userInput;
         };
-        const getChoiceListener = () => {
+        const getLeaveChoiceListener = () => {
+            printMessage("1")
             return new Promise(resolve => {
-                const handleChoiceInput = () => {
-                    resolve(getChoice());
+                const handleLeaveChoiceInput = () => {
+                    resolve(getLeaveChoice());
                 };
 
-                submitButton.addEventListener("click", handleChoiceInput, { once: true });
+                submitButton.addEventListener("click", handleLeaveChoiceInput, { once: true });
                 inputField.addEventListener("keypress", function(event) {
                     if (event.key === "Enter") {
-                        submitButton.removeEventListener("click", handleChoiceInput);
-                        resolve(getChoice());
+                        submitButton.removeEventListener("click", handleLeaveChoiceInput);
+                        resolve(getLeaveChoice());
                     }
                 }, { once: true });
             });
