@@ -1,0 +1,103 @@
+@import "loginStyle.css";
+@import "accountStyle.css";
+
+.registration_complete_text{
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    width:700px;
+    top:320px;
+    font-size: 35px;
+    line-height:50px;
+    font-family: 'Fixedys', sans-serif;
+    color:rgb(148, 254, 251);
+    text-shadow: 1px 1px 0px #c7006a,-1px -1px 0px #c7006a,-1px 1px 0px #c7006a,1px -1px 0px #c7006a;
+    text-align: center;
+    z-index: 4;
+}
+
+#registerFrame_bg{
+    position:absolute;
+    left: calc(50% - 5px); /* wtaf you need spaces between the operators */
+    transform: translate(-50%);
+    top:230px;
+    width:820px;
+    height:520px;
+    background-color: #1c3147;
+
+    z-index: 2;
+}
+
+#registerFrame{
+    position:absolute;
+    left: calc(50% - 5px);
+    transform: translate(-50%);
+    top:160px;
+    width:900px;
+    height:650px;
+
+    background: url("../images/registerframe.png") no-repeat;
+    background-size: contain;
+    image-rendering: pixelated;
+
+    z-index: 3;
+}
+.text_headings{ /*override base style */
+    top:250px;
+    letter-spacing: 5px;
+    z-index: 4;
+}
+
+/*a bunch of overriding from loginStyle*/
+.pfp_display{
+    position: absolute;
+    top:370px;
+    left: calc(50% + 260px);
+    transform: translate(-50%);
+    width:170px;
+    height:170px;
+    border: 3px solid rgb(11, 11, 43);
+    box-shadow: 2px 2px 0px rgb(26,00,24),-2px -2px 0px rgb(143, 148, 170);
+    z-index:4;
+}
+.buttons{
+    position: absolute;
+    left: calc(50% + 260px);
+    transform: translate(-50%);
+    top:565px;
+    width:150px;
+}
+.buttons::after {background: #13ffef;}
+.button_text{
+    padding-top:2px;
+    padding-left: 0px;
+    text-shadow:none;
+    text-align: center;
+}
+.upload_bg{
+    background-color: #61869d;
+    z-index: 4;
+}
+
+.styled-submit{width: 210px;letter-spacing: 2px;}
+#submitcontainer{
+    position: absolute;
+    top:648px;
+    width:200px;
+    left:calc(50% - 5px);
+}
+
+#text_username{top:381px;}
+#text_password{top:473px;}
+#text_email{top:565px;}
+.text_preinput{
+    left: calc(50% - 220px);
+}
+
+#input_username{top:370px;}
+#input_password{top:405px;}
+#input_email{top:440px;}
+
+.inputcontainer{
+    left:calc(50% - 55px);
+}

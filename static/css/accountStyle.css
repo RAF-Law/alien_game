@@ -12,6 +12,7 @@
   height:200px;
   object-fit: cover;
   border: 3px solid #ac0a56; 
+  image-rendering: pixelated;
 }
 
 .button_icon{

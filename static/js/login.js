@@ -24,8 +24,6 @@ document.getElementById("login_form").addEventListener("submit", function(event)
     .then(data => {
         if (data.status === "error") {
             alert(data.message);  // Show alert only on invalid login
-        } else {
-            form.submit();  // Allow normal form submission on success
         }
     })
 });

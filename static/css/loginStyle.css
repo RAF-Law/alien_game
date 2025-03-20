@@ -103,7 +103,7 @@ body { /* override the body attribute, so it has a fixed height, the declaration
 .styled-input:-moz-autofill {
   background: #354858;
   color: #e0fcff;
-  transition: background-color 10000s ease-in-out 0s, color 5000s ease-in-out 0s;
+  transition: background-color 50000s ease-in-out 0s, color 5000s ease-in-out 0s;
 }
 
 .styled-submit{
