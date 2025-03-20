@@ -466,16 +466,37 @@ class Player {
         }
 
         await printMessage("Would you like to leave the house? (yes/no)");
-        leaveChoice = getInput().toLowerCase().trim();
-        clearInput()
-        while (leaveChoice != "yes" && leaveChoice != "no" && leaveChoice!= "y" && leaveChoice != "n"){
-            await printMessage("Invalid input, please enter yes/y or no/n");
-            leaveChoice = getInput().toLowerCase().trim();
-            clearInput()
-        }
-        if (leaveChoice == "no" || leaveChoice == "n"){
-            this.exploreHouse(houseKey);
-        }
+        const getLeaveChoice = async () => {
+            clearInput();
+            const userInput = getInput().toLowerCase().trim();
+            clearInput();
+
+            if (!["yes", "no", "q", "y", "n"].includes(userInput)) {
+                await printMessage("Invalid input. Enter 'yes', 'no', or 'q' to quit.");
+                return await getChoiceListener();
+            }
+            if (userInput == "no" || userInput == "n"){
+                this.exploreHouse(houseKey);
+            }
+
+            return userInput;
+        };
+        const getChoiceListener = () => {
+            return new Promise(resolve => {
+                const handleChoiceInput = () => {
+                    resolve(getChoice());
+                };
+
+                submitButton.addEventListener("click", handleChoiceInput, { once: true });
+                inputField.addEventListener("keypress", function(event) {
+                    if (event.key === "Enter") {
+                        submitButton.removeEventListener("click", handleChoiceInput);
+                        resolve(getChoice());
+                    }
+                }, { once: true });
+            });
+        };
+        getLeaveChoice();
 
         if (map[houseKey].emptyRooms.size == numRooms) {
             await printMessage("You have emptied all rooms in this house.");
@@ -698,13 +719,18 @@ function resetMap(player){
         printMessage("He appears to be holding an old sword")
         printMessage('He walks up to you and he says "I dont really want this anymore..."')
         printMessage("You want it? (yes/no)")
-        const input = getInput().toLowerCase().trim()
-        clearInput()
-        while (input != "yes" && input !="no" && input!="y" && input != "n"){
-            printMessage("Please enter yes/y or no/n")
-            input = getInput().toLowerCase().trim()
-            clearInput()
-        }
+        const getSwordChoice = async () => {
+            const userInput = getInput().toLowerCase().trim();
+            clearInput();
+
+            if (!["yes", "no", "q", "y", "n"].includes(userInput)) {
+                await printMessage("Invalid input. Enter 'yes', 'no', or 'q' to quit.");
+                return await getChoiceListener();
+            }
+
+            return userInput;
+        };
+        input = getSwordChoice();
         if (input == "yes" || input == "y"){
             printMessage("He hands you the sword and walks into the sunset")
             player.inventory.add(WEAPONS["Katana"]);
