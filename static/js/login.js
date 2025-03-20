@@ -1,5 +1,5 @@
 import * as base from "./base.js";
-
+//alert box stuff
 document.getElementById("login_form").addEventListener("submit", function(event) { //by chatgpt
     event.preventDefault(); // if you remove this, the form is always submitted and it gives you a json content page back
 

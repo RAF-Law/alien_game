@@ -17,6 +17,7 @@ document.getElementById('file-upload').addEventListener('change', function(event
     }
 });
 
+//alert box and update content stuff
 document.getElementById("user_form").addEventListener("submit", function(event) {
     event.preventDefault();
 

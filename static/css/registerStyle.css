@@ -18,7 +18,7 @@
 
 #registerFrame_bg{
     position:absolute;
-    left: calc(50% - 5px); /* wtaf you need spaces between the operators */
+    left: calc(50% - 5px);
     transform: translate(-50%);
     top:230px;
     width:820px;
@@ -42,13 +42,13 @@
 
     z-index: 3;
 }
-.text_headings{ /*override base style */
+.text_headings{
     top:250px;
     letter-spacing: 5px;
     z-index: 4;
 }
 
-/*a bunch of overriding from loginStyle*/
+/*a bunch of overriding from loginStyle and accountStyle*/
 .pfp_display{
     position: absolute;
     top:370px;
@@ -87,17 +87,17 @@
     left:calc(50% - 5px);
 }
 
-#text_username{top:381px;}
-#text_password{top:473px;}
-#text_email{top:565px;}
+#text_username{top:379px;}
+#text_password{top:471px;}
+#text_email{top:563px;}
 .text_preinput{
-    left: calc(50% - 220px);
+    left: calc(50% - 215px);
 }
 
-#input_username{top:370px;}
-#input_password{top:405px;}
-#input_email{top:440px;}
+#input_username{top:368px;}
+#input_password{top:403px;}
+#input_email{top:438px;}
 
 .inputcontainer{
-    left:calc(50% - 55px);
+    left:calc(50% - 40px);
 }
