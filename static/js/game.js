@@ -12,9 +12,46 @@ const MOCK_ARTIFACTS = [
     { name: "Shimschnar's Left Hand Glove", description: "Mysterious power.", rarity: 5 }
 ];
 
+const WEAPONS_LIST = [
+    { name: "Ak-47", description: "A powerful assault Rifle", damage: 40, attackMessage: "You shoot the alien with your Ak-47", rarity: 2 },
+    { name: "Baseball Bat", description: "A wooden baseball bat with barbed wire wrapped around it", damage: 15, attackMessage: "You hit the alien with your gruesome baseball bat", rarity: 1 },
+    { name: "Laser Gun", description: "A futuristic laser weapon not of this world", damage: 50, attackMessage: "You zap the alien with your Laser Gun", rarity: 2 },
+    { name: "Plasma Rifle", description: "A high-tech energy charged rifle", damage: 60, attackMessage: "You blast the alien with your Plasma Rifle", rarity: 3 },
+    { name: "Energy Sword", description: "A sword made of pure energy that emits a loud hum", damage: 75, attackMessage: "You slash the alien with your Energy Sword", rarity: 3 },
+    { name: "Flamethrower", description: "A weapon that shoots flames, incinerating enemies", damage: 55, attackMessage: "You burn the alien with your Flamethrower", rarity: 2 },
+    { name: "Railgun", description: "A powerful electromagnetic weapon that can fire from up to 65 kilometres away", damage: 90, attackMessage: "You blow a hole through the alien with your Railgun", rarity: 3 },
+    { name: "Katana", description: "A katana that was passed down through many generations of honorable samurai", damage: 100, attackMessage: "You slice through the alien with unheavenly precision", rarity: 4 },
+    { name: "Chicken", description: "A chicken that attacks aliens for some reason", damage: 10, attackMessage: "You throw the chicken at the alien", rarity: 1 },
+    { name: "Revolver", description: "A six-shooter revolver", damage: 25, attackMessage: "You shoot the alien with your revolver", rarity: 1 },
+    { name: "Shotgun", description: "A shotgun that fires a spread of pellets", damage: 45, attackMessage: "You blast the alien with your shotgun", rarity: 2 },
+];
+
+const ARTIFACTS_LIST = [
+    { name: "Cosmic Crystal", description: "A crystal that glows with an otherworldly light", rarity: 3 },
+    { name: "Galactic Map", description: "A map showing the locations of alien worlds", rarity: 2 },
+    { name: "Alien Artifact", description: "An artifact of unknown origin and purpose", rarity: 1 },
+    { name: "Extraterrestrial Coin", description: "A coin from an alien currency", rarity: 1 },
+    { name: "Space Helmet", description: "A helmet worn by an alien astronaut", rarity: 2 },
+    { name: "Alien Skull", description: "The skull of a long-dead alien", rarity: 3 },
+    { name: "Stardust", description: "A handful of glowing stardust", rarity: 1 },
+    { name: "Meteorite Fragment", description: "A fragment of a meteorite", rarity: 2 },
+    { name: "Alien Fossil", description: "A fossilized alien creature", rarity: 3 },
+    { name: "Space Gem", description: "A gem from outer space", rarity: 2 },
+    { name: "Alien Egg", description: "An egg containing an alien lifeform", rarity: 1 },
+    { name: "Cosmic Dust", description: "A small amount of cosmic dust", rarity: 1 },
+    { name: "Alien Amulet", description: "An amulet with alien symbols", rarity: 2 },
+    { name: "Galactic Artifact", description: "An artifact from another galaxy", rarity: 3 },
+    { name: "Space Relic", description: "A relic from outer space", rarity: 2 },
+    { name: "Alien Crystal", description: "A crystal with alien properties", rarity: 3 },
+    { name: "Extraterrestrial Relic", description: "A relic from an extraterrestrial civilization", rarity: 2 },
+    { name: "Shimschnar's Left Hand Glove", description: "The left hand glove of the legendary alien warrior Shimschnar, it's true ability is unknown", rarity: 4 },
+    { name: "The Dictionary of the Ancients", description: "A book containing the language of an ancient alien civilization", rarity: 4 },
+    { name: "The Orb of Time", description: "An orb that can manipulate time itself, but you have no idea how it works", rarity: 4 },
+];
+
 function fetchWeapons() {
     const weapons = {};
-    for (const weaponData of MOCK_WEAPONS) {
+    for (const weaponData of WEAPONS_LIST) {
         const weapon = new Weapon(
             weaponData.name,
             weaponData.description,
@@ -29,7 +66,7 @@ function fetchWeapons() {
 
 function fetchArtifacts() {
     const artifacts = {};
-    for (const artifactData of MOCK_ARTIFACTS) {
+    for (const artifactData of ARTIFACTS_LIST) {
         const artifact = new Artifact(
             artifactData.name,
             artifactData.description,
@@ -40,7 +77,7 @@ function fetchArtifacts() {
     return artifacts;
 }
 
-const RARITIES = { 1: "Common", 2: "Uncommon", 3: "Rare", 4: "Epic", 5: "Legendary" };
+const RARITIES = { 1: "Common", 2: "Rare", 3: "Epic", 4:"Secret" };
 
 class Weapon {
     constructor(name, description, damage, attackMessage, rarity) {
@@ -131,7 +168,7 @@ class Room {
     }
 
     generateLoot(items, rarityCap) {
-        const lootNum = Math.floor(Math.random() * 3); // 0 to 2 items
+        const lootNum = Math.floor(Math.random() * 2) + 1; // 1 to 2 items
         const itemArray = Object.values(items);
 
         for (let i = 0; i < lootNum; i++) {
@@ -313,6 +350,8 @@ class Player {
         this.secretsFound = {
             "The Orb of Time": false,
             "The Glove of Power": false,
+            "Katana" : false,
+            "Dictionary" : false,
         };
     }
 
@@ -351,7 +390,6 @@ class Player {
         let numRooms = null;
         if (Object.keys(map[houseKey]).length <= 2){
             numRooms = Math.floor(Math.random() * 5) + 2; // 2 to 6 rooms
-            await printMessage("Rooms created")
         }
         else{
             numRooms = Object.keys(map[houseKey]).length - 2;
@@ -364,7 +402,7 @@ class Player {
         if (Object.keys(map[houseKey]).length <= 2){
             for (let i = 1; i <= numRooms; i++) {
                 const roomKey = `room ${i}`;
-                const roomType = Math.floor(Math.random() * 4); // 0 to 3
+                const roomType = Math.floor(Math.random() * 3) + 1; // 1 to 3
                 map[houseKey][roomKey] = new Room(roomType);
             }
         }
@@ -418,11 +456,28 @@ class Player {
         this.location = map[houseKey][roomKey];
         await this.location.searchRoom(this);
 
-        if (!map[houseKey].emptyRooms.has(roomKey)) {
+        if (!map[houseKey].emptyRooms.has(roomKey) && map[houseKey][roomKey].roomType == 3){
+            if (map[houseKey][roomKey].alien.hp == 0){
+                map[houseKey].emptyRooms.add(roomKey);
+            }
+        }
+        else if (!map[houseKey].emptyRooms.has(roomKey) && map[houseKey][roomKey].roomType != 3){
             map[houseKey].emptyRooms.add(roomKey);
         }
 
-        if (map[houseKey].emptyRooms.size === numRooms) {
+        await printMessage("Would you like to leave the house? (yes/no)");
+        leaveChoice = getInput().toLowerCase().trim();
+        clearInput()
+        while (leaveChoice != "yes" && leaveChoice != "no" && leaveChoice!= "y" && leaveChoice != "n"){
+            await printMessage("Invalid input, please enter yes/y or no/n");
+            leaveChoice = getInput().toLowerCase().trim();
+            clearInput()
+        }
+        if (leaveChoice == "no" || leaveChoice == "n"){
+            this.exploreHouse(houseKey);
+        }
+
+        if (map[houseKey].emptyRooms.size == numRooms) {
             await printMessage("You have emptied all rooms in this house.");
             map.emptyHouses.add(houseKey);
         }
@@ -471,7 +526,7 @@ class Battle {
         this.player.food += 2;
         this.player.enemiesKilled += 1;
 
-        if (Math.floor(Math.random() * 30) === 20 && !this.player.secretsFound["The Glove of Power"]) {
+        if (Math.floor(Math.random() * 30) === 21 && !this.player.secretsFound["The Glove of Power"]) {
             await printMessage("You find a mysterious glove!");
             this.player.inventory.add(ARTIFACTS["Shimschnar's Left Hand Glove"]);
             await printMessage(`You now have ${ARTIFACTS["Shimschnar's Left Hand Glove"]}.`);
@@ -637,11 +692,50 @@ function getCookie(name) {
     return cookieValue;
 }
 
+function resetMap(player){
+    if(!player.secretsFound["Katana"]){
+        printMessage("But first an old man approches you")
+        printMessage("He appears to be holding an old sword")
+        printMessage('He walks up to you and he says "I dont really want this anymore..."')
+        printMessage("You want it? (yes/no)")
+        const input = getInput().toLowerCase().trim()
+        clearInput()
+        while (input != "yes" && input !="no" && input!="y" && input != "n"){
+            printMessage("Please enter yes/y or no/n")
+            input = getInput().toLowerCase().trim()
+            clearInput()
+        }
+        if (input == "yes" || input == "y"){
+            printMessage("He hands you the sword and walks into the sunset")
+            player.inventory.add(WEAPONS["Katana"]);
+            printMessage(`You now have ${WEAPONS["Katana"]}.`);
+        }
+        else if (input == "no" || input == "n"){
+            printMessage("He crumbles to dust and blows away")
+        }
+        player.secretsFound["Katana"] = true;
+        return 0
+    }
+    const map = {
+        street: "street",
+        emptyHouses: new Set(),
+    };
+    
+    for (let i = 1; i <= 10; i++) {
+        map[`house ${i}`] = { emptyRooms: new Set(), timesEntered: 0 };
+    }
+}
+
 async function play(player) {
     await printMessage("You are in the street. You can enter any house numbered 1-10. Enter 'q' to quit.");
 
     const gameLoop = async () => {
         if (endGame) return;
+        if (map["emptyHouses"].size == 10){
+            await printMessage("You cleared every house in the neighborhood!");
+            await printMessage("It's time to move on to the next one");
+            await resetMap(player);
+        }
 
         await printMessage(player.toString());
         await printMessage(`Score: ${difficulty}`);
@@ -658,9 +752,19 @@ async function play(player) {
 
             try {
                 const houseNum = parseInt(input);
+                if (houseNum == 0 && !player.secretsFound["Dictionary"]){
+                    await printMessage("You found the secret house!");
+                    await printMessage("It has a long pristine white hallway with a podium at the end");
+                    await printMessage("You walk up to the podium and pick up the book on top");
+                    player.inventory.add(ARTIFACTS["The Dictionary of the Ancients"]);
+                    await printMessage(`You now have ${ARTIFACTS["The Dictionary of the Ancients"]}.`);
+                    player.secretsFound["Dictionary"] = true;
+                    return 0;
+                }
                 if (houseNum >= 1 && houseNum <= 10) {
                     return houseNum;
-                } else {
+                } 
+                else{
                     await printMessage("Invalid input. Enter a number between 1 and 10.");
                     return 0;
                 }
