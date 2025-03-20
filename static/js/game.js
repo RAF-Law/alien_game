@@ -194,12 +194,12 @@ class Room {
                 await printMessage("This room is empty.");
                 break;
             case 1:
-                this.generateLoot(WEAPONS, Math.floor(Math.random() * 3) + 1);
+                this.generateLoot(WEAPONS, (Math.floor(Math.random() * 3) + 1));
                 await this.handleLoot(player, "weapon");
                 this.roomType = 0;
                 break;
             case 2:
-                this.generateLoot(ARTIFACTS, Math.floor(Math.random() * 3) + 1);
+                this.generateLoot(ARTIFACTS, (Math.floor(Math.random() * 3) + 1));
                 await this.handleLoot(player, "artifact");
                 this.roomType = 0;
                 break;
@@ -208,7 +208,7 @@ class Room {
                     this.alien = createAlien();
                 }
                 await new Battle(player, this.alien).encounter();
-                if (this.alien.hp = 0){
+                if (this.alien.hp == 0){
                     this.roomType = 0;
                 }
                 break;
@@ -456,51 +456,46 @@ class Player {
         this.location = map[houseKey][roomKey];
         await this.location.searchRoom(this);
 
-        if (!map[houseKey].emptyRooms.has(roomKey) && map[houseKey][roomKey].roomType == 3){
-            if (map[houseKey][roomKey].alien.hp == 0){
-                map[houseKey].emptyRooms.add(roomKey);
-            }
-        }
-        else if (!map[houseKey].emptyRooms.has(roomKey) && map[houseKey][roomKey].roomType != 3){
+        if (!map[houseKey].emptyRooms.has(roomKey) && map[houseKey][roomKey].roomType == 0){
             map[houseKey].emptyRooms.add(roomKey);
         }
 
         await printMessage("Would you like to leave the house? (yes/no)");
+
         const getLeaveChoice = async () => {
-            clearInput();
-            const userInput = getInput().toLowerCase().trim();
+            const input = getInput().toLowerCase().trim();
             clearInput();
 
-            if (!["yes", "no", "q", "y", "n"].includes(userInput)) {
-                await printMessage("Invalid input. Enter 'yes', 'no', or 'q' to quit.");
-                return await getLeaveChoiceListener();
-            }
-            if (userInput == "no" || userInput == "n"){
-                this.exploreHouse(houseKey);
+            if (!["yes", "no", "y", "n"].includes(input)) {
+            await printMessage("Invalid input. Enter 'yes' or 'no'.");
+            return await getLeaveChoiceListener();
             }
 
-            return userInput;
+            return input;
         };
-        const getLeaveChoiceListener = () => {
-            printMessage("1")
-            return new Promise(resolve => {
-                const handleLeaveChoiceInput = () => {
-                    resolve(getLeaveChoice());
-                };
 
-                submitButton.addEventListener("click", handleLeaveChoiceInput, { once: true });
-                inputField.addEventListener("keypress", function(event) {
-                    if (event.key === "Enter") {
-                        submitButton.removeEventListener("click", handleLeaveChoiceInput);
-                        resolve(getLeaveChoice());
-                    }
-                }, { once: true });
+        const getLeaveChoiceListener = () => {
+            return new Promise(resolve => {
+            const handleLeaveInput = () => {
+                resolve(getLeaveChoice());
+            };
+
+            submitButton.addEventListener("click", handleLeaveInput, { once: true });
+            inputField.addEventListener("keypress", function(event) {
+                if (event.key === "Enter") {
+                submitButton.removeEventListener("click", handleLeaveInput);
+                resolve(getLeaveChoice());
+                }
+            }, { once: true });
             });
         };
-        getLeaveChoice();
 
-        if (map[houseKey].emptyRooms.size == numRooms) {
-            await printMessage("You have emptied all rooms in this house.");
+        const leaveChoice = await getLeaveChoiceListener();
+
+        if (leaveChoice === "no" || leaveChoice === "n") {
+            await this.exploreHouse(houseKey);
+        }
+        if (map[houseKey].emptyRooms.size == numRooms && !map.emptyHouses.has(houseKey)) {
             map.emptyHouses.add(houseKey);
         }
     }
@@ -547,6 +542,7 @@ class Battle {
         this.player.speed += 5;
         this.player.food += 2;
         this.player.enemiesKilled += 1;
+        this.alien.hp = 0;
 
         if (Math.floor(Math.random() * 30) === 21 && !this.player.secretsFound["The Glove of Power"]) {
             await printMessage("You find a mysterious glove!");
@@ -721,15 +717,31 @@ function resetMap(player){
         printMessage('He walks up to you and he says "I dont really want this anymore..."')
         printMessage("You want it? (yes/no)")
         const getSwordChoice = async () => {
-            const userInput = getInput().toLowerCase().trim();
+            const input = getInput().toLowerCase().trim();
             clearInput();
 
-            if (!["yes", "no", "q", "y", "n"].includes(userInput)) {
-                await printMessage("Invalid input. Enter 'yes', 'no', or 'q' to quit.");
-                return await getChoiceListener();
+            if (!["yes", "no", "y", "n"].includes(input)) {
+                await printMessage("Invalid input. Enter 'yes' or 'no'.");
+                return await getSwordChoiceListener();
             }
 
-            return userInput;
+            return input;
+        };
+
+        const getSwordChoiceListener = () => {
+            return new Promise(resolve => {
+                const handleSwordInput = () => {
+                    resolve(getSwordChoice());
+                };
+
+                submitButton.addEventListener("click", handleSwordInput, { once: true });
+                inputField.addEventListener("keypress", function(event) {
+                    if (event.key === "Enter") {
+                        submitButton.removeEventListener("click", handleSwordInput);
+                        resolve(getSwordChoice());
+                    }
+                }, { once: true });
+            });
         };
         input = getSwordChoice();
         if (input == "yes" || input == "y"){
