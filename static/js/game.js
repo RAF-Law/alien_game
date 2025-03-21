@@ -12,9 +12,46 @@ const MOCK_ARTIFACTS = [
     { name: "Shimschnar's Left Hand Glove", description: "Mysterious power.", rarity: 5 }
 ];
 
+const WEAPONS_LIST = [
+    { name: "Ak-47", description: "A powerful assault Rifle", damage: 40, attackMessage: "You shoot the alien with your Ak-47", rarity: 2 },
+    { name: "Baseball Bat", description: "A wooden baseball bat with barbed wire wrapped around it", damage: 15, attackMessage: "You hit the alien with your gruesome baseball bat", rarity: 1 },
+    { name: "Laser Gun", description: "A futuristic laser weapon not of this world", damage: 50, attackMessage: "You zap the alien with your Laser Gun", rarity: 2 },
+    { name: "Plasma Rifle", description: "A high-tech energy charged rifle", damage: 60, attackMessage: "You blast the alien with your Plasma Rifle", rarity: 3 },
+    { name: "Energy Sword", description: "A sword made of pure energy that emits a loud hum", damage: 75, attackMessage: "You slash the alien with your Energy Sword", rarity: 3 },
+    { name: "Flamethrower", description: "A weapon that shoots flames, incinerating enemies", damage: 55, attackMessage: "You burn the alien with your Flamethrower", rarity: 2 },
+    { name: "Railgun", description: "A powerful electromagnetic weapon that can fire from up to 65 kilometres away", damage: 90, attackMessage: "You blow a hole through the alien with your Railgun", rarity: 3 },
+    { name: "Katana", description: "A katana that was passed down through many generations of honorable samurai", damage: 100, attackMessage: "You slice through the alien with unheavenly precision", rarity: 4 },
+    { name: "Chicken", description: "A chicken that attacks aliens for some reason", damage: 10, attackMessage: "You throw the chicken at the alien", rarity: 1 },
+    { name: "Revolver", description: "A six-shooter revolver", damage: 25, attackMessage: "You shoot the alien with your revolver", rarity: 1 },
+    { name: "Shotgun", description: "A shotgun that fires a spread of pellets", damage: 45, attackMessage: "You blast the alien with your shotgun", rarity: 2 },
+];
+
+const ARTIFACTS_LIST = [
+    { name: "Cosmic Crystal", description: "A crystal that glows with an otherworldly light", rarity: 3 },
+    { name: "Galactic Map", description: "A map showing the locations of alien worlds", rarity: 2 },
+    { name: "Alien Artifact", description: "An artifact of unknown origin and purpose", rarity: 1 },
+    { name: "Extraterrestrial Coin", description: "A coin from an alien currency", rarity: 1 },
+    { name: "Space Helmet", description: "A helmet worn by an alien astronaut", rarity: 2 },
+    { name: "Alien Skull", description: "The skull of a long-dead alien", rarity: 3 },
+    { name: "Stardust", description: "A handful of glowing stardust", rarity: 1 },
+    { name: "Meteorite Fragment", description: "A fragment of a meteorite", rarity: 2 },
+    { name: "Alien Fossil", description: "A fossilized alien creature", rarity: 3 },
+    { name: "Space Gem", description: "A gem from outer space", rarity: 2 },
+    { name: "Alien Egg", description: "An egg containing an alien lifeform", rarity: 1 },
+    { name: "Cosmic Dust", description: "A small amount of cosmic dust", rarity: 1 },
+    { name: "Alien Amulet", description: "An amulet with alien symbols", rarity: 2 },
+    { name: "Galactic Artifact", description: "An artifact from another galaxy", rarity: 3 },
+    { name: "Space Relic", description: "A relic from outer space", rarity: 2 },
+    { name: "Alien Crystal", description: "A crystal with alien properties", rarity: 3 },
+    { name: "Extraterrestrial Relic", description: "A relic from an extraterrestrial civilization", rarity: 2 },
+    { name: "Shimschnar's Left Hand Glove", description: "The left hand glove of the legendary alien warrior Shimschnar, it's true ability is unknown", rarity: 4 },
+    { name: "The Dictionary of the Ancients", description: "A book containing the language of an ancient alien civilization", rarity: 4 },
+    { name: "The Orb of Time", description: "An orb that can manipulate time itself, but you have no idea how it works", rarity: 4 },
+];
+
 function fetchWeapons() {
     const weapons = {};
-    for (const weaponData of MOCK_WEAPONS) {
+    for (const weaponData of WEAPONS_LIST) {
         const weapon = new Weapon(
             weaponData.name,
             weaponData.description,
@@ -29,7 +66,7 @@ function fetchWeapons() {
 
 function fetchArtifacts() {
     const artifacts = {};
-    for (const artifactData of MOCK_ARTIFACTS) {
+    for (const artifactData of ARTIFACTS_LIST) {
         const artifact = new Artifact(
             artifactData.name,
             artifactData.description,
@@ -40,7 +77,7 @@ function fetchArtifacts() {
     return artifacts;
 }
 
-const RARITIES = { 1: "Common", 2: "Uncommon", 3: "Rare", 4: "Epic", 5: "Legendary" };
+const RARITIES = { 1: "Common", 2: "Rare", 3: "Epic", 4:"Secret" };
 
 class Weapon {
     constructor(name, description, damage, attackMessage, rarity) {
@@ -131,7 +168,7 @@ class Room {
     }
 
     generateLoot(items, rarityCap) {
-        const lootNum = Math.floor(Math.random() * 3); // 0 to 2 items
+        const lootNum = Math.floor(Math.random() * 2) + 1; // 1 to 2 items
         const itemArray = Object.values(items);
 
         for (let i = 0; i < lootNum; i++) {
@@ -157,12 +194,12 @@ class Room {
                 await printMessage("This room is empty.");
                 break;
             case 1:
-                this.generateLoot(WEAPONS, Math.floor(Math.random() * 3) + 1);
+                this.generateLoot(WEAPONS, (Math.floor(Math.random() * 3) + 1));
                 await this.handleLoot(player, "weapon");
                 this.roomType = 0;
                 break;
             case 2:
-                this.generateLoot(ARTIFACTS, Math.floor(Math.random() * 3) + 1);
+                this.generateLoot(ARTIFACTS, (Math.floor(Math.random() * 3) + 1));
                 await this.handleLoot(player, "artifact");
                 this.roomType = 0;
                 break;
@@ -171,7 +208,7 @@ class Room {
                     this.alien = createAlien();
                 }
                 await new Battle(player, this.alien).encounter();
-                if (this.alien.hp = 0){
+                if (this.alien.hp == 0){
                     this.roomType = 0;
                 }
                 break;
@@ -313,6 +350,8 @@ class Player {
         this.secretsFound = {
             "The Orb of Time": false,
             "The Glove of Power": false,
+            "Katana" : false,
+            "Dictionary" : false,
         };
     }
 
@@ -342,16 +381,10 @@ class Player {
         }
     }
 
-    async hasHouseBeenEntered(houseKey){
-        check = false;
-        
-    }
-
     async exploreHouse(houseKey) {
         let numRooms = null;
         if (Object.keys(map[houseKey]).length <= 2){
             numRooms = Math.floor(Math.random() * 5) + 2; // 2 to 6 rooms
-            await printMessage("Rooms created")
         }
         else{
             numRooms = Object.keys(map[houseKey]).length - 2;
@@ -364,7 +397,7 @@ class Player {
         if (Object.keys(map[houseKey]).length <= 2){
             for (let i = 1; i <= numRooms; i++) {
                 const roomKey = `room ${i}`;
-                const roomType = Math.floor(Math.random() * 4); // 0 to 3
+                const roomType = Math.floor(Math.random() * 3) + 1; // 1 to 3
                 map[houseKey][roomKey] = new Room(roomType);
             }
         }
@@ -417,14 +450,50 @@ class Player {
         await printMessage(`You enter room ${roomNum}.`);
         this.location = map[houseKey][roomKey];
         await this.location.searchRoom(this);
+        saveToXML(this);
 
-        if (!map[houseKey].emptyRooms.has(roomKey)) {
+        if (!map[houseKey].emptyRooms.has(roomKey) && map[houseKey][roomKey].roomType == 0){
             map[houseKey].emptyRooms.add(roomKey);
         }
 
-        if (map[houseKey].emptyRooms.size === numRooms) {
-            await printMessage("You have emptied all rooms in this house.");
+        await printMessage("Would you like to leave the house? (yes/no)");
+
+        const getLeaveChoice = async () => {
+            const input = getInput().toLowerCase().trim();
+            clearInput();
+
+            if (!["yes", "no", "y", "n"].includes(input)) {
+            await printMessage("Invalid input. Enter 'yes' or 'no'.");
+            return await getLeaveChoiceListener();
+            }
+
+            return input;
+        };
+
+        const getLeaveChoiceListener = () => {
+            return new Promise(resolve => {
+            const handleLeaveInput = () => {
+                resolve(getLeaveChoice());
+            };
+
+            submitButton.addEventListener("click", handleLeaveInput, { once: true });
+            inputField.addEventListener("keypress", function(event) {
+                if (event.key === "Enter") {
+                submitButton.removeEventListener("click", handleLeaveInput);
+                resolve(getLeaveChoice());
+                }
+            }, { once: true });
+            });
+        };
+
+        const leaveChoice = await getLeaveChoiceListener();
+
+        if (leaveChoice === "no" || leaveChoice === "n") {
+            await this.exploreHouse(houseKey);
+        }
+        if (map[houseKey].emptyRooms.size == numRooms && !map.emptyHouses.has(houseKey)) {
             map.emptyHouses.add(houseKey);
+            currentRoomCount += 1;
         }
     }
 }
@@ -470,8 +539,9 @@ class Battle {
         this.player.speed += 5;
         this.player.food += 2;
         this.player.enemiesKilled += 1;
+        this.alien.hp = 0;
 
-        if (Math.floor(Math.random() * 30) === 20 && !this.player.secretsFound["The Glove of Power"]) {
+        if (Math.floor(Math.random() * 30) === 21 && !this.player.secretsFound["The Glove of Power"]) {
             await printMessage("You find a mysterious glove!");
             this.player.inventory.add(ARTIFACTS["Shimschnar's Left Hand Glove"]);
             await printMessage(`You now have ${ARTIFACTS["Shimschnar's Left Hand Glove"]}.`);
@@ -528,6 +598,7 @@ class Battle {
 
         if (action === "attack" || action === "a") {
             await this.fight();
+            difficulty += 1;
         } else if (action === "run" || action === "r") {
             await this.run();
         }
@@ -553,6 +624,191 @@ class Battle {
         await printMessage(this.alien.weapon.attackMessage);
     }
 }
+function saveToXML(player) {
+    const xmlDoc = document.implementation.createDocument("", "", null);
+    const root = xmlDoc.createElement("GameData");
+
+    function createElement(name, value) {
+        const element = xmlDoc.createElement(name);
+        element.textContent = value;
+        return element;
+    }
+
+    // Save Player Data
+    const playerElement = xmlDoc.createElement("Player");
+    playerElement.appendChild(createElement("HP", player.hp));
+    playerElement.appendChild(createElement("AttackPoints", player.attackPoints));
+    playerElement.appendChild(createElement("Speed", player.speed));
+    playerElement.appendChild(createElement("Food", player.food));
+    playerElement.appendChild(createElement("EnemiesKilled", player.enemiesKilled));
+    playerElement.appendChild(createElement("Location", player.location));
+
+    // Save Current Weapon
+    const weaponElement = xmlDoc.createElement("CurrentWeapon");
+    weaponElement.appendChild(createElement("Name", player.currentWeapon.name));
+    playerElement.appendChild(weaponElement);
+
+    // Save Inventory
+    const inventoryElement = xmlDoc.createElement("Inventory");
+    player.inventory.forEach(item => {
+        const itemElement = xmlDoc.createElement("Item");
+        itemElement.textContent = item.name;
+        inventoryElement.appendChild(itemElement);
+    });
+    playerElement.appendChild(inventoryElement);
+    root.appendChild(playerElement);
+
+    // Save Map State
+    const mapElement = xmlDoc.createElement("Map");
+
+    // Save Empty Houses
+    const emptyHousesElement = xmlDoc.createElement("EmptyHouses");
+    map.emptyHouses.forEach(house => {
+        const houseElement = xmlDoc.createElement("House");
+        houseElement.textContent = house;
+        emptyHousesElement.appendChild(houseElement);
+    });
+    mapElement.appendChild(emptyHousesElement);
+
+    // Save Individual Houses & Emptied Rooms
+    Object.keys(map).forEach(house => {
+        if (house.startsWith("house")) {
+            const houseElement = xmlDoc.createElement("House");
+            houseElement.setAttribute("name", house);
+            houseElement.appendChild(createElement("TimesEntered", map[house].timesEntered));
+
+            const emptyRoomsElement = xmlDoc.createElement("EmptyRooms");
+            map[house].emptyRooms.forEach(room => {
+                const roomElement = xmlDoc.createElement("Room");
+                roomElement.textContent = room;
+                emptyRoomsElement.appendChild(roomElement);
+            });
+
+            // Save Rooms
+            const roomsElement = xmlDoc.createElement("Rooms");
+            Object.keys(map[house]).forEach(roomKey => {
+                if (roomKey.startsWith("room")) {
+                    const roomElement = xmlDoc.createElement("Room");
+                    roomElement.setAttribute("number", roomKey.split(" ")[1]);
+                    roomElement.setAttribute("type", map[house][roomKey].roomType);
+                    roomsElement.appendChild(roomElement);
+                }
+            });
+            houseElement.appendChild(roomsElement);
+
+            houseElement.appendChild(emptyRoomsElement);
+            mapElement.appendChild(houseElement);
+        }
+    });
+
+    root.appendChild(mapElement);
+
+    // Save Secrets Found
+    const secretsElement = xmlDoc.createElement("SecretsFound");
+    Object.keys(player.secretsFound).forEach(secret => {
+        const secretElement = xmlDoc.createElement("Secret");
+        secretElement.setAttribute("name", secret);
+        secretElement.textContent = player.secretsFound[secret];
+        secretsElement.appendChild(secretElement);
+    });
+    root.appendChild(secretsElement);
+
+    // Save Game Progress
+    const gameProgressElement = xmlDoc.createElement("GameProgress");
+    gameProgressElement.appendChild(createElement("Day", day));
+    gameProgressElement.appendChild(createElement("Difficulty", difficulty));
+    gameProgressElement.appendChild(createElement("CurrentRoomCount", currentRoomCount));
+    root.appendChild(gameProgressElement);
+
+    xmlDoc.appendChild(root);
+
+    // Convert XML to string and store in localStorage
+    const serializer = new XMLSerializer();
+    const xmlString = serializer.serializeToString(xmlDoc);
+    localStorage.setItem("gameData", xmlString);
+
+    console.log("Game saved successfully!");
+}
+
+function loadFromXML() {
+    const xmlString = localStorage.getItem("gameData");
+    if (!xmlString) {
+        console.log("No saved game found.");
+        return null;
+    }
+
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(xmlString, "application/xml");
+
+    // Load Player Data
+    const playerElement = xmlDoc.querySelector("Player");
+    const player = new Player(
+        parseInt(playerElement.querySelector("HP").textContent),
+        parseInt(playerElement.querySelector("AttackPoints").textContent),
+        parseInt(playerElement.querySelector("Speed").textContent),
+        parseInt(playerElement.querySelector("Food").textContent),
+        playerElement.querySelector("Location").textContent
+    );
+
+    player.enemiesKilled = parseInt(playerElement.querySelector("EnemiesKilled").textContent);
+    // Load Weapon
+    const weaponName = playerElement.querySelector("CurrentWeapon Name").textContent;
+    player.currentWeapon = WEAPONS[weaponName] || new Weapon(weaponName, "", 0, "", 1);
+    
+    // Load Inventory
+    const inventoryItems = playerElement.querySelectorAll("Inventory Item");
+    inventoryItems.forEach(itemNode => {
+        const itemName = itemNode.textContent;
+        if (ARTIFACTS[itemName]) {
+            player.inventory.add(ARTIFACTS[itemName]);
+        }
+    });
+
+    // Load Map State
+    const mapElement = xmlDoc.querySelector("Map");
+    map.emptyHouses = new Set();
+    
+    // Load Empty Houses
+    mapElement.querySelectorAll("EmptyHouses House").forEach(houseNode => {
+        map.emptyHouses.add(houseNode.textContent);
+    });
+
+    // Load Individual Houses & Emptied Rooms
+    mapElement.querySelectorAll("House").forEach(houseElement => {
+        const houseName = houseElement.getAttribute("name");
+        map[houseName] = {
+            emptyRooms: new Set(),
+            timesEntered: 0
+        };
+        houseElement.querySelectorAll("Rooms Room").forEach(roomElement => {
+            const roomNumber = `room ${roomElement.getAttribute("number")}`;
+            const roomType = parseInt(roomElement.getAttribute("type"));
+            map[houseName][roomNumber] = new Room(roomType);
+        });
+
+        houseElement.querySelectorAll("EmptyRooms Room").forEach(roomElement => {
+            map[houseName].emptyRooms.add(roomElement.textContent);
+        });
+    });
+
+    // Load Secrets Found
+    const secretsElement = xmlDoc.querySelector("SecretsFound");
+    secretsElement.querySelectorAll("Secret").forEach(secretNode => {
+        const secretName = secretNode.getAttribute("name");
+        player.secretsFound[secretName] = secretNode.textContent === "true";
+    });
+
+    // Load Game Progress
+    const gameProgressElement = xmlDoc.querySelector("GameProgress");
+    day = parseInt(gameProgressElement.querySelector("Day").textContent);
+    difficulty = parseInt(gameProgressElement.querySelector("Difficulty").textContent);
+    currentRoomCount = parseInt(gameProgressElement.querySelector("CurrentRoomCount").textContent);
+
+    console.log("Game loaded successfully!");
+    return player;
+}
+
+
 
 function createAlien() {
     const weaponKeys = Object.keys(ALIEN_WEAPONS);
@@ -637,11 +893,78 @@ function getCookie(name) {
     return cookieValue;
 }
 
+function resetMap(player){
+    if(!player.secretsFound["Katana"]){
+        printMessage("But first an old man approches you")
+        printMessage("He appears to be holding an old sword")
+        printMessage('He walks up to you and he says "I dont really want this anymore..."')
+        printMessage("You want it? (yes/no)")
+        const getSwordChoice = async () => {
+            const input = getInput().toLowerCase().trim();
+            clearInput();
+
+            if (!["yes", "no", "y", "n"].includes(input)) {
+                await printMessage("Invalid input. Enter 'yes' or 'no'.");
+                return await getSwordChoiceListener();
+            }
+
+            return input;
+        };
+
+        const getSwordChoiceListener = () => {
+            return new Promise(resolve => {
+                const handleSwordInput = () => {
+                    resolve(getSwordChoice());
+                };
+
+                submitButton.addEventListener("click", handleSwordInput, { once: true });
+                inputField.addEventListener("keypress", function(event) {
+                    if (event.key === "Enter") {
+                        submitButton.removeEventListener("click", handleSwordInput);
+                        resolve(getSwordChoice());
+                    }
+                }, { once: true });
+            });
+        };
+        input = getSwordChoice();
+        if (input == "yes" || input == "y"){
+            printMessage("He hands you the sword and walks into the sunset")
+            player.inventory.add(WEAPONS["Katana"]);
+            printMessage(`You now have ${WEAPONS["Katana"]}.`);
+        }
+        else if (input == "no" || input == "n"){
+            printMessage("He crumbles to dust and blows away")
+        }
+        player.secretsFound["Katana"] = true;
+        return 0
+    }
+    const map = {
+        street: "street",
+        emptyHouses: new Set(),
+    };
+    
+    for (let i = 1; i <= 10; i++) {
+        map[`house ${i}`] = { emptyRooms: new Set(), timesEntered: 0 };
+    }
+}
+
 async function play(player) {
     await printMessage("You are in the street. You can enter any house numbered 1-10. Enter 'q' to quit.");
+    for (const item of player.inventory) {
+        await printMessage(item.toString());
+    }
+    await printMessage(player.enemiesKilled);
+    await printMessage(day)
+    
 
     const gameLoop = async () => {
+        await printMessage(currentRoomCount)
         if (endGame) return;
+        if (map["emptyHouses"].size == 10){
+            await printMessage("You cleared every house in the neighborhood!");
+            await printMessage("It's time to move on to the next one");
+            await resetMap(player);
+        }
 
         await printMessage(player.toString());
         await printMessage(`Score: ${difficulty}`);
@@ -658,9 +981,19 @@ async function play(player) {
 
             try {
                 const houseNum = parseInt(input);
+                if (houseNum == 0 && !player.secretsFound["Dictionary"]){
+                    await printMessage("You found the secret house!");
+                    await printMessage("It has a long pristine white hallway with a podium at the end");
+                    await printMessage("You walk up to the podium and pick up the book on top");
+                    player.inventory.add(ARTIFACTS["The Dictionary of the Ancients"]);
+                    await printMessage(`You now have ${ARTIFACTS["The Dictionary of the Ancients"]}.`);
+                    player.secretsFound["Dictionary"] = true;
+                    return 0;
+                }
                 if (houseNum >= 1 && houseNum <= 10) {
                     return houseNum;
-                } else {
+                } 
+                else{
                     await printMessage("Invalid input. Enter a number between 1 and 10.");
                     return 0;
                 }
@@ -715,6 +1048,6 @@ async function play(player) {
     gameLoop();
 }
 
-const player = new Player(100, 5, 10, 10, map.street);
+const player = loadFromXML() || new Player(100, 5, 10, 10, map.street);
 printMessage("Welcome to Alien Survival Game!");
 play(player);
