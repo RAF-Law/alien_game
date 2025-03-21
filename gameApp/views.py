@@ -133,7 +133,7 @@ def user_account(request):
         profile_form = UserProfileForm(instance=user_profile)
 
     # Pass form & user info to template
-    context_dict = {'profile_form': profile_form, 'user_profile': user_profile}
+    context_dict = {'profile_form': profile_form, 'user_profile': user_profile,}
     return render(request, 'gameApp/user_account.html', context=context_dict)
 
 

@@ -48,7 +48,49 @@
         </div>    
     </div>
 
-    
+    <div class="frame">
+        <div class="topframe">
+            <div class="game_frame" id="user_history">
+                <a href="{% url 'gameApp:user_history' %}" class="no_underline">
+                    <div class="hyperlink ov">
+                        <div class="game_text">History</div>
+                        <div class="game_icon" id="history"></div>
+                    </div>
+                </a>
+            </div>
+            <div class="game_frame" id="user_handbook">
+                <a href="{% url 'gameApp:user_handbook' %}" class="no_underline">
+                    <div class="hyperlink ov">
+                        <div class="game_text">Collections</div>
+                        <div class="game_icon" id="collection"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="bottomframe">
+            <div class="basic data">
+                Most enemies killed:<br>
+                <div class="num">{{ user_profile.most_enemies_killed }}</div>
+                Most days survived:<br>
+                <div class="num">{{ user_profile.most_days_survived }}</div>
+                Games played:
+                <div class="num">{{ user_profile.games_played }}</div>
+            </div>
+            <div class="collection data">
+                <div class="collection_text">Collections:</div>
+                Weapons:<br>
+                <div class="num">{{ user_profile.weapons_earned.count }} / 11</div>
+                Artifacts:<br>
+                <div class="num">{{ user_profile.artifacts_earned.count }} / 21</div>
+            </div>
+            <div class="additionaltext">
+                User<br>
+                Stats
+            </div>
+        </div>
+
+    </div>
 
 
 
