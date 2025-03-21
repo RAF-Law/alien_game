@@ -66,7 +66,11 @@ def register(request):
 
             registered = True
         else:
-            print(user_form.errors, profile_form.errors)
+            errors = {
+                'user_form_errors': user_form.errors.as_json(),
+                'profile_form_errors': profile_form.errors.as_json()
+            }
+            return JsonResponse({'status': 'error', 'errors': errors})
 
     else:
         user_form = UserForm()
@@ -95,7 +99,6 @@ def user_login(request):
             else:
                 return HttpResponse("Your Account has been disabled :[]") #I dont think this part will be used
         else:
-            print(f"Invalid login details: {username}, {password}")
             return JsonResponse({"status": "error", "message": "Invalid login details."})
     else:
         return render(request, 'gameApp/login.html')
@@ -117,7 +120,7 @@ def user_logout(request):
 # Template: gameApp/user_account.html
 @login_required
 def user_account(request):
-    user_profile, created = User.objects.get_or_create(user=request.user)
+    user_profile = User.objects.get(user=request.user)
 
     if request.method == 'POST':
         profile_form = UserProfileForm(request.POST, request.FILES, instance=user_profile)

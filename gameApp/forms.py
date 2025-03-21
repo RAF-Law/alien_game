@@ -4,11 +4,21 @@ from gameApp.models import UserProfile
 
 
 class UserForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput())
+    password = forms.CharField(widget=forms.PasswordInput(attrs={ #you can even have placeholders here wtf this is awesome
+            'class': 'styled-input',
+        }))
 
     class Meta:
         model = User
         fields = ('username', 'email', 'password',)
+        widgets = {
+            'username': forms.TextInput(attrs={
+                'class': 'styled-input',
+            }),
+            'email': forms.EmailInput(attrs={
+                'class': 'styled-input',
+            })
+        }
 
 
 class UserProfileForm(forms.ModelForm):
