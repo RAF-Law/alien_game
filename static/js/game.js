@@ -49,6 +49,8 @@ const ARTIFACTS_LIST = [
     { name: "The Orb of Time", description: "An orb that can manipulate time itself, but you have no idea how it works", rarity: 4 },
 ];
 
+let filenum = 0;
+
 function fetchWeapons() {
     const weapons = {};
     for (const weaponData of WEAPONS_LIST) {
@@ -626,7 +628,7 @@ class Battle {
 }
 function saveToXML(player) {
     const xmlDoc = document.implementation.createDocument("", "", null);
-    const root = xmlDoc.createElement("GameData");
+    const root = xmlDoc.createElement(`GameData${filenum}`);
 
     function createElement(name, value) {
         const element = xmlDoc.createElement(name);
@@ -731,7 +733,7 @@ function saveToXML(player) {
 }
 
 function loadFromXML() {
-    const xmlString = localStorage.getItem("gameData");
+    const xmlString = localStorage.getItem(`gameData${filenum}`);
     if (!xmlString) {
         console.log("No saved game found.");
         return null;
@@ -838,18 +840,34 @@ fetchCurrentUser();
 
 // Example: Use the user ID to send game results
 function gameOver() {
+    fetchCurrentUser();
     printMessage("Game Over");
     printMessage(`Score: ${difficulty}`);
     printMessage(`You made it to day ${day}.`);
-
     if (userId) {
         // Send game results to Django
         sendGameResults(userId, player.enemiesKilled, day);
     } else {
-        console.error("User ID not available.");
+        //console.error("User ID not available.");
+        printMessage("None");
     }
 
-    endGame = true;
+    endGame = false;
+    filenum += 1;
+    //player = new Player(100, 5, 10, 10, map.street);
+
+    //const player = new Player(100, 5, 10, 10, map.street);
+    //const map = {
+    //    street: "street",
+    //    emptyHouses: new Set(),
+    //};
+    //for (let i = 1; i <= 10; i++) {
+    //    map[`house ${i}`] = { emptyRooms: new Set(), timesEntered: 0 };
+    //}
+    loadFromXML();
+    printMessage(player.toString());
+    printMessage("This is a new game.");
+    play(player);
 }
 async function sendGameResults(userId, enemiesKilled, daysSurvived) {
     try {
@@ -907,6 +925,13 @@ function resetMap(player){
                 await printMessage("Invalid input. Enter 'yes' or 'no'.");
                 return await getSwordChoiceListener();
             }
+            if (input == "yes" || input == "y"){
+                printMessage("He hands you the sword and walks into the sunset")
+                player.inventory.add(WEAPONS["Katana"]);
+                printMessage(`You now have ${WEAPONS["Katana"]}.`);
+            }
+            else if (input == "no" || input == "n"){
+                printMessage("He crumbles to dust and blows away")
 
             return input;
         };
@@ -926,14 +951,6 @@ function resetMap(player){
                 }, { once: true });
             });
         };
-        input = getSwordChoice();
-        if (input == "yes" || input == "y"){
-            printMessage("He hands you the sword and walks into the sunset")
-            player.inventory.add(WEAPONS["Katana"]);
-            printMessage(`You now have ${WEAPONS["Katana"]}.`);
-        }
-        else if (input == "no" || input == "n"){
-            printMessage("He crumbles to dust and blows away")
         }
         player.secretsFound["Katana"] = true;
         return 0
@@ -1049,5 +1066,5 @@ async function play(player) {
 }
 
 const player = loadFromXML() || new Player(100, 5, 10, 10, map.street);
-printMessage("Welcome to Alien Survival Game!");
+printMessage("Welcome to House Invader!");
 play(player);
