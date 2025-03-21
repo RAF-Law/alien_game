@@ -11,44 +11,43 @@
 {% endblock %}
 
 {% block body_block %}
-
-    {% if user_profile.icon %}
+    <div id="userframe_bg"></div>
+    <div id="userframe">
         <img id="pfp" src="{{ user_profile.icon.url }}" alt="Profile Picture" class="pfp_display">
-    {% else %}
-        <p>No profile picture set.</p>
-    {% endif %}
+        <div id="username">{{ user.username }}</div>
 
-    <div class="buttons logout_bg">
-        <a href="{% url 'gameApp:logout' %}" class="no_underline">
-            <div class="hyperlink">
-                <div class="button_text">logout</div>
-                <div class="button_icon" id="logout"></div>
+            <!-- this part is not done well but anyways it works -->
+        <form id="upload_form" method="post" action="{% url 'gameApp:user_account' %}" enctype="multipart/form-data"> 
+            {% csrf_token %}
+            <div class="buttons upload_bg"> <!-- reference: https://jsfiddle.net/9Lzjzwr7/-->
+                <div class="hyperlink">
+                    <label for="file-upload" class="custom-file-upload button_text">
+                        Upload pfp
+                    </label>
+                    <input id="file-upload" name="{{ profile_form.icon.name }}" type="file" />
+                    <div class="button_icon" id="upload"></div>
+                </div>
             </div>
-        </a>
+
+            <div class="buttons save_bg">
+                <div class="hyperlink">
+                    <button class="styled_button" type="submit">Save pfp
+                    </button>
+                    <div class="button_icon" id="save"></div>
+                </div>
+            </div>
+        </form>
+
+        <div class="buttons logout_bg">
+            <a href="{% url 'gameApp:logout' %}" class="no_underline">
+                <div class="hyperlink">
+                    <div class="button_text">logout</div>
+                    <div class="button_icon" id="logout"></div>
+                </div>
+            </a>
+        </div>    
     </div>
 
-    <!-- this part is not done well but anyways it works -->
-    <form id="upload_form" method="post" action="{% url 'gameApp:user_account' %}" enctype="multipart/form-data"> 
-        {% csrf_token %}
-        <div class="buttons upload_bg"> <!-- reference: https://jsfiddle.net/9Lzjzwr7/-->
-            <div class="hyperlink">
-                <label for="file-upload" class="custom-file-upload button_text">
-                    Upload pfp
-                </label>
-                <input id="file-upload" name="{{ profile_form.icon.name }}" type="file" />
-                <div class="button_icon" id="upload"></div>
-            </div>
-        </div>
-
-        <div class="buttons save_bg">
-            <div class="hyperlink">
-                <button class="styled_button" type="submit">Save pfp
-                </button>
-                <div class="button_icon" id="save"></div>
-            </div>
-        </div>
-
-    </form>
     
 
 

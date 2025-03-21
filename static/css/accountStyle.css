@@ -1,17 +1,59 @@
 @import "baseStyle.css";
 
+#userframe{
+    position:absolute;
+    left: calc(50% - 400px);
+    transform: translate(-50%);
+    top:200px;
+    width:500px;
+    height:700px;
+
+    background: url("../images/userframe.png") no-repeat;
+    background-size: contain;
+    image-rendering: pixelated;
+
+    z-index: 3;
+}
+#userframe_bg{
+  position:absolute;
+  left: calc(50% - 400px);
+  transform: translate(-50%);
+  top:220px;
+  width:380px;
+  height:625px;
+  background-color: #1c3147;
+
+  z-index: 2;
+}
+body {
+  height:960px;
+}
+
+#username{
+  position: relative;
+  left:85px;
+  top:80px;
+  width:340px;
+  font-size: 40px;
+  font-family: 'Fixedys', sans-serif;
+  color:#92ffff;
+  text-align: center;
+  overflow: hidden;
+}
+
 #logout{background-image: url('../icons/logout_icon.png');}
 #upload{background-image: url('../icons/pfp_icon.png');}
 #save{background-image: url('../icons/save_icon.png');}
 
 .pfp_display{
-  position:fixed;
-  top:100px;
-  left:50px;
-  width:200px;
-  height:200px;
+  position:relative;
+  top:70px;
+  left:122px;
+  width:260px;
+  height:260px;
   object-fit: cover;
-  border: 3px solid #ac0a56; 
+  border: 3px solid rgb(11, 11, 43);
+  box-shadow: 2px 2px 0px rgb(26,00,24),-2px -2px 0px rgb(143, 148, 170);
   image-rendering: pixelated;
 }
 
@@ -26,9 +68,21 @@
     align-self: center;
 }
 
-.logout_bg{background-color: rgb(240, 112, 123);}
-.upload_bg{background-color: rgb(240, 150, 112);}
-.save_bg{background: rgb(230, 178, 100);}
+.logout_bg{
+  background-color: rgb(206, 105, 132);
+  top:165px;
+  left:188px;
+}
+.upload_bg{
+  background-color: rgb(78, 100, 138);
+  top:112px;
+  left:100px;
+}
+.save_bg{
+  top:130px;
+  background: rgb(78, 142, 150);
+  left:100px;
+}
 
 .button_text{
     line-height:35px;
@@ -86,10 +140,7 @@ input[type="file"] { /* hide the default shit */
 .buttons--wrapper {
     width:200px;
     height:40px;
-    position: absolute;
-    left:50%;
-    transform: translate(-50%);
-    top:300px;
+    position: relative;
 
   clip-path: polygon(0px calc(100% - 8px),
     4px calc(100% - 8px),
@@ -179,7 +230,7 @@ input[type="file"] { /* hide the default shit */
   bottom: 0;
   left: 0;
   right: 0;
-  background: #ac0a56;
+  background: #13ffef;
   display: block;
   pointer-events: none;
 }

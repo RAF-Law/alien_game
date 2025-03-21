@@ -10,3 +10,7 @@ document.getElementById('file-upload').addEventListener('change', function(event
         reader.readAsDataURL(event.target.files[0]);
     }
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    base.loginGlitching("userframe_bg",2,80);
+})
