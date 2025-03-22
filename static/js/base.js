@@ -1,4 +1,4 @@
-export function loginGlitching(elementId,variation,time){
+export function loginGlitching(elementId,variation,time){ //you need to export them to call them from other files
     let element = document.getElementById(elementId);
     let currentcolor = window.getComputedStyle(element).backgroundColor.match(/\d+/g).map(Number);
     let direction = 1;

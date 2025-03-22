@@ -1,0 +1,59 @@
+{% extends 'gameApp/base.html' %}
+{% load static %}
+
+{% block title_block %}
+	Collections
+{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/collectionStyle.css' %}">
+    <script type="module" src="{% static 'js/collection.js' %}"></script>
+{% endblock %}
+
+{% block body_block %}
+
+    <div class="itemcontainer category" id="category_artifact">
+        <div class="category_icon" id="artifact_icon"></div>
+    </div>
+    <div class="itemcontainer category" id="category_weapon">
+        <div class="category_icon" id="weapon_icon"></div>
+    </div>
+
+    <div class="collection_container" id="weapons">
+        {% for weapon in user_weapons %}
+            <div class="itemcontainer">
+                <img src="{{ weapon.icon.url }}" class="icon">
+                <div class="name">{{ weapon.name }}</div>
+                <div class="rarity">{{ weapon.rarity }}</div>
+                <div class="description">{{ weapon.description }}</div>
+                <div class="damage">Attack Points: {{ weapon.damage }}</div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="collection_container" id="artifacts">
+        {% for artifact in user_artifacts %}
+            <div class="itemcontainer">
+                <img src="{{ artifact.icon.url }}" class="icon"> <!--you need a .url here otherwise it wont be found-->
+                <div class="name">{{ artifact.name }}</div>
+                <div class="rarity">{{ artifact.rarity }}</div><!--some fields are got but not shown-->
+                <div class="description">{{ artifact.description }}</div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="frame"></div>
+    <div class="details">
+        <img src="{% static 'user_icons/Default Icon.png' %}" id="detail_icon">
+        <div id="detail_name">N/A</div>
+        <div id="detail_rarity">N/A</div>
+        <div id="detail_description">N/A</div>
+        <div id="detail_damage"></div>
+    </div>
+
+{% endblock %}
+
+
+{% block heading %}
+    Collections
+{% endblock %}

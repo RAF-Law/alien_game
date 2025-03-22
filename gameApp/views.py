@@ -161,14 +161,14 @@ def user_history(request):
 # Template: gameApp/user_handbook.html
 @login_required
 def user_handbook(request):
-
+    user_profile = User.objects.get(user=request.user)
     # Get user specific artifacts earned
-    user_artifacts_list = User.objects.get('-artifacts_earned')
+    user_artifacts_list = user_profile.artifacts_earned.all()
     # Get all artifacts 
     artifacts_list = Artifact.objects.all()
 
     # Get user specific weapons earned
-    user_weapons_list = User.objects.get('-weapons_earned')
+    user_weapons_list = user_profile.weapons_earned.all()
     # Get all weapons
     weapons_list = Weapon.objects.all()
 
