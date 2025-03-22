@@ -1,5 +1,11 @@
 @import "baseStyle.css";
-.circle{z-index: 1;}
+
+#details{position: relative;height:600px;}
+.strip{
+    position: absolute;
+    width:100%;
+    
+}
 
 #artifact_icon{background-image: url('../icons/artifact_icon.png');}
 #weapon_icon{background-image: url('../icons/weapon_icon.png');}
@@ -19,14 +25,14 @@
     top:235px;
 }
 #category_weapon:hover{
-    background: rgb(99, 131, 167) !important;
+    background: rgb(93, 125, 161) !important;
 }
 #category_artifact{
     top:335px;
     background: rgb(141, 87, 136) !important;
 }
 #category_artifact:hover{
-    background: rgb(179, 110, 131) !important;
+    background: rgb(160, 96, 115) !important;
 }
 .category{
     margin:0px !important;
@@ -37,8 +43,8 @@
     width:80px !important;
     cursor: pointer;
 }
-#weapons{background-image:linear-gradient(0deg, rgb(43, 109, 138),rgb(92, 96, 145) 50%);}
-#artifacts{background-image:linear-gradient(0deg, rgb(143, 67, 97), rgb(141, 87, 136) 50%);}
+#weapons{background-image:linear-gradient(0deg, rgb(43, 109, 138,0.7),rgb(92, 96, 145,0.7) 50%);}
+#artifacts{background-image:linear-gradient(0deg, rgb(143, 67, 97,0.7), rgb(141, 87, 136,0.7) 50%);}
 .collection_container{
     border-top:3px solid #13ffef;
     border-bottom:3px solid #13ffef;
@@ -226,5 +232,5 @@ body{
 .frame{left:583px}
 .details{left:583px}
 .category_icon{left:4px}
-.category{left:151px !important}
+.category{left:100px !important}
 }

@@ -256,6 +256,7 @@ input[type="file"] { /* hide the default shit */
   padding-left: 10px;
   padding-bottom: 5px;
   text-align: left;
+  cursor:pointer;
 }
 
 .buttons,
