@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
 })
 
 //scanning effect
-function scanning(elementId,gap){
+export function scanning(elementId,gap){
     let element = document.getElementById(elementId);
     let position = gap/2;
     let positioncounter = 1;
