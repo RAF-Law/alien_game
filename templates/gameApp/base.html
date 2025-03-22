@@ -10,8 +10,10 @@
                 Hi!
             {% endblock %}
         </title>
-        <link rel="stylesheet" href="{% static 'css/baseStyle.css' %}">
         <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+        <script>
+            var easterEggUrl = "{% url 'gameApp:easteregg' %}";
+        </script>
         {% block styles %}
         {% endblock %}
     </head>
@@ -58,16 +60,18 @@
     {% if user.is_authenticated %}
     <div id="login_bg">
         <a href="{% url 'gameApp:user_account' %}">
-            <div id="login_img"></div>
+            <div id="login_bg_shade"></div>
         </a>
+        <div id="login_img"></div>
         <div id="login_hello">Hello,</div>
         <div id="login_username">{{ user.username }}!</div>
     </div>
     {% else %}
     <div id="login_bg">
         <a href="{% url 'gameApp:login' %}">
-            <div id="login_img"></div>
+            <div id="login_bg_shade"></div>
         </a>
+        <div id="login_img"></div>
         <div id="login_text">Login</div>
     </div>
     {% endif %}

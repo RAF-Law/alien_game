@@ -1,107 +1,17 @@
-<!DOCTYPE html>
+{% extends 'gameApp/base.html' %}
 {% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alien Survival Game</title>
-    <style>
-        /* General Styling */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #1e1e1e;
-            color: #ffffff;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
 
-        /* Game Container */
-        #game {
-            width: 80%;
-            max-width: 800px;
-            background-color: #2c2c2c;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
+{% block title_block %}
+	GameScene
+{% endblock %}
 
-        /* Message Area */
-        #messages {
-            height: 400px;
-            overflow-y: auto;
-            background-color: #1e1e1e;
-            border: 1px solid #444;
-            border-radius: 5px;
-            padding: 10px;
-            margin-bottom: 15px;
-            font-family: monospace;
-            font-size: 14px;
-            line-height: 1.5;
-        }
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/gameSceneStyle.css' %}">
+    <script type="module" src="{% static 'js/gameScene.js' %}"></script> <!--styling-->
+    <script src="{% static 'js/game.js' %}"></script> <!--game run-->
+{% endblock %}
 
-        /* Input Area */
-        #inputArea {
-            display: flex;
-            gap: 10px;
-        }
-
-        #input {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #444;
-            border-radius: 5px;
-            background-color: #1e1e1e;
-            color: #ffffff;
-            font-size: 14px;
-        }
-
-        #input:focus {
-            outline: none;
-            border-color: #666;
-        }
-
-        #submitButton {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        #submitButton:hover {
-            background-color: #45a049;
-        }
-
-        /* Scrollbar Styling */
-        #messages::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        #messages::-webkit-scrollbar-track {
-            background: #1e1e1e;
-        }
-
-        #messages::-webkit-scrollbar-thumb {
-            background: #666;
-            border-radius: 4px;
-        }
-
-        #messages::-webkit-scrollbar-thumb:hover {
-            background: #888;
-        }
-    </style>
-</head>
-<body>
+{% block body_block %}
     <div id="game">
         <!-- Message Display Area -->
         <div id="messages"></div>
@@ -113,7 +23,7 @@
         </div>
     </div>
 
-    <script src="{% static 'js/game.js' %}"></script>
+
     <script>
         // Utility Functions
         function printMessage(message) {
@@ -149,5 +59,4 @@
         printMessage("Welcome to Alien Survival Game!");
         printMessage("You are in the street. You can enter any house numbered 1-10. Enter 'q' to quit.");
     </script>
-</body>
-</html>
+{% endblock %}

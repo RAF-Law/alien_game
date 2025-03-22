@@ -16,4 +16,5 @@ urlpatterns = [
     path('play/', views.play, name='play'),
     path('play/gameScene/', views.gameScene, name='gameScene'),
     path('play/gameCreation/', views.gameCreation, name='gameCreation'),
+    path('easteregg/',views.easteregg,name='easteregg'),
 ]

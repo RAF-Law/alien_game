@@ -53,6 +53,8 @@
     /*background: linear-gradient(315deg,#e87d7d,#ff9784) ;*/
     
 }
+#game_scene:hover{background-color: #f8c46c;}
+#game_creation:hover{background-color: rgb(246, 145, 162)}
 
 .cube{
   position:absolute;

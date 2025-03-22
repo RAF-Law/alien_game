@@ -1,4 +1,3 @@
-@import "baseStyle.css";
 @import "leaderboardStyle.css";
 @import "playStyle.css";
 
@@ -11,6 +10,8 @@
   background-color: #5a82a7;
   margin-right: 3vw;
 }
+#user_history:hover{background-color: #867eb4;}
+#user_handbook:hover{background-color: #6a97b3;}
 .game_frame{
   height:300px;
   width:18vw;
@@ -51,34 +52,35 @@
   justify-content: right;
 }
 .additionaltext{
+  padding-top: 8px;
   line-height: 100px;
   text-align: center;
   width:150px;
-  font-size: 50px;
+  font-size: 43px;
   font-family: 'Fixedys', sans-serif;
-  color:#e7d3f5;
+  color:#e7daf0;
   text-shadow: 2px 2px 0px rgba(183, 170, 255, 0.3);
   background-color: rgba(18, 2, 37, 0.5);
   border-left: 2px dotted #13ffef;
 }
 .data{
-  padding-top:10px;
+  padding-top:12px;
   width:calc((50vw - 200px) / 2);
-  line-height: 34px;
+  line-height: 33px;
   font-family: 'Fixedys', sans-serif;
   font-size: 1.2vw;
   color:#c7f3f6;
 }
 .basic{
-  margin-left:calc(5vw - 10px);
+  margin-left:calc(4vw + 8px);
 }
 .collection{
-  padding-left:15px;
-  line-height: 39px;
+  padding-left:18px;
+  line-height: 38px;
   border-left: 2px dotted rgba(19, 255, 239, 0.3);
 }
 .collection_text{
-  line-height: 34px;
+  line-height: 33px;
   font-size: 1.4vw;
   margin-bottom: 15px;
 }
@@ -127,6 +129,7 @@
 }
 body {
   height:960px;
+  background-image: linear-gradient(180deg,#1f1b30,#10092d);
 }
 
 /* magic align numbers incoming */
@@ -194,12 +197,12 @@ body {
 .upload_bg{
   background-color: rgb(74, 102, 150);
   top:112px;
-  left:100px;
+  left:105px;
 }
 .save_bg{
   top:130px;
   background: rgb(75, 141, 150);
-  left:100px;
+  left:105px;
 }
 
 .button_text{
@@ -252,6 +255,7 @@ input[type="file"] { /* hide the default shit */
   padding-left: 10px;
   padding-bottom: 5px;
   text-align: left;
+  cursor:pointer;
 }
 
 .buttons,
@@ -355,3 +359,7 @@ input[type="file"] { /* hide the default shit */
 .buttons::after {
   margin: -4px;
 }
+
+.logout_bg:hover{background-color: rgb(221, 136, 157);}
+.upload_bg:hover{background-color: rgb(94, 129, 166);}
+.save_bg:hover{background: rgb(93, 169, 168);}

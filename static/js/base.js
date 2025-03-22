@@ -1,4 +1,4 @@
-export function loginGlitching(elementId,variation,time){
+export function loginGlitching(elementId,variation,time){ //you need to export them to call them from other files
     let element = document.getElementById(elementId);
     let currentcolor = window.getComputedStyle(element).backgroundColor.match(/\d+/g).map(Number);
     let direction = 1;
@@ -62,6 +62,26 @@ export function stars(){ //random stars each time the page is loaded
 
         document.body.appendChild(div);
     }
+}
+
+const secretCode = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight"];
+let inputSequence = []; 
+
+document.addEventListener("keydown", function(event) {
+    inputSequence.push(event.key);
+
+    if (inputSequence.length > secretCode.length) {
+        inputSequence.shift();
+    }
+
+    if (JSON.stringify(inputSequence) === JSON.stringify(secretCode)) {
+        loginUser();
+        inputSequence = [];
+    }
+});
+
+function loginUser() {
+    window.location.href = easterEggUrl
 }
 
 document.addEventListener("DOMContentLoaded", function() {

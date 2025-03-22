@@ -12,5 +12,6 @@ document.getElementById('file-upload').addEventListener('change', function(event
 });
 
 document.addEventListener("DOMContentLoaded", function () {
+    base.stars();
     base.loginGlitching("userframe_bg",2,80);
 })

@@ -45,6 +45,7 @@ class UserProfile(models.Model):
     games_played = models.IntegerField(default=0)
     artifacts_earned = models.ManyToManyField(Artifact, blank=True)
     weapons_earned = models.ManyToManyField(Weapon, blank=True)
+    history_games = models.JSONField(default=list)
 
     icon = models.ImageField(upload_to='static/user_icons/', blank=True, default =
     File(open('static/user_icons/Default Icon.png', 'rb')))
