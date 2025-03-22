@@ -19,14 +19,14 @@
     top:235px;
 }
 #category_weapon:hover{
-    background: rgb(89, 119, 153) !important;
+    background: rgb(99, 131, 167) !important;
 }
 #category_artifact{
     top:335px;
     background: rgb(141, 87, 136) !important;
 }
 #category_artifact:hover{
-    background: rgb(165, 98, 129) !important;
+    background: rgb(179, 110, 131) !important;
 }
 .category{
     margin:0px !important;

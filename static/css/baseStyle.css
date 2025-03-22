@@ -19,6 +19,7 @@ body {
     margin-right:10px;
     image-rendering: pixelated;
 }
+.icons:hover{filter: hue-rotate(-100deg);;}
 
 .music {
     position: fixed;
@@ -120,6 +121,7 @@ html, body {
     position: fixed;
     right: 0px;
     top:0px;
+    pointer-events: none;
     
     z-index: 7;
 }
@@ -131,6 +133,7 @@ html, body {
     font-family: 'Fixedys', sans-serif;
     text-align: center;
     line-height: 70px;
+    pointer-events: none;
 }
 
 #login_bg{ /* this is a container cuz we need 2 lines of text with different align */
@@ -144,6 +147,15 @@ html, body {
 
     z-index: 6;
 }
+#login_bg_shade{
+    height:80px;
+    width:300px;
+    position: fixed;
+    right: 0px;
+    top:0px;
+    background-color: rgba(202, 255, 245, 0);
+}
+#login_bg_shade:hover{background-color: rgba(60, 144, 208, 0.15);}
 
 #login_hello{
     font-size: 35px;
@@ -155,6 +167,7 @@ html, body {
     position:absolute;
     left:20px;
     top:5px;
+    pointer-events: none;
 }
 
 #login_username{
@@ -168,6 +181,7 @@ html, body {
     position:absolute;
     right:10px;
     bottom:15px;
+    pointer-events: none;
 
     max-width: 250px;
     overflow: hidden;
