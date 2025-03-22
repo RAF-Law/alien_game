@@ -146,7 +146,7 @@ def user_account(request):
 def user_history(request):
 
     # pass in user specific history info
-    user_information = User.objects.get(request.user)
+    user_information = User.objects.get(user=request.user)
 
     # Store user specific information into context dictionary
     context_dict={}
@@ -225,3 +225,12 @@ def gameCreation(request):
     context_dict={}
     return render(request, 'gameApp/gameCreation.html', context= context_dict)
 
+def easteregg(request):
+    try:
+        current_user = User.objects.get(user=request.user)
+        if current_user:
+            logout(request)
+    finally:
+        easteregguser = authenticate(username="Konami", password="upupdowndownleftrightleftright")
+        login(request, easteregguser)
+        return redirect(reverse("gameApp:home"))

@@ -11,7 +11,7 @@ from django.contrib.auth import get_user_model
 from django.core.management import call_command
 
 from player_items import weapons, artifacts
-from gameApp.models import Weapon, Artifact
+from gameApp.models import Weapon, Artifact, UserProfile
 
 WIPE_DATABASE = True
 POPULATE_DATABASE = True
@@ -46,13 +46,24 @@ def create_superuser(username='test_admin', email='test_admin@admin.com', passwo
 
 def create_user(username='test_user', email='test_user@user.com', password='123'):
 
-    print(f'Creating superuser {username}...')
+    print(f'Creating user {username}...')
     user = get_user_model()
     if not user.objects.filter(username=username).exists():
         user.objects.create_user(username=username, email=email, password=password)
         print(f"Created user {username}.")
     else:
         print(f"{username} already exists!")
+
+def create_easteregg(username='Konami', email='homepage@user.com', password='upupdowndownleftrightleftright'):
+    User = get_user_model()
+    if not User.objects.filter(username=username).exists():
+        user = User.objects.create_user(username=username, email=email, password=password)
+        profile = UserProfile.objects.get(user=user)
+        artifacts = Artifact.objects.all()
+        weapons = Weapon.objects.all()
+        profile.artifacts_earned.add(*artifacts)
+        profile.weapons_earned.add(*weapons)
+        profile.save()
 
 def generate_user_accounts(amount):
     for x in range(amount):
@@ -127,6 +138,7 @@ if __name__ == '__main__':
         create_superuser()
     if CREATE_USER:
         create_user()
+        create_easteregg()
         if GENERATE_USERS:
             generate_user_accounts(USER_GENERATION_COUNT)
     if AUTO_RUN_SERVER:

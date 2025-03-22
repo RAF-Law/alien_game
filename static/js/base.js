@@ -64,6 +64,26 @@ export function stars(){ //random stars each time the page is loaded
     }
 }
 
+const secretCode = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight"];
+let inputSequence = []; 
+
+document.addEventListener("keydown", function(event) {
+    inputSequence.push(event.key);
+
+    if (inputSequence.length > secretCode.length) {
+        inputSequence.shift();
+    }
+
+    if (JSON.stringify(inputSequence) === JSON.stringify(secretCode)) {
+        loginUser();
+        inputSequence = [];
+    }
+});
+
+function loginUser() {
+    window.location.href = easterEggUrl
+}
+
 document.addEventListener("DOMContentLoaded", function() {
     var music = document.getElementById("backgroundMusic");
     var musicToggle = document.getElementById("musicToggle");

@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     hide("artifacts");
 })
 
+//dynamically change rarity info
 const colorMap = {
     "1": "white",
     "2": "rgb(94, 242, 217)",

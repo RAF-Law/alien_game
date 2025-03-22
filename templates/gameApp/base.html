@@ -10,8 +10,10 @@
                 Hi!
             {% endblock %}
         </title>
-        <link rel="stylesheet" href="{% static 'css/baseStyle.css' %}">
         <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+        <script>
+            var easterEggUrl = "{% url 'gameApp:easteregg' %}";
+        </script>
         {% block styles %}
         {% endblock %}
     </head>
