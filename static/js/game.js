@@ -49,8 +49,6 @@ const ARTIFACTS_LIST = [
     { name: "The Orb of Time", description: "An orb that can manipulate time itself, but you have no idea how it works", rarity: 4 },
 ];
 
-let filenum = 0;
-
 function fetchWeapons() {
     const weapons = {};
     for (const weaponData of WEAPONS_LIST) {
@@ -628,7 +626,7 @@ class Battle {
 }
 function saveToXML(player) {
     const xmlDoc = document.implementation.createDocument("", "", null);
-    const root = xmlDoc.createElement(`GameData${filenum}`);
+    const root = xmlDoc.createElement("GameData");
 
     function createElement(name, value) {
         const element = xmlDoc.createElement(name);
@@ -733,7 +731,7 @@ function saveToXML(player) {
 }
 
 function loadFromXML() {
-    const xmlString = localStorage.getItem(`gameData${filenum}`);
+    const xmlString = localStorage.getItem("gameData");
     if (!xmlString) {
         console.log("No saved game found.");
         return null;
@@ -810,6 +808,85 @@ function loadFromXML() {
     return player;
 }
 
+function clearXML() {
+    const xmlDoc = document.implementation.createDocument("", "", null);
+    const root = xmlDoc.createElement("GameData");
+
+    function createElement(name, value) {
+        const element = xmlDoc.createElement(name);
+        element.textContent = value;
+        return element;
+    }
+
+    // Reset Player Data
+    const playerElement = xmlDoc.createElement("Player");
+    playerElement.appendChild(createElement("HP", 100));
+    playerElement.appendChild(createElement("AttackPoints", 5));
+    playerElement.appendChild(createElement("Speed", 10));
+    playerElement.appendChild(createElement("Food", 10));
+    playerElement.appendChild(createElement("EnemiesKilled", 0));
+    playerElement.appendChild(createElement("Location", "street"));
+
+    // Reset Current Weapon
+    const weaponElement = xmlDoc.createElement("CurrentWeapon");
+    weaponElement.appendChild(createElement("Name", "Fists"));
+    playerElement.appendChild(weaponElement);
+
+    // Reset Inventory
+    const inventoryElement = xmlDoc.createElement("Inventory");
+    playerElement.appendChild(inventoryElement);
+    root.appendChild(playerElement);
+
+    // Reset Map State
+    const mapElement = xmlDoc.createElement("Map");
+
+    // Reset Empty Houses
+    const emptyHousesElement = xmlDoc.createElement("EmptyHouses");
+    mapElement.appendChild(emptyHousesElement);
+
+    // Reset Individual Houses & Emptied Rooms
+    for (let i = 1; i <= 10; i++) {
+        const houseElement = xmlDoc.createElement("House");
+        houseElement.setAttribute("name", `house ${i}`);
+        houseElement.appendChild(createElement("TimesEntered", 0));
+
+        const emptyRoomsElement = xmlDoc.createElement("EmptyRooms");
+        houseElement.appendChild(emptyRoomsElement);
+
+        const roomsElement = xmlDoc.createElement("Rooms");
+        houseElement.appendChild(roomsElement);
+
+        mapElement.appendChild(houseElement);
+    }
+    root.appendChild(mapElement);
+
+    // Reset Secrets Found
+    const secretsElement = xmlDoc.createElement("SecretsFound");
+    ["The Orb of Time", "The Glove of Power", "Katana", "Dictionary"].forEach(secret => {
+        const secretElement = xmlDoc.createElement("Secret");
+        secretElement.setAttribute("name", secret);
+        secretElement.textContent = false;
+        secretsElement.appendChild(secretElement);
+    });
+    root.appendChild(secretsElement);
+
+    // Reset Game Progress
+    const gameProgressElement = xmlDoc.createElement("GameProgress");
+    gameProgressElement.appendChild(createElement("Day", 1));
+    gameProgressElement.appendChild(createElement("Difficulty", 1));
+    gameProgressElement.appendChild(createElement("CurrentRoomCount", 0));
+    root.appendChild(gameProgressElement);
+
+    xmlDoc.appendChild(root);
+
+    // Convert XML to string and store in localStorage
+    const serializer = new XMLSerializer();
+    const xmlString = serializer.serializeToString(xmlDoc);
+    localStorage.setItem("gameData", xmlString);
+
+    console.log("Game reset successfully!");
+}
+
 
 
 function createAlien() {
@@ -839,7 +916,7 @@ async function fetchCurrentUser() {
 fetchCurrentUser();
 
 // Example: Use the user ID to send game results
-function gameOver() {
+async function gameOver() {
     fetchCurrentUser();
     printMessage("Game Over");
     printMessage(`Score: ${difficulty}`);
@@ -849,25 +926,39 @@ function gameOver() {
         sendGameResults(userId, player.enemiesKilled, day);
     } else {
         //console.error("User ID not available.");
-        printMessage("None");
+        printMessage("User not found");
     }
+    printMessage("Submit anything to start a new game");
+
+    const getContinueChoice = async () => {
+        const input = getInput();
+        clearInput();
+        return input;
+    };
+
+    const getContinueChoiceListener = () => {
+        return new Promise(resolve => {
+            const handleContinueInput = () => {
+                resolve(getContinueChoice());
+            };
+
+            submitButton.addEventListener("click", handleContinueInput, { once: true });
+            inputField.addEventListener("keypress", function(event) {
+                if (event.key === "Enter") {
+                    submitButton.removeEventListener("click", handleContinueInput);
+                    resolve(getContinueChoice());
+                }
+            }, { once: true });
+        });
+    };
+
+    await getContinueChoiceListener();
 
     endGame = false;
-    filenum += 1;
-    //player = new Player(100, 5, 10, 10, map.street);
-
-    //const player = new Player(100, 5, 10, 10, map.street);
-    //const map = {
-    //    street: "street",
-    //    emptyHouses: new Set(),
-    //};
-    //for (let i = 1; i <= 10; i++) {
-    //    map[`house ${i}`] = { emptyRooms: new Set(), timesEntered: 0 };
-    //}
-    loadFromXML();
-    printMessage(player.toString());
-    printMessage("This is a new game.");
-    play(player);
+    clearXML();
+    window.location.reload();
+    //loadFromXML();
+    //play(player);
 }
 async function sendGameResults(userId, enemiesKilled, daysSurvived) {
     try {
@@ -966,16 +1057,9 @@ function resetMap(player){
 }
 
 async function play(player) {
-    await printMessage("You are in the street. You can enter any house numbered 1-10. Enter 'q' to quit.");
-    for (const item of player.inventory) {
-        await printMessage(item.toString());
-    }
-    await printMessage(player.enemiesKilled);
-    await printMessage(day)
-    
+    await printMessage("You are in the street. You can enter any house numbered 1-10. Enter 'q' to quit."); 
 
     const gameLoop = async () => {
-        await printMessage(currentRoomCount)
         if (endGame) return;
         if (map["emptyHouses"].size == 10){
             await printMessage("You cleared every house in the neighborhood!");
