@@ -115,6 +115,7 @@ body { /* override the body attribute, so it has a fixed height, the declaration
     font-size: 30px;
     color: aliceblue;
 }
+.styled-submit:hover{background: #70a3ac;}
 
 #submitcontainer{
     width:120px;

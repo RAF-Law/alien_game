@@ -11,6 +11,8 @@
   background-color: #5a82a7;
   margin-right: 3vw;
 }
+#user_history:hover{background-color: #867eb4;}
+#user_handbook:hover{background-color: #6a97b3;}
 .game_frame{
   height:300px;
   width:18vw;
@@ -128,6 +130,7 @@
 }
 body {
   height:960px;
+  background-image: linear-gradient(180deg,#1f1b30,#10092d);
 }
 
 /* magic align numbers incoming */
@@ -356,3 +359,7 @@ input[type="file"] { /* hide the default shit */
 .buttons::after {
   margin: -4px;
 }
+
+.logout_bg:hover{background-color: rgb(221, 136, 157);}
+.upload_bg:hover{background-color: rgb(94, 129, 166);}
+.save_bg:hover{background: rgb(93, 169, 168);}

@@ -76,6 +76,7 @@
     background-color: #61869d;
     z-index: 4;
 }
+.upload_bg:hover{background-color: #70a3ac;}
 
 .styled-submit{width: 210px;letter-spacing: 2px;}
 #submitcontainer{

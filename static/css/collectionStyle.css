@@ -101,6 +101,7 @@
     0px 16px
     );
 }
+.itemcontainer:hover{background-image: linear-gradient(180deg,rgba(198, 84, 84, 0.7),rgba(188, 124, 78, 0.7) 50%) ;}
 .icon{
     position: relative;
     left:50%;
