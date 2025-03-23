@@ -28,7 +28,7 @@
 }
 
 body { /* override the body attribute, so it has a fixed height, the declarations won't overlap with login frame and the frame won't shrink */
-    height:960px;
+    height:940px;
 }
 
 .text_headings{ /*override base style */

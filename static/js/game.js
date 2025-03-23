@@ -349,6 +349,7 @@ class Alien {
 class Player {
     constructor(hp, attackPoints, speed, food, location) {
         this.hp = hp;
+        this.maxhp = hp;
         this.attackPoints = attackPoints;
         this.currentWeapon = new Weapon("Fists", "Your fists", 0, "You punch the alien.", 1);
         this.inventory = new Set();
@@ -362,6 +363,12 @@ class Player {
             "Katana" : false,
             "Dictionary" : false,
         };
+    }
+
+    maxHPUpdate(){
+        if (this.hp > this.maxhp){
+            this.maxhp = this.hp
+        }
     }
 
     toString() {
@@ -470,13 +477,14 @@ class Player {
         }
 
         currentRoomCount += 1;
-        if (currentRoomCount >= 6) { //sometimes the day increment was delayed. now fixed
+        if (currentRoomCount >= 7) { //sometimes the day increment was delayed. now fixed
             day += 1;
             player.food -= 1;
             difficulty += 1;
-            currentRoomCount -= 6;
+            currentRoomCount -= 7;
             await printMessage(`It is now day ${day}. You eat something, rest and gain 20 HP.`);
             player.hp += 20;
+            player.maxHPUpdate();
             if (player.food <= 0){
                 await printMessage("Not being able to find enough food, you starve and die in desperation.");
                 gameOver();
@@ -572,6 +580,7 @@ class Battle {
         this.player.food += 1;
         this.player.enemiesKilled += 1;
         this.alien.hp = 0;
+        this.player.maxHPUpdate();
 
         if (Math.floor(Math.random() * 30) === 21 && !this.player.secretsFound["The Glove of Power"]) {
             await printMessage("You find a mysterious glove!");
@@ -756,6 +765,7 @@ function saveToXML(player) {
     gameProgressElement.appendChild(createElement("Day", day));
     gameProgressElement.appendChild(createElement("Difficulty", difficulty));
     gameProgressElement.appendChild(createElement("CurrentRoomCount", currentRoomCount));
+    gameProgressElement.appendChild(createElement("MaxHP", player.maxhp));
     root.appendChild(gameProgressElement);
 
     xmlDoc.appendChild(root);
@@ -841,6 +851,7 @@ function loadFromXML() {
     day = parseInt(gameProgressElement.querySelector("Day").textContent);
     difficulty = parseInt(gameProgressElement.querySelector("Difficulty").textContent);
     currentRoomCount = parseInt(gameProgressElement.querySelector("CurrentRoomCount").textContent);
+    player.maxhp = parseInt(gameProgressElement.querySelector("MaxHP").textContent)
 
     console.log("Game loaded successfully!");
     return player;
@@ -913,6 +924,7 @@ async function clearXML() {
     gameProgressElement.appendChild(createElement("Day", 1));
     gameProgressElement.appendChild(createElement("Difficulty", 1));
     gameProgressElement.appendChild(createElement("CurrentRoomCount", 0));
+    gameProgressElement.appendChild(createElement("MaxHP", 100));
     root.appendChild(gameProgressElement);
 
     xmlDoc.appendChild(root);
@@ -924,8 +936,6 @@ async function clearXML() {
 
     console.log("Game reset successfully!");
 }
-
-
 
 function createAlien() {
     const weaponKeys = Object.keys(ALIEN_WEAPONS);
@@ -1186,13 +1196,14 @@ async function play(player) {
             await player.move(houseNum);
             currentRoomCount += 1;
 
-            if (currentRoomCount >= 6) { //fixed the bug where you refresh page when the following logic is not executed, room count just goes to infinity and do not increment day
+            if (currentRoomCount >= 7) { //fixed the bug where you refresh page when the following logic is not executed, room count just goes to infinity and do not increment day
                 day += 1;
                 player.food -= 1;
                 difficulty += 1;
-                currentRoomCount -= 6;
+                currentRoomCount -= 7;
                 await printMessage(`It is now day ${day}. You eat something, rest and gain 20 HP.`);
                 player.hp += 20;
+                player.maxHPUpdate();
                 if (player.food <= 0){
                     await printMessage("Not being able to find enough food, you starve and die in desperation.");
                     gameOver();

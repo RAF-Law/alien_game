@@ -99,7 +99,12 @@ class Game(models.Model):
     game_enemies_killed = models.IntegerField(default=0)
     game_day = models.IntegerField(default=0)
     game_difficulty = models.IntegerField(default=1)
+    #max_hp = models.IntegerField(default=1)
+
     game_map = models.IntegerField(default=1)
+
+    #game_info = models.TextField() 
+    #ykw, I just realised we don't even need the fields above, just store the whole xml as raw text and throw it to database. let game engine handle the data reading
 
     def __str__(self):
         return f"Game {self.user_game}"

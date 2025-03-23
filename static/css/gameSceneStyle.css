@@ -53,7 +53,7 @@
 }
 .frame{
     top:155px;
-    right:65vw ;
+    right:65% ;
     left: auto ;
     transform:none;
     width:390px;
@@ -61,14 +61,14 @@
 }
 .right{
     width:280px;
-    left:calc(65vw + 90px);
+    left:calc(65% + 90px);
     background: url("../images/displayframe2.png") no-repeat;
     background-size: contain;
 }
 .right_bg{
     position: absolute;
     top:170px;
-    left:calc(65vw + 100px);
+    left:calc(65% + 100px);
     width:250px;
     height:670px;
     background-image: linear-gradient(180deg,rgba(18, 46, 70,0.6) 50%,rgba(50, 17, 91,0.6));
@@ -76,7 +76,7 @@
 }
 .details{
     top:170px;
-    right:calc(65vw + 10px);
+    right:calc(65% + 10px);
     left: auto ;
     transform:none;
     width:370px;
@@ -122,9 +122,9 @@
 /* game area stuff */
 #game {
     position: absolute;
-    left:calc(35vw - 25px);
+    left:calc(35% - 18px);
     top:164px;
-    width: calc(30vw + 83px);
+    width: calc(30% + 85px);
     height:632px;
     background-color: #2e3e4c;
     border-top: 4px solid #13ffef;
@@ -209,5 +209,10 @@
 }
 
 @media(max-width:1200px){ /*max x-shrink*/
-
+.frame{left:30px}
+.right{left:870px;}
+#game{width:445px;left:402px}
+.details{left:40px;}
+.right_bg{left:880px;}
 }
+body{height: 940px;}

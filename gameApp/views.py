@@ -222,9 +222,10 @@ def gameScene(request):
     return render(request, 'gameApp/gameScene.html', context= context_dict)
 
 @login_required
-def gameCreation(request):
-    context_dict={}
-    return render(request, 'gameApp/gameCreation.html', context= context_dict)
+def gameCreation(request): #later modify it
+    user_profile = User.objects.get(user=request.user)
+    context_dict = {'user_profile': user_profile,"new_game":True}
+    return render(request, 'gameApp/gameScene.html', context= context_dict)
 
 def easteregg(request):
     try:
@@ -236,7 +237,7 @@ def easteregg(request):
         login(request, easteregguser)
         return redirect(reverse("gameApp:home"))
 
-weapons = {
+weapons = { #reserved for icon lookup
     "Ak-47": {'weapon_id': 1,},
     "Baseball Bat": {'weapon_id': 2,},
     "Laser Gun": {'weapon_id': 3,},
@@ -253,3 +254,9 @@ def get_weapon_image(request, weapon_name): #I MADE IT WORK I'M CRYING
     id = weapons[weapon_name]["weapon_id"]
     weapon = Weapon.objects.get(weapon_id=id)
     return JsonResponse({"image_url": weapon.icon.url})
+
+def save_game(request):
+    # a bunch of save stuff, we need to strip out 
+
+
+    return JsonResponse({"message": "game saved successfully"}) #reserved for js producing an alert box
