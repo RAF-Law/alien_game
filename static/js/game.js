@@ -139,7 +139,7 @@ async function printMessage(message) {
     messagesDiv.appendChild(messageElement);
     messagesDiv.scrollTop = messagesDiv.scrollHeight; // Auto-scroll to the latest message
     updateText(player,day); //update everytime there's text change. not the best way but I cba to do anymore
-    updateWeapon();
+    updateWeapon(); //update weapon image
     return new Promise(resolve => setTimeout(resolve, 100));
 }
 
@@ -279,6 +279,7 @@ class Room {
                             const selectedItem = lootArray[itemIndex];
                             if (lootType === "weapon") {
                                 player.currentWeapon = selectedItem;
+                                player.inventory.add(selectedItem); //we still need a copy in inventory to make sure it gets into collections
                             } else {
                                 player.inventory.add(selectedItem);
                             }
@@ -809,6 +810,8 @@ function loadFromXML() {
         const itemName = itemNode.textContent;
         if (ARTIFACTS[itemName]) {
             player.inventory.add(ARTIFACTS[itemName]);
+        }else if(WEAPONS[itemName]){
+            player.inventory.add(WEAPONS[itemName]);
         }
     });
 
@@ -947,34 +950,11 @@ function createAlien() {
     return new Alien(name, hp, weapon, speed);
 }
 
-let userId = null;
-
-async function fetchCurrentUser() {
-    try {
-        const response = await fetch('/play/api/current-user/');
-        const data = await response.json();
-        userId = data.user_id;
-        console.log("Current user ID:", userId);
-    } catch (error) {
-        console.error("Error fetching current user:", error);
-    }
-}
-
-// Fetch the user ID when the game starts
-fetchCurrentUser();
-
-// Example: Use the user ID to send game results
 async function gameOver() {
-    fetchCurrentUser();
     printMessage("Game Over");
     printMessage(`You made it to day ${day}.`);
-    if (userId) {
-        // Send game results to Django
-        sendGameResults(userId, player.enemiesKilled, day);
-    } else {
-        //console.error("User ID not available.");
-        printMessage("User not found");
-    }
+    sendHistoryGameResults();
+
     printMessage("Enter anything to start a new game");
 
     const getContinueChoice = async () => {
@@ -1008,25 +988,38 @@ async function gameOver() {
     endGame = false;
     await clearXML();
     window.location.reload();
-    //loadFromXML();
-    //play(player);
 }
-async function sendGameResults(userId, enemiesKilled, daysSurvived) {
+
+
+async function sendHistoryGameResults() {
+
     try {
-        const response = await fetch('/play/api/update-stats/', {
+        //data parsing
+        let xmlData = localStorage.getItem("gameData");
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xmlData, "application/xml");
+        const gameProgressElement = xmlDoc.querySelector("GameProgress");
+        let day = parseInt(gameProgressElement.querySelector("Day").textContent);
+        let maxhp = parseInt(gameProgressElement.querySelector("MaxHP").textContent);
+        const playerElement = xmlDoc.querySelector("Player");
+        let enemiesKilled = parseInt(playerElement.querySelector("EnemiesKilled").textContent);
+        //fetch stuff
+        const response = await fetch('/gameApp/save_history/', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': getCookie('csrftoken'), // Include CSRF token for security
+                'Content-Type': 'application/xml',
+                'X-CSRFToken': getCookie('csrftoken'),
             },
             body: JSON.stringify({
-                user_id: userId,
-                enemies_killed: enemiesKilled,
-                days_survived: daysSurvived,
+                "enemies_killed": enemiesKilled,
+                "days_survived": day,
+                "max_hp": maxhp
             }),
         });
-
+        //wait for django view to response
         const data = await response.json();
+
+
         if (data.status === "success") {
             console.log("Game results saved successfully!");
         } else {
@@ -1053,8 +1046,9 @@ function getCookie(name) {
     return cookieValue;
 }
 
+
 async function resetMap(player){
-    map = { //reset the map first otherwise it just executes katana and skips reset
+    map = { //reset the map first, otherwise it just executes katana and skips reset
         street: "street",
         emptyHouses: new Set(),
     };
@@ -1107,6 +1101,7 @@ async function resetMap(player){
         if (swordChoice === "yes" || swordChoice === "y") {
             await printMessage("He hands you the sword and walks into the sunset");
             player.currentWeapon = WEAPONS["Katana"];
+            player.inventory.add(WEAPONS["Katana"]);
             await printMessage(`You now have ${WEAPONS["Katana"]}.`);
             player.secretsFound["Katana"] = true;
         } else {

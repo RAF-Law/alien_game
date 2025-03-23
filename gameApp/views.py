@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
+import json
 
 # Authenication imports
 from django.contrib.auth import authenticate, login, logout
@@ -255,8 +256,31 @@ def get_weapon_image(request, weapon_name): #I MADE IT WORK I'M CRYING
     weapon = Weapon.objects.get(weapon_id=id)
     return JsonResponse({"image_url": weapon.icon.url})
 
-def save_game(request):
-    # a bunch of save stuff, we need to strip out 
+@login_required
+def save_history(request):
+    if request.method == "POST":
+        try:
+            #get data from js
+            data = json.loads(request.body)
+            enemies_killed = data.get("enemies_killed")
+            days_survived = data.get("days_survived")
+            max_hp = data.get("max_hp")
 
+            #database update
+            user_profile = User.objects.get(user=request.user)
+            user_profile.update_most_enemies_killed(enemies_killed)
+            user_profile.update_most_days_survived(days_survived)
+            user_profile.history_games.append([enemies_killed,days_survived,max_hp])
+            user_profile.save()
 
-    return JsonResponse({"message": "game saved successfully"}) #reserved for js producing an alert box
+            #return
+            return JsonResponse({"status": "success", "message": "Game results saved!"})
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=400)
+
+    return JsonResponse({"status": "error", "message": "Invalid request"}, status=405)
+
+@login_required
+def save(request):
+    #do smth similar to the stuff above...but with saving the whole game information
+    return
