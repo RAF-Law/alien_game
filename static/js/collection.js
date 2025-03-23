@@ -3,44 +3,8 @@ import * as base from "./base.js";
 document.addEventListener("DOMContentLoaded", function () {
     base.stars();
     hide("artifacts");
-    scanning("details",20);
+    base.scanning("details",20);
 })
-
-//scanning effect
-export function scanning(elementId,gap){
-    let element = document.getElementById(elementId);
-    let position = gap/2;
-    let positioncounter = 1;
-    let direction = 1;
-    const h = (parseInt(window.getComputedStyle(element).height)-gap) / 60;
-
-    function strip(){
-        let newElement = document.createElement("div");
-        let transparent = 1;
-        newElement.classList.add("strip");
-        newElement.style.top = position + "px";
-        newElement.style.height = h + "px";
-        position = h * positioncounter;
-        positioncounter += direction;
-        element.appendChild(newElement);
-
-        if (positioncounter > 60 || positioncounter <1){
-            direction*=-1
-        }
-
-        let movementInterval = setInterval(() => {
-            transparent -= 0.1;
-            newElement.style.backgroundColor = `rgba(132, 245, 255, ${transparent})`
-        }, 20);
-
-        setTimeout(() => {
-            clearInterval(movementInterval);
-            newElement.remove();
-        }, 200);
-    }
-    
-    setInterval(strip, 30);
-}
 
 //dynamically change rarity info
 const colorMap = {
@@ -53,7 +17,7 @@ const colorMap = {
 const nameMap = {
     "1": "Common",
     "2": "Rare",
-    "3": "Legendary",
+    "3": "Epic",
     "4": "Secret",
     "6": "?????",
 }

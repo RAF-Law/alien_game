@@ -217,7 +217,8 @@ def play(request):
 # Template: gameApp/gameScene.html
 @login_required
 def gameScene(request):
-    context_dict={}
+    user_profile = User.objects.get(user=request.user)
+    context_dict = {'user_profile': user_profile,}
     return render(request, 'gameApp/gameScene.html', context= context_dict)
 
 @login_required
@@ -234,3 +235,21 @@ def easteregg(request):
         easteregguser = authenticate(username="Konami", password="upupdowndownleftrightleftright")
         login(request, easteregguser)
         return redirect(reverse("gameApp:home"))
+
+weapons = {
+    "Ak-47": {'weapon_id': 1,},
+    "Baseball Bat": {'weapon_id': 2,},
+    "Laser Gun": {'weapon_id': 3,},
+    "Plasma Rifle": {'weapon_id': 4,},
+    "Energy Sword": {'weapon_id': 5,},
+    "Flamethrower": {'weapon_id': 6,},
+    "Railgun": {'weapon_id': 7,},
+    "影の龍": {'weapon_id': 8,},
+    "Chicken": {'weapon_id': 9,},
+    "Revolver": {'weapon_id': 10,},
+    "Shotgun": {'weapon_id': 11,}
+    }
+def get_weapon_image(request, weapon_name): #I MADE IT WORK I'M CRYING
+    id = weapons[weapon_name]["weapon_id"]
+    weapon = Weapon.objects.get(weapon_id=id)
+    return JsonResponse({"image_url": weapon.icon.url})

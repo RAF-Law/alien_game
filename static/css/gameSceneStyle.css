@@ -1,76 +1,195 @@
 @import "collectionStyle.css";
 
-/* game area stuff */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #1e1e1e;
-    color: #ffffff;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
+/* info part */
+#kill_num{
+    right:10px;
+    top:115px;
+}
+#survive_num{
+    right:5px;
+    bottom:100px;
+}
+.num_data{
+    position:absolute;
+    text-align: center;
+    width:100%;
+    font-family: 'Fixedys', sans-serif;
+    font-size:120px;
+    letter-spacing: -5px;
+    color:white;
+    text-shadow: 3px 3px 0px #2fd2f7,-3px -3px 0px #f73333;
+}
+#kill_icon{
+    background: url("../images/killlogo.png") no-repeat;
+    background-size: contain;
+}
+#survive_icon{
+    background: url("../images/survivelogo.png") no-repeat;
+    background-size: contain;
+    top:40px;
+}
+.dataicon{
+    margin-top: 50px;
+    margin-left:40px;
+    position:relative;
+    width:200px;
+    height:200px;
+    image-rendering: pixelated;
+}
+.survive{
+    top:55px;
+}
+.kill{
+    top:20px;
+}
+.big_info{
+    position: relative;
+    padding-left:30px;
+    font-family: 'Fixedys', sans-serif;
+    color:#7fece5;
+    font-size: 40px;
+    letter-spacing: 2px;
+    z-index: 2;
+}
+.frame{
+    top:155px;
+    right:65vw ;
+    left: auto ;
+    transform:none;
+    width:390px;
+    height:700px;
+}
+.right{
+    width:280px;
+    left:calc(65vw + 90px);
+    background: url("../images/displayframe2.png") no-repeat;
+    background-size: contain;
+}
+.right_bg{
+    position: absolute;
+    top:170px;
+    left:calc(65vw + 100px);
+    width:250px;
+    height:670px;
+    background-image: linear-gradient(180deg,rgba(18, 46, 70,0.6) 50%,rgba(50, 17, 91,0.6));
+    z-index: 1;
+}
+.details{
+    top:170px;
+    right:calc(65vw + 10px);
+    left: auto ;
+    transform:none;
+    width:370px;
+    height:670px;
+}
+.images{
+    width:100%;
+    height:348px;
+    border-bottom: 2px dotted #13ffef;
+}
+.pic{
+    position: relative;
+    background-color: rgb(48, 48, 78);
+    image-rendering: pixelated;
+    border: 5px solid rgb(11, 11, 43);
+}
+.pfp{
+    top:37px;
+    left:45px;
+    width:210px;
+    height:210px;
+    box-shadow: 2px 2px 0px rgb(26,00,24),-2px -2px 0px rgb(143, 148, 170);
+}
+.weapon{
+    left:5px;
+    top:102px;
+    width:90px;
+    height:90px;
+    box-shadow: 2px 2px 0px rgb(26,00,24),-2px -2px 0px rgb(143, 148, 170);
+}
+.text_info{
+    position: relative;
+    font-family: 'Fixedys', sans-serif;
+    color:#ffffff;
+    line-height: 50px;
+    padding-left: 25px;
+    padding-right: 25px;
+    font-size: 30px;
+    text-wrap: nowrap;
+    overflow-x: hidden;
 }
 
+/* game area stuff */
 #game {
-    width: 80%;
-    max-width: 800px;
-    background-color: #2c2c2c;
-    border-radius: 10px;
+    position: absolute;
+    left:calc(35vw - 25px);
+    top:164px;
+    width: calc(30vw + 83px);
+    height:632px;
+    background-color: #2e3e4c;
+    border-top: 4px solid #13ffef;
+    border-bottom: 4px solid #13ffef;
     padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     display: flex;
     flex-direction: column;
     gap: 15px;
+    z-index:2;
 }
 
 #messages {
-    height: 400px;
+    height: 600px;
     overflow-y: auto;
-    background-color: #1e1e1e;
-    border: 1px solid #444;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 15px;
-    font-family: monospace;
-    font-size: 14px;
-    line-height: 1.5;
+    background-color: #1b2234;
+    padding: 15px;
+    padding-top: 10px;
+    margin-bottom: 10px;
+    font-family: 'Fixedys', sans-serif;
+    color:aliceblue;
+    letter-spacing: 0.3px;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.pixelshape{
+    clip-path: polygon(
+        0px calc(100% - 8px),
+        4px calc(100% - 8px),
+        4px calc(100% - 4px),
+        8px calc(100% - 4px),
+        8px 100%,
+        calc(100% - 8px) 100%,
+        calc(100% - 8px) calc(100% - 4px),
+        calc(100% - 4px) calc(100% - 4px),
+        calc(100% - 4px) calc(100% - 8px),
+        100% calc(100% - 8px),
+        100% 8px,
+        calc(100% - 4px) 8px,
+        calc(100% - 4px) 4px,
+        calc(100% - 8px) 4px,
+        calc(100% - 8px) 0px,
+        8px 0px,
+        8px 4px,
+        4px 4px,
+        4px 8px,
+        0px 8px
+      );
 }
 
 #inputArea {
+    margin-bottom: 10px;
     display: flex;
     gap: 10px;
 }
 
 #input {
+    font-family: 'Fixedys', sans-serif;
+    color:#ffffff;
     flex: 1;
-    padding: 10px;
-    border: 1px solid #444;
-    border-radius: 5px;
-    background-color: #1e1e1e;
-    color: #ffffff;
-    font-size: 14px;
-}
-
-#input:focus {
-    outline: none;
-    border-color: #666;
-}
-
-#submitButton {
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
+    padding: 15px;
+    margin:-5px;
+    background-color: #1b2234;
     border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-#submitButton:hover {
-    background-color: #45a049;
+    font-size: 16px;
 }
 
 #messages::-webkit-scrollbar {
@@ -78,14 +197,17 @@ body {
 }
 
 #messages::-webkit-scrollbar-track {
-    background: #1e1e1e;
+    background: #150f30;
 }
 
 #messages::-webkit-scrollbar-thumb {
-    background: #666;
-    border-radius: 4px;
+    background: #312060;
 }
 
 #messages::-webkit-scrollbar-thumb:hover {
-    background: #888;
+    background: #3d2975;
+}
+
+@media(max-width:1200px){ /*max x-shrink*/
+
 }
