@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
+import json
 
 # Authenication imports
 from django.contrib.auth import authenticate, login, logout
@@ -217,13 +218,15 @@ def play(request):
 # Template: gameApp/gameScene.html
 @login_required
 def gameScene(request):
-    context_dict={}
+    user_profile = User.objects.get(user=request.user)
+    context_dict = {'user_profile': user_profile,}
     return render(request, 'gameApp/gameScene.html', context= context_dict)
 
 @login_required
-def gameCreation(request):
-    context_dict={}
-    return render(request, 'gameApp/gameCreation.html', context= context_dict)
+def gameCreation(request): #later modify it
+    user_profile = User.objects.get(user=request.user)
+    context_dict = {'user_profile': user_profile,"new_game":True}
+    return render(request, 'gameApp/gameScene.html', context= context_dict)
 
 def easteregg(request):
     try:
@@ -234,3 +237,51 @@ def easteregg(request):
         easteregguser = authenticate(username="Konami", password="upupdowndownleftrightleftright")
         login(request, easteregguser)
         return redirect(reverse("gameApp:home"))
+
+weapons = { #reserved for icon lookup
+    "Ak-47": {'weapon_id': 1,},
+    "Baseball Bat": {'weapon_id': 2,},
+    "Laser Gun": {'weapon_id': 3,},
+    "Plasma Rifle": {'weapon_id': 4,},
+    "Energy Sword": {'weapon_id': 5,},
+    "Flamethrower": {'weapon_id': 6,},
+    "Railgun": {'weapon_id': 7,},
+    "影の龍": {'weapon_id': 8,},
+    "Chicken": {'weapon_id': 9,},
+    "Revolver": {'weapon_id': 10,},
+    "Shotgun": {'weapon_id': 11,}
+    }
+def get_weapon_image(request, weapon_name): #I MADE IT WORK I'M CRYING
+    id = weapons[weapon_name]["weapon_id"]
+    weapon = Weapon.objects.get(weapon_id=id)
+    return JsonResponse({"image_url": weapon.icon.url})
+
+@login_required
+def save_history(request):
+    if request.method == "POST":
+        try:
+            #get data from js
+            data = json.loads(request.body)
+            enemies_killed = data.get("enemies_killed")
+            days_survived = data.get("days_survived")
+            max_hp = data.get("max_hp")
+
+            #database update
+            user_profile = User.objects.get(user=request.user)
+            user_profile.update_most_enemies_killed(enemies_killed)
+            user_profile.update_most_days_survived(days_survived)
+            user_profile.history_games.append([enemies_killed,days_survived,max_hp])
+            user_profile.save()
+
+            #return
+            return JsonResponse({"status": "success", "message": "Game results saved!"})
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=400)
+
+    return JsonResponse({"status": "error", "message": "Invalid request"}, status=405)
+
+@login_required
+def save(request):
+    # do smth similar to the stuff above...but with saving the whole game information 
+    # you also need to use an eventlistener on the save button to activate all the stuff (its id is save_button)
+    return

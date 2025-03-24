@@ -1,16 +1,6 @@
-const MOCK_WEAPONS = [
-    { name: "Sword", description: "A sharp blade.", damage: 10, attackMessage: "You slash the enemy.", rarity: 2 },
-    { name: "Bow", description: "A ranged weapon.", damage: 8, attackMessage: "You shoot an arrow.", rarity: 1 },
-    { name: "Axe", description: "A heavy weapon.", damage: 15, attackMessage: "You chop the enemy.", rarity: 3 },
-];
+import { updateText, updateWeapon } from "./gameScene.js";
 
-const MOCK_ARTIFACTS = [
-    { name: "Amulet of Power", description: "Increases your strength.", rarity: 4 },
-    { name: "Ring of Speed", description: "Makes you faster.", rarity: 3 },
-    { name: "Cloak of Invisibility", description: "Makes you invisible.", rarity: 5 },
-    { name: "The Orb of Time", description: "Makes you sigma.", rarity: 5 },
-    { name: "Shimschnar's Left Hand Glove", description: "Mysterious power.", rarity: 5 }
-];
+let isEnterKeyPressed = false;
 
 const WEAPONS_LIST = [
     { name: "Ak-47", description: "A powerful assault Rifle", damage: 40, attackMessage: "You shoot the alien with your Ak-47", rarity: 2 },
@@ -24,6 +14,7 @@ const WEAPONS_LIST = [
     { name: "Chicken", description: "A chicken that attacks aliens for some reason", damage: 10, attackMessage: "You throw the chicken at the alien", rarity: 1 },
     { name: "Revolver", description: "A six-shooter revolver", damage: 25, attackMessage: "You shoot the alien with your revolver", rarity: 1 },
     { name: "Shotgun", description: "A shotgun that fires a spread of pellets", damage: 45, attackMessage: "You blast the alien with your shotgun", rarity: 2 },
+    { name: "Fists", description: "You fight with the alien, empty-handed", damage: 0, attackMessage: "You punch the alien.", rarity: 0 },
 ];
 
 const ARTIFACTS_LIST = [
@@ -118,14 +109,14 @@ const ALIEN_WEAPONS = {
     "Zorblax": new Weapon("Zorblax", "A weapon that shoots energy beams.", 25, "The alien fires a beam at you.", 3),
 };
 
-const ALIEN_NAMES = ["Zog", "Gorp", "Prip", "Geggin", "Nairn", "Hojjim", "Kada"];
+const ALIEN_NAMES = ["Zog", "Gorp", "Prip", "Geggin", "Nairn", "Hojjim", "Kada", "Rango"];
 
 let endGame = false;
 let day = 1;
 let difficulty = 1;
 let currentRoomCount = 0;
 
-const map = {
+let map = {
     street: "street",
     emptyHouses: new Set(),
 };
@@ -136,7 +127,6 @@ for (let i = 1; i <= 10; i++) {
 
 const messagesDiv = document.getElementById("messages");
 const inputField = document.getElementById("input");
-const submitButton = document.getElementById("submitButton");
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -148,7 +138,8 @@ async function printMessage(message) {
     messageElement.textContent = message;
     messagesDiv.appendChild(messageElement);
     messagesDiv.scrollTop = messagesDiv.scrollHeight; // Auto-scroll to the latest message
-
+    updateText(player,day); //update everytime there's text change. not the best way but I cba to do anymore
+    updateWeapon(); //update weapon image
     return new Promise(resolve => setTimeout(resolve, 100));
 }
 
@@ -252,19 +243,24 @@ class Room {
 
         const getChoiceListener = () => {
             return new Promise(resolve => {
-                const handleChoiceInput = () => {
-                    resolve(getChoice());
-                };
-
-                submitButton.addEventListener("click", handleChoiceInput, { once: true });
-                inputField.addEventListener("keypress", function(event) {
-                    if (event.key === "Enter") {
-                        submitButton.removeEventListener("click", handleChoiceInput);
+                const handleKeyPress = (event) => {
+                    if (event.key === "Enter" && !isEnterKeyPressed) {
+                        isEnterKeyPressed = true;
                         resolve(getChoice());
+                        event.preventDefault();
+                        document.removeEventListener("keydown", handleKeyPress); 
                     }
-                }, { once: true });
+                };
+        
+                document.addEventListener("keydown", handleKeyPress);
             });
         };
+
+        document.addEventListener("keyup", function(event) {
+            if (event.key === "Enter") {
+                isEnterKeyPressed = false;
+            }
+        });
 
         const choice = await getChoiceListener();
 
@@ -283,12 +279,17 @@ class Room {
                             const selectedItem = lootArray[itemIndex];
                             if (lootType === "weapon") {
                                 player.currentWeapon = selectedItem;
+                                player.inventory.add(selectedItem); //we still need a copy in inventory to make sure it gets into collections
                             } else {
                                 player.inventory.add(selectedItem);
                             }
                             await printMessage(`You now have ${selectedItem.name}.`);
                             player.food -= 1;
                             await printMessage("It cost you 1 Food.");
+                            if (player.food <= 0){
+                                await printMessage("Not being able to find enough food, you starve and die in desperation.");
+                                gameOver();
+                            }
                         } else {
                             await printMessage("Invalid selection.");
                         }
@@ -297,20 +298,29 @@ class Room {
                     }
                 };
 
-                await new Promise(resolve => {
-                    const handleItemInput = () => {
-                        getItemChoice().then(resolve);
-                    };
+                const getItemChoiceListener = () => {
+                    return new Promise(resolve => {
+                        const handleKeyPress = (event) => {
+                            if (event.key === "Enter" && !isEnterKeyPressed) {
+                                isEnterKeyPressed = true;
+                                getItemChoice().then(resolve);
+                                event.preventDefault();
+                                document.removeEventListener("keydown", handleKeyPress);
+                            }
+                        };
+                
+                        document.addEventListener("keydown", handleKeyPress);
+                    });
+                };
 
-                    submitButton.addEventListener("click", handleItemInput, { once: true });
-                    inputField.addEventListener("keypress", function(event) {
-                        if (event.key === "Enter") {
-                            submitButton.removeEventListener("click", handleItemInput);
-                            getItemChoice().then(resolve);
-                        }
-                    }, { once: true });
+                document.addEventListener("keyup", function(event) {
+                    if (event.key === "Enter") {
+                        isEnterKeyPressed = false;
+                    }
                 });
-                break;
+
+                await getItemChoiceListener();
+                break; 
 
             case "no":
             case "n":
@@ -340,8 +350,9 @@ class Alien {
 class Player {
     constructor(hp, attackPoints, speed, food, location) {
         this.hp = hp;
+        this.maxhp = hp;
         this.attackPoints = attackPoints;
-        this.currentWeapon = new Weapon("Fists", "Your fists", attackPoints, "You punch the alien.", 1);
+        this.currentWeapon = new Weapon("Fists", "Your fists", 0, "You punch the alien.", 1);
         this.inventory = new Set();
         this.speed = speed;
         this.food = food;
@@ -353,6 +364,12 @@ class Player {
             "Katana" : false,
             "Dictionary" : false,
         };
+    }
+
+    maxHPUpdate(){
+        if (this.hp > this.maxhp){
+            this.maxhp = this.hp
+        }
     }
 
     toString() {
@@ -377,6 +394,7 @@ class Player {
             this.secretsFound["The Orb of Time"] = true;
         } else {
             await printMessage(`You enter ${houseKey}.`);
+            await printMessage("----------");
             await this.exploreHouse(houseKey);
         }
     }
@@ -425,35 +443,53 @@ class Player {
         let roomNum = null;
         while (roomNum === null) {
             await new Promise(resolve => {
-                const handleRoomInput = () => {
-                    getRoomChoice().then(num => {
-                        roomNum = num;
-                        resolve();
-                    });
-                };
-
-                submitButton.addEventListener("click", handleRoomInput, { once: true });
-                inputField.addEventListener("keypress", function(event) {
-                    if (event.key === "Enter") {
-                        submitButton.removeEventListener("click", handleRoomInput);
+                const handleKeyPress = (event) => {
+                    if (event.key === "Enter" && !isEnterKeyPressed) {
+                        isEnterKeyPressed = true;
                         getRoomChoice().then(num => {
                             roomNum = num;
                             resolve();
                         });
+                        event.preventDefault();
+                        document.removeEventListener("keydown", handleKeyPress); 
                     }
-                }, { once: true });
+                };
+        
+                document.addEventListener("keydown", handleKeyPress);
             });
         }
+
+        document.addEventListener("keyup", function(event) {
+            if (event.key === "Enter") {
+                isEnterKeyPressed = false;
+            }
+        });
 
         const roomKey = `room ${roomNum}`;
 
         await printMessage(`You enter room ${roomNum}.`);
+        await printMessage("-----");
         this.location = map[houseKey][roomKey];
         await this.location.searchRoom(this);
         saveToXML(this);
 
         if (!map[houseKey].emptyRooms.has(roomKey) && map[houseKey][roomKey].roomType == 0){
             map[houseKey].emptyRooms.add(roomKey);
+        }
+
+        currentRoomCount += 1;
+        if (currentRoomCount >= 7) { //sometimes the day increment was delayed. now fixed
+            day += 1;
+            player.food -= 1;
+            difficulty += 1;
+            currentRoomCount -= 7;
+            await printMessage(`It is now day ${day}. You eat something, rest and gain 20 HP.`);
+            player.hp += 20;
+            player.maxHPUpdate();
+            if (player.food <= 0){
+                await printMessage("Not being able to find enough food, you starve and die in desperation.");
+                gameOver();
+            }
         }
 
         await printMessage("Would you like to leave the house? (yes/no)");
@@ -472,19 +508,24 @@ class Player {
 
         const getLeaveChoiceListener = () => {
             return new Promise(resolve => {
-            const handleLeaveInput = () => {
-                resolve(getLeaveChoice());
-            };
-
-            submitButton.addEventListener("click", handleLeaveInput, { once: true });
-            inputField.addEventListener("keypress", function(event) {
-                if (event.key === "Enter") {
-                submitButton.removeEventListener("click", handleLeaveInput);
-                resolve(getLeaveChoice());
-                }
-            }, { once: true });
+                const handleKeyPress = (event) => {
+                    if (event.key === "Enter" && !isEnterKeyPressed) {
+                        isEnterKeyPressed = true;
+                        resolve(getLeaveChoice());
+                        event.preventDefault();
+                        document.removeEventListener("keydown", handleKeyPress); 
+                    }
+                };
+        
+                document.addEventListener("keydown", handleKeyPress);
             });
         };
+
+        document.addEventListener("keyup", function(event) {
+            if (event.key === "Enter") {
+                isEnterKeyPressed = false;
+            }
+        });
 
         const leaveChoice = await getLeaveChoiceListener();
 
@@ -493,7 +534,6 @@ class Player {
         }
         if (map[houseKey].emptyRooms.size == numRooms && !map.emptyHouses.has(houseKey)) {
             map.emptyHouses.add(houseKey);
-            currentRoomCount += 1;
         }
     }
 }
@@ -523,6 +563,7 @@ class Battle {
             await sleep(1000);
             await printMessage(`You: ${this.player.hp} HP`);
             await printMessage(`${this.alien.name}: ${this.alien.hp} HP`);
+            await printMessage("-");
         }
 
         if (this.alien.hp <= 0) {
@@ -535,11 +576,12 @@ class Battle {
     async handleVictory() {
         await printMessage(`You killed ${this.alien.name}!`);
         this.player.hp += 20;
-        this.player.attackPoints += 10;
+        this.player.attackPoints += 5;
         this.player.speed += 5;
-        this.player.food += 2;
+        this.player.food += 1;
         this.player.enemiesKilled += 1;
         this.alien.hp = 0;
+        this.player.maxHPUpdate();
 
         if (Math.floor(Math.random() * 30) === 21 && !this.player.secretsFound["The Glove of Power"]) {
             await printMessage("You find a mysterious glove!");
@@ -576,25 +618,27 @@ class Battle {
         let action = null;
         while (action === null) {
             await new Promise(resolve => {
-                const handleActionInput = () => {
-                    getChoice().then(choice => {
-                        action = choice;
-                        resolve();
-                    });
-                };
-
-                submitButton.addEventListener("click", handleActionInput, { once: true });
-                inputField.addEventListener("keypress", function(event) {
-                    if (event.key === "Enter") {
-                        submitButton.removeEventListener("click", handleActionInput);
+                const handleKeyPress = (event) => {
+                    if (event.key === "Enter" && !isEnterKeyPressed) {
+                        isEnterKeyPressed = true;
                         getChoice().then(choice => {
                             action = choice;
                             resolve();
                         });
+                        event.preventDefault();
+                        document.removeEventListener("keydown", handleKeyPress);
                     }
-                }, { once: true });
+                };
+        
+                document.addEventListener("keydown", handleKeyPress);
             });
         }
+
+        document.addEventListener("keyup", function(event) {
+            if (event.key === "Enter") {
+                isEnterKeyPressed = false;
+            }
+        });
 
         if (action === "attack" || action === "a") {
             await this.fight();
@@ -612,15 +656,19 @@ class Battle {
             await this.alienAttack();
         }
         this.player.food -= 1;
+        if (player.food <= 0){
+            await printMessage("Not being able to find enough food, you starve and die in desperation.");
+            gameOver();
+        }
     }
 
     async playerAttack() {
-        this.alien.hp -= this.player.currentWeapon.damage;
+        this.alien.hp -= (this.player.currentWeapon.damage + this.player.attackPoints);
         await printMessage(this.player.currentWeapon.attackMessage);
     }
 
     async alienAttack() {
-        this.player.hp -= this.alien.weapon.damage;
+        this.player.hp -= (this.alien.weapon.damage + difficulty);
         await printMessage(this.alien.weapon.attackMessage);
     }
 }
@@ -718,6 +766,7 @@ function saveToXML(player) {
     gameProgressElement.appendChild(createElement("Day", day));
     gameProgressElement.appendChild(createElement("Difficulty", difficulty));
     gameProgressElement.appendChild(createElement("CurrentRoomCount", currentRoomCount));
+    gameProgressElement.appendChild(createElement("MaxHP", player.maxhp));
     root.appendChild(gameProgressElement);
 
     xmlDoc.appendChild(root);
@@ -761,6 +810,8 @@ function loadFromXML() {
         const itemName = itemNode.textContent;
         if (ARTIFACTS[itemName]) {
             player.inventory.add(ARTIFACTS[itemName]);
+        }else if(WEAPONS[itemName]){
+            player.inventory.add(WEAPONS[itemName]);
         }
     });
 
@@ -803,12 +854,13 @@ function loadFromXML() {
     day = parseInt(gameProgressElement.querySelector("Day").textContent);
     difficulty = parseInt(gameProgressElement.querySelector("Difficulty").textContent);
     currentRoomCount = parseInt(gameProgressElement.querySelector("CurrentRoomCount").textContent);
+    player.maxhp = parseInt(gameProgressElement.querySelector("MaxHP").textContent)
 
     console.log("Game loaded successfully!");
     return player;
 }
 
-function clearXML() {
+async function clearXML() {
     const xmlDoc = document.implementation.createDocument("", "", null);
     const root = xmlDoc.createElement("GameData");
 
@@ -875,6 +927,7 @@ function clearXML() {
     gameProgressElement.appendChild(createElement("Day", 1));
     gameProgressElement.appendChild(createElement("Difficulty", 1));
     gameProgressElement.appendChild(createElement("CurrentRoomCount", 0));
+    gameProgressElement.appendChild(createElement("MaxHP", 100));
     root.appendChild(gameProgressElement);
 
     xmlDoc.appendChild(root);
@@ -887,8 +940,6 @@ function clearXML() {
     console.log("Game reset successfully!");
 }
 
-
-
 function createAlien() {
     const weaponKeys = Object.keys(ALIEN_WEAPONS);
     const weaponKey = weaponKeys[Math.floor(Math.random() * weaponKeys.length)];
@@ -899,36 +950,12 @@ function createAlien() {
     return new Alien(name, hp, weapon, speed);
 }
 
-let userId = null;
-
-async function fetchCurrentUser() {
-    try {
-        const response = await fetch('/play/api/current-user/');
-        const data = await response.json();
-        userId = data.user_id;
-        console.log("Current user ID:", userId);
-    } catch (error) {
-        console.error("Error fetching current user:", error);
-    }
-}
-
-// Fetch the user ID when the game starts
-fetchCurrentUser();
-
-// Example: Use the user ID to send game results
 async function gameOver() {
-    fetchCurrentUser();
     printMessage("Game Over");
-    printMessage(`Score: ${difficulty}`);
     printMessage(`You made it to day ${day}.`);
-    if (userId) {
-        // Send game results to Django
-        sendGameResults(userId, player.enemiesKilled, day);
-    } else {
-        //console.error("User ID not available.");
-        printMessage("User not found");
-    }
-    printMessage("Submit anything to start a new game");
+    sendHistoryGameResults();
+
+    printMessage("Enter anything to start a new game");
 
     const getContinueChoice = async () => {
         const input = getInput();
@@ -938,44 +965,61 @@ async function gameOver() {
 
     const getContinueChoiceListener = () => {
         return new Promise(resolve => {
-            const handleContinueInput = () => {
-                resolve(getContinueChoice());
-            };
-
-            submitButton.addEventListener("click", handleContinueInput, { once: true });
-            inputField.addEventListener("keypress", function(event) {
-                if (event.key === "Enter") {
-                    submitButton.removeEventListener("click", handleContinueInput);
+            const handleKeyPress = (event) => {
+                if (event.key === "Enter" && !isEnterKeyPressed) {
+                    isEnterKeyPressed = true;
                     resolve(getContinueChoice());
+                    event.preventDefault();
+                    document.removeEventListener("keydown", handleKeyPress);
                 }
-            }, { once: true });
+            };
+    
+            document.addEventListener("keydown", handleKeyPress);
         });
     };
+    document.addEventListener("keyup", function(event) {
+        if (event.key === "Enter") {
+            isEnterKeyPressed = false;
+        }
+    });
 
     await getContinueChoiceListener();
 
     endGame = false;
-    clearXML();
+    await clearXML();
     window.location.reload();
-    //loadFromXML();
-    //play(player);
 }
-async function sendGameResults(userId, enemiesKilled, daysSurvived) {
+
+
+async function sendHistoryGameResults() {
+
     try {
-        const response = await fetch('/play/api/update-stats/', {
+        //data parsing
+        let xmlData = localStorage.getItem("gameData");
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xmlData, "application/xml");
+        const gameProgressElement = xmlDoc.querySelector("GameProgress");
+        let day = parseInt(gameProgressElement.querySelector("Day").textContent);
+        let maxhp = parseInt(gameProgressElement.querySelector("MaxHP").textContent);
+        const playerElement = xmlDoc.querySelector("Player");
+        let enemiesKilled = parseInt(playerElement.querySelector("EnemiesKilled").textContent);
+        //fetch stuff
+        const response = await fetch('/gameApp/save_history/', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': getCookie('csrftoken'), // Include CSRF token for security
+                'Content-Type': 'application/xml',
+                'X-CSRFToken': getCookie('csrftoken'),
             },
             body: JSON.stringify({
-                user_id: userId,
-                enemies_killed: enemiesKilled,
-                days_survived: daysSurvived,
+                "enemies_killed": enemiesKilled,
+                "days_survived": day,
+                "max_hp": maxhp
             }),
         });
-
+        //wait for django view to response
         const data = await response.json();
+
+
         if (data.status === "success") {
             console.log("Game results saved successfully!");
         } else {
@@ -1002,51 +1046,9 @@ function getCookie(name) {
     return cookieValue;
 }
 
-function resetMap(player){
-    if(!player.secretsFound["Katana"]){
-        printMessage("But first an old man approches you")
-        printMessage("He appears to be holding an old sword")
-        printMessage('He walks up to you and he says "I dont really want this anymore..."')
-        printMessage("You want it? (yes/no)")
-        const getSwordChoice = async () => {
-            const input = getInput().toLowerCase().trim();
-            clearInput();
 
-            if (!["yes", "no", "y", "n"].includes(input)) {
-                await printMessage("Invalid input. Enter 'yes' or 'no'.");
-                return await getSwordChoiceListener();
-            }
-            if (input == "yes" || input == "y"){
-                printMessage("He hands you the sword and walks into the sunset")
-                player.inventory.add(WEAPONS["Katana"]);
-                printMessage(`You now have ${WEAPONS["Katana"]}.`);
-            }
-            else if (input == "no" || input == "n"){
-                printMessage("He crumbles to dust and blows away")
-
-            return input;
-        };
-
-        const getSwordChoiceListener = () => {
-            return new Promise(resolve => {
-                const handleSwordInput = () => {
-                    resolve(getSwordChoice());
-                };
-
-                submitButton.addEventListener("click", handleSwordInput, { once: true });
-                inputField.addEventListener("keypress", function(event) {
-                    if (event.key === "Enter") {
-                        submitButton.removeEventListener("click", handleSwordInput);
-                        resolve(getSwordChoice());
-                    }
-                }, { once: true });
-            });
-        };
-        }
-        player.secretsFound["Katana"] = true;
-        return 0
-    }
-    const map = {
+async function resetMap(player){
+    map = { //reset the map first, otherwise it just executes katana and skips reset
         street: "street",
         emptyHouses: new Set(),
     };
@@ -1054,10 +1056,66 @@ function resetMap(player){
     for (let i = 1; i <= 10; i++) {
         map[`house ${i}`] = { emptyRooms: new Set(), timesEntered: 0 };
     }
+
+    if(!player.secretsFound["Katana"]){
+        await printMessage("But first an old man approaches you");
+        await printMessage("He appears to be holding an old sword");
+        await printMessage('He walks up to you and he says "I don\'t really want this anymore..."');
+        await printMessage("You want it? (yes/no)");
+
+        const getSwordChoiceListener = () => {
+            return new Promise(resolve => {
+                const handleKeyPress = (event) => {
+                    if (event.key === "Enter" && !isEnterKeyPressed) {
+                        isEnterKeyPressed = true;
+                        resolve(getSwordChoice());  // Resolve the sword choice
+                        event.preventDefault();
+                        document.removeEventListener("keydown", handleKeyPress); // Remove listener
+                    }
+                };
+        
+                document.addEventListener("keydown", handleKeyPress);
+            });
+        };
+        
+        document.addEventListener("keyup", function(event) {
+            if (event.key === "Enter") {
+                isEnterKeyPressed = false;
+            }
+        });
+
+        const getSwordChoice = async () => {
+            const input = getInput().toLowerCase().trim();
+            clearInput();
+        
+            if (!["yes", "no", "y", "n"].includes(input)) {
+                await printMessage("Invalid input. Enter 'yes' or 'no'.");
+                return await getSwordChoiceListener();
+            }
+        
+            return input;
+        };
+
+        const swordChoice = await getSwordChoice();  // Wait for the sword choice before proceeding
+
+        if (swordChoice === "yes" || swordChoice === "y") {
+            await printMessage("He hands you the sword and walks into the sunset");
+            player.currentWeapon = WEAPONS["Katana"];
+            player.inventory.add(WEAPONS["Katana"]);
+            await printMessage(`You now have ${WEAPONS["Katana"]}.`);
+            player.secretsFound["Katana"] = true;
+        } else {
+            await printMessage("He crumbles to dust and blows away");
+        }
+
+        return 0
+    }
 }
 
 async function play(player) {
-    await printMessage("You are in the street. You can enter any house numbered 1-10. Enter 'q' to quit."); 
+    await printMessage("Enter 'q' to quit.")
+    await printMessage("--------------------");
+    await printMessage("You are in the street. You can enter any house numbered 1-10."); 
 
     const gameLoop = async () => {
         if (endGame) return;
@@ -1067,8 +1125,6 @@ async function play(player) {
             await resetMap(player);
         }
 
-        await printMessage(player.toString());
-        await printMessage(`Score: ${difficulty}`);
         await printMessage("Which house would you like to enter? (1-10)");
 
         const getHouseChoice = async () => {
@@ -1106,23 +1162,24 @@ async function play(player) {
 
         let houseNum = 0;
         await new Promise(resolve => {
-            const handleHouseInput = () => {
-                getHouseChoice().then(num => {
-                    houseNum = num;
-                    resolve();
-                });
-            };
-
-            submitButton.addEventListener("click", handleHouseInput, { once: true });
-            inputField.addEventListener("keypress", function(event) {
-                if (event.key === "Enter") {
-                    submitButton.removeEventListener("click", handleHouseInput);
+            const handleKeyPress = (event) => {
+                if (event.key === "Enter" && !isEnterKeyPressed) {
+                    isEnterKeyPressed = true;
                     getHouseChoice().then(num => {
                         houseNum = num;
                         resolve();
                     });
+                    document.removeEventListener("keydown", handleKeyPress);
                 }
-            }, { once: true });
+            };
+
+            document.addEventListener("keydown", handleKeyPress);
+        });
+
+        document.addEventListener("keyup", function(event) {
+            if (event.key === "Enter") {
+                isEnterKeyPressed = false;
+            }
         });
 
         if (endGame || houseNum === -1) {
@@ -1134,12 +1191,18 @@ async function play(player) {
             await player.move(houseNum);
             currentRoomCount += 1;
 
-            if (currentRoomCount === 5) {
+            if (currentRoomCount >= 7) { //fixed the bug where you refresh page when the following logic is not executed, room count just goes to infinity and do not increment day
                 day += 1;
+                player.food -= 1;
                 difficulty += 1;
-                currentRoomCount = 0;
-                await printMessage(`It is now day ${day}. You rest and gain 20 HP.`);
+                currentRoomCount -= 7;
+                await printMessage(`It is now day ${day}. You eat something, rest and gain 20 HP.`);
                 player.hp += 20;
+                player.maxHPUpdate();
+                if (player.food <= 0){
+                    await printMessage("Not being able to find enough food, you starve and die in desperation.");
+                    gameOver();
+                }
             }
         }
 

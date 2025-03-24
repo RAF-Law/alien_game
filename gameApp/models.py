@@ -99,7 +99,20 @@ class Game(models.Model):
     game_enemies_killed = models.IntegerField(default=0)
     game_day = models.IntegerField(default=0)
     game_difficulty = models.IntegerField(default=1)
+    #max_hp = models.IntegerField(default=1) commented this out cuz I'm too lazy to migrate
+
     game_map = models.IntegerField(default=1)
+
+    #game_info = models.TextField() 
+
+    # ^^ I'm actually thinking whether we can just store raw xml text data to database without any parsing
+    # so we just need one textfield above, no need to seperate details out
+    # when we load from database we throw it back to js and let it handle
+    # but then we need to modify the save_history view to let it update the artifacts/weapons user has found
+    # whatever you choose to implement please make sure it correctly updates the artifacts/weapons the user found & the game data is not lost
+
+    # up to you tho, feel free to choose a way you like
+    # also feel free to ask if you're unsure about the code or workflow :p
 
     def __str__(self):
         return f"Game {self.user_game}"

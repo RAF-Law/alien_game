@@ -17,4 +17,7 @@ urlpatterns = [
     path('play/gameScene/', views.gameScene, name='gameScene'),
     path('play/gameCreation/', views.gameCreation, name='gameCreation'),
     path('easteregg/',views.easteregg,name='easteregg'),
+    path("get_weapon_image/<str:weapon_name>/", views.get_weapon_image, name="get_weapon_image"),#<str:> used to match the view parameter
+    path('save_history/',views.save_history,name="save_history"),
+    path('save',views.save,name="save"),
 ]
