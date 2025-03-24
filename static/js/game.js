@@ -14,7 +14,7 @@ const WEAPONS_LIST = [
     { name: "Chicken", description: "A chicken that attacks aliens for some reason", damage: 10, attackMessage: "You throw the chicken at the alien", rarity: 1 },
     { name: "Revolver", description: "A six-shooter revolver", damage: 25, attackMessage: "You shoot the alien with your revolver", rarity: 1 },
     { name: "Shotgun", description: "A shotgun that fires a spread of pellets", damage: 45, attackMessage: "You blast the alien with your shotgun", rarity: 2 },
-    { name: "Fists", description: "You fight with the alien, empty-handed", damage: 0, attackMessage: "You punch the alien.", rarity: 0 },
+    { name: "Fists", description: "You fight with the alien, empty-handed", damage: 0, attackMessage: "You punch the alien.", rarity: 4 }, //sometimes after loading xml you lost punching text, so I add it here
 ];
 
 const ARTIFACTS_LIST = [
@@ -995,14 +995,24 @@ async function sendHistoryGameResults() {
 
     try {
         //data parsing
-        let xmlData = localStorage.getItem("gameData");
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(xmlData, "application/xml");
-        const gameProgressElement = xmlDoc.querySelector("GameProgress");
-        let day = parseInt(gameProgressElement.querySelector("Day").textContent);
-        let maxhp = parseInt(gameProgressElement.querySelector("MaxHP").textContent);
-        const playerElement = xmlDoc.querySelector("Player");
-        let enemiesKilled = parseInt(playerElement.querySelector("EnemiesKilled").textContent);
+        // let xmlData = localStorage.getItem("gameData");
+        // const parser = new DOMParser();
+        // const xmlDoc = parser.parseFromString(xmlData, "application/xml");
+        // const gameProgressElement = xmlDoc.querySelector("GameProgress");
+        // let day = parseInt(gameProgressElement.querySelector("Day").textContent);
+        // let maxhp = parseInt(gameProgressElement.querySelector("MaxHP").textContent);
+        // const playerElement = xmlDoc.querySelector("Player");
+        // let enemiesKilled = parseInt(playerElement.querySelector("EnemiesKilled").textContent);
+
+        //just relised we don't need data parsing here. all data are available as js variables
+        //there's a minor delay in updating the xml, the js variable are always the newest
+        //kept them just for you to check how to parse (more examples in loadFromXML())
+        //if you implement save function, be sure to first call saveToXML(player)
+        //before any data parsing and data sending starts
+
+        let maxhp = player.maxhp;
+        //day variable already available in js
+        let enemiesKilled = player.enemiesKilled;
         //fetch stuff
         const response = await fetch('/gameApp/save_history/', {
             method: 'POST',

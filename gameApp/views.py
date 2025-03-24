@@ -270,6 +270,7 @@ def save_history(request):
             user_profile = User.objects.get(user=request.user)
             user_profile.update_most_enemies_killed(enemies_killed)
             user_profile.update_most_days_survived(days_survived)
+            user_profile.increment_games_played()
             user_profile.history_games.append([enemies_killed,days_survived,max_hp])
             user_profile.save()
 
