@@ -3,7 +3,6 @@ import * as base from "./base.js";
 export function updateWeapon(){
     const xmlString = localStorage.getItem("gameData");
     if (!xmlString) {
-        console.log("No saved game found.");
         return null;
     }
     const parser = new DOMParser();

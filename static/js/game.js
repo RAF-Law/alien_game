@@ -288,7 +288,7 @@ class Room {
                             await printMessage("It cost you 1 Food.");
                             if (player.food <= 0){
                                 await printMessage("Not being able to find enough food, you starve and die in desperation.");
-                                gameOver();
+                                await gameOver();
                             }
                         } else {
                             await printMessage("Invalid selection.");
@@ -471,7 +471,9 @@ class Player {
         await printMessage("-----");
         this.location = map[houseKey][roomKey];
         await this.location.searchRoom(this);
-        saveToXML(this);
+        if(this.hp > 0 && this.food > 0){ //sometimes it's saved after reset and it causes errors
+            saveToXML(this);
+        }
 
         if (!map[houseKey].emptyRooms.has(roomKey) && map[houseKey][roomKey].roomType == 0){
             map[houseKey].emptyRooms.add(roomKey);
@@ -488,7 +490,7 @@ class Player {
             player.maxHPUpdate();
             if (player.food <= 0){
                 await printMessage("Not being able to find enough food, you starve and die in desperation.");
-                gameOver();
+                await gameOver();
             }
         }
 
@@ -593,7 +595,7 @@ class Battle {
 
     async handleDefeat() {
         await printMessage("You have been defeated.");
-        gameOver();
+        await gameOver();
     }
 
     async encounter() {
@@ -658,7 +660,7 @@ class Battle {
         this.player.food -= 1;
         if (player.food <= 0){
             await printMessage("Not being able to find enough food, you starve and die in desperation.");
-            gameOver();
+            await gameOver();
         }
     }
 
@@ -1193,7 +1195,7 @@ async function play(player) {
         });
 
         if (endGame || houseNum === -1) {
-            gameOver();
+            await gameOver();
             return;
         }
 
@@ -1211,7 +1213,7 @@ async function play(player) {
                 player.maxHPUpdate();
                 if (player.food <= 0){
                     await printMessage("Not being able to find enough food, you starve and die in desperation.");
-                    gameOver();
+                    await gameOver();
                 }
             }
         }
