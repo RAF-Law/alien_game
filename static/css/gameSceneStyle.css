@@ -1,6 +1,19 @@
 @import "collectionStyle.css";
+@import "loginStyle.css";
 
 /* info part */
+.inputcontainer{
+    position:relative;
+    height:40px;
+    left:270px !important;
+    top:0px !important;
+    z-index: auto;
+}
+.styled-submit{
+    padding-left: 8px;
+    height:48px;
+    letter-spacing: 3px;
+}
 #kill_num{
     right:10px;
     top:115px;
@@ -58,6 +71,7 @@
     transform:none;
     width:390px;
     height:700px;
+    pointer-events: none;
 }
 .right{
     width:280px;

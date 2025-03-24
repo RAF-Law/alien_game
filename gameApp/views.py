@@ -282,5 +282,6 @@ def save_history(request):
 
 @login_required
 def save(request):
-    #do smth similar to the stuff above...but with saving the whole game information
+    # do smth similar to the stuff above...but with saving the whole game information 
+    # you also need to use an eventlistener on the save button to activate all the stuff (its id is save_button)
     return
