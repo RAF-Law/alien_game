@@ -480,11 +480,11 @@ class Player {
         }
 
         currentRoomCount += 1;
-        if (currentRoomCount >= 7) { //sometimes the day increment was delayed. now fixed
+        if (currentRoomCount >= 8) { //sometimes the day increment was delayed. now fixed
             day += 1;
             player.food -= 1;
             difficulty += 1;
-            currentRoomCount -= 7;
+            currentRoomCount -= 8;
             await printMessage(`It is now day ${day}. You eat something, rest and gain 20 HP.`);
             player.hp += 20;
             player.maxHPUpdate();
@@ -656,6 +656,9 @@ class Battle {
         } else {
             await printMessage("You were too slow and the alien attacks you!");
             await this.alienAttack();
+            if (this.player.hp <= 0){
+                await gameOver();
+            }
         }
         this.player.food -= 1;
         if (player.food <= 0){
@@ -670,7 +673,7 @@ class Battle {
     }
 
     async alienAttack() {
-        this.player.hp -= (this.alien.weapon.damage + difficulty);
+        this.player.hp -= (this.alien.weapon.damage + Math.floor(difficulty/2));
         await printMessage(this.alien.weapon.attackMessage);
     }
 }
@@ -1203,11 +1206,11 @@ async function play(player) {
             await player.move(houseNum);
             currentRoomCount += 1;
 
-            if (currentRoomCount >= 7) { //fixed the bug where you refresh page when the following logic is not executed, room count just goes to infinity and do not increment day
+            if (currentRoomCount >= 8) { //fixed the bug where you refresh page when the following logic is not executed, room count just goes to infinity and do not increment day
                 day += 1;
                 player.food -= 1;
                 difficulty += 1;
-                currentRoomCount -= 7;
+                currentRoomCount -= 8;
                 await printMessage(`It is now day ${day}. You eat something, rest and gain 20 HP.`);
                 player.hp += 20;
                 player.maxHPUpdate();

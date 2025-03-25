@@ -108,6 +108,7 @@
     border: 5px solid rgb(11, 11, 43);
 }
 .pfp{
+    object-fit: cover;
     top:37px;
     left:45px;
     width:210px;

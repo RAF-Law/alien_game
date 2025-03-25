@@ -59,6 +59,9 @@ def create_easteregg(username='Konami', email='homepage@user.com', password='upu
     if not User.objects.filter(username=username).exists():
         user = User.objects.create_user(username=username, email=email, password=password)
         profile = UserProfile.objects.get(user=user)
+        profile.most_enemies_killed = -1
+        profile.most_days_survived = -1
+        profile.games_played = -1
         artifacts = Artifact.objects.all()
         weapons = Weapon.objects.all()
         profile.artifacts_earned.add(*artifacts)

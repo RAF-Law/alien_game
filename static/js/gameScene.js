@@ -10,10 +10,17 @@ export function updateWeapon(){
     const playerElement = xmlDoc.querySelector("Player");
     let weaponName = playerElement.querySelector("CurrentWeapon Name").textContent;
     if (weaponName!=="Fists"){
-        fetch(`../../get_weapon_image/${weaponName}/`)  // Send request to Django backend
-            .then(response => response.json())
-            .then(data => {
-                    document.getElementById("weapon").src = data.image_url;})
+        if (weaponName ==="Katana"){
+            fetch(`../../get_weapon_image/影の龍/`) //sadly enough, name "katana" is not in database
+                .then(response => response.json())
+                .then(data => {
+                        document.getElementById("weapon").src = data.image_url;})
+        }else{
+            fetch(`../../get_weapon_image/${weaponName}/`)  // Send request to Django backend
+                .then(response => response.json())
+                .then(data => {
+                        document.getElementById("weapon").src = data.image_url;})
+        }
     }
 }
 //we no more need this

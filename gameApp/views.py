@@ -96,7 +96,14 @@ def user_login(request):
         if user:
             if user.is_active:
                 login(request, user)
-                return redirect(reverse("gameApp:home"))
+                user_profile = User.objects.get(user=user)
+                response = redirect(reverse("gameApp:home"))
+                if "easteregg" in request.COOKIES:
+                    eastereggArtifact = Artifact.objects.get(artifact_id=21)
+                    user_profile.artifacts_earned.add(eastereggArtifact)  # Django ignores if already exists
+                    if request.user.username != "Konami":
+                        response.delete_cookie("easteregg")
+                return response
             else:
                 return HttpResponse("Your Account has been disabled :[]") #I dont think this part will be used
         else:
@@ -128,13 +135,6 @@ def user_account(request):
         'user_profile': user_profile,
     })
 
-    # Check if the cookie exists
-    if "easteregg" in request.COOKIES:
-        eastereggArtifact = Artifact.objects.get(artifact_id=21)
-        user_profile.artifacts_earned.add(eastereggArtifact)  # Django ignores if already exists
-        if request.user.username != "Konami":
-            response.delete_cookie("easteregg")
-
     # Handle profile form submission
     if request.method == 'POST':
         profile_form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
@@ -142,7 +142,7 @@ def user_account(request):
             profile_form.save()
             return redirect(reverse('gameApp:user_account'))  # Reload page after updating PFP
 
-    return response  # Return the modified response with the cookie deleted
+    return response
 
 
 
@@ -172,10 +172,6 @@ def user_handbook(request):
     user_profile = User.objects.get(user=request.user)
     response = render(request, 'gameApp/user_handbook.html')  
 
-    if "easteregg" in request.COOKIES:
-        eastereggArtifact = Artifact.objects.get(artifact_id=21)
-        user_profile.artifacts_earned.add(eastereggArtifact) 
-
     # Get user-specific and all artifacts
     user_artifacts_list = user_profile.artifacts_earned.all()
     artifacts_list = Artifact.objects.all()
@@ -192,8 +188,6 @@ def user_handbook(request):
     }
 
     response = render(request, 'gameApp/user_handbook.html', context=context_dict)
-    if request.user.username != "Konami":
-        response.delete_cookie("easteregg")
     return response
 
 
