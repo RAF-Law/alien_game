@@ -288,7 +288,7 @@ class Room {
                             await printMessage("It cost you 1 Food.");
                             if (player.food <= 0){
                                 await printMessage("Not being able to find enough food, you starve and die in desperation.");
-                                gameOver();
+                                await gameOver();
                             }
                         } else {
                             await printMessage("Invalid selection.");
@@ -471,24 +471,26 @@ class Player {
         await printMessage("-----");
         this.location = map[houseKey][roomKey];
         await this.location.searchRoom(this);
-        saveToXML(this);
+        if(this.hp > 0 && this.food > 0){ //sometimes it's saved after reset and it causes errors
+            saveToXML(this);
+        }
 
         if (!map[houseKey].emptyRooms.has(roomKey) && map[houseKey][roomKey].roomType == 0){
             map[houseKey].emptyRooms.add(roomKey);
         }
 
         currentRoomCount += 1;
-        if (currentRoomCount >= 7) { //sometimes the day increment was delayed. now fixed
+        if (currentRoomCount >= 8) { //sometimes the day increment was delayed. now fixed
             day += 1;
             player.food -= 1;
             difficulty += 1;
-            currentRoomCount -= 7;
+            currentRoomCount -= 8;
             await printMessage(`It is now day ${day}. You eat something, rest and gain 20 HP.`);
             player.hp += 20;
             player.maxHPUpdate();
             if (player.food <= 0){
                 await printMessage("Not being able to find enough food, you starve and die in desperation.");
-                gameOver();
+                await gameOver();
             }
         }
 
@@ -593,7 +595,7 @@ class Battle {
 
     async handleDefeat() {
         await printMessage("You have been defeated.");
-        gameOver();
+        await gameOver();
     }
 
     async encounter() {
@@ -654,11 +656,14 @@ class Battle {
         } else {
             await printMessage("You were too slow and the alien attacks you!");
             await this.alienAttack();
+            if (this.player.hp <= 0){
+                await gameOver();
+            }
         }
         this.player.food -= 1;
         if (player.food <= 0){
             await printMessage("Not being able to find enough food, you starve and die in desperation.");
-            gameOver();
+            await gameOver();
         }
     }
 
@@ -668,7 +673,7 @@ class Battle {
     }
 
     async alienAttack() {
-        this.player.hp -= (this.alien.weapon.damage + difficulty);
+        this.player.hp -= (this.alien.weapon.damage + Math.floor(difficulty/2));
         await printMessage(this.alien.weapon.attackMessage);
     }
 }
@@ -1193,7 +1198,7 @@ async function play(player) {
         });
 
         if (endGame || houseNum === -1) {
-            gameOver();
+            await gameOver();
             return;
         }
 
@@ -1201,17 +1206,17 @@ async function play(player) {
             await player.move(houseNum);
             currentRoomCount += 1;
 
-            if (currentRoomCount >= 7) { //fixed the bug where you refresh page when the following logic is not executed, room count just goes to infinity and do not increment day
+            if (currentRoomCount >= 8) { //fixed the bug where you refresh page when the following logic is not executed, room count just goes to infinity and do not increment day
                 day += 1;
                 player.food -= 1;
                 difficulty += 1;
-                currentRoomCount -= 7;
+                currentRoomCount -= 8;
                 await printMessage(`It is now day ${day}. You eat something, rest and gain 20 HP.`);
                 player.hp += 20;
                 player.maxHPUpdate();
                 if (player.food <= 0){
                     await printMessage("Not being able to find enough food, you starve and die in desperation.");
-                    gameOver();
+                    await gameOver();
                 }
             }
         }

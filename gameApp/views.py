@@ -96,7 +96,14 @@ def user_login(request):
         if user:
             if user.is_active:
                 login(request, user)
-                return redirect(reverse("gameApp:home"))
+                user_profile = User.objects.get(user=user)
+                response = redirect(reverse("gameApp:home"))
+                if "easteregg" in request.COOKIES:
+                    eastereggArtifact = Artifact.objects.get(artifact_id=21)
+                    user_profile.artifacts_earned.add(eastereggArtifact)  # Django ignores if already exists
+                    if request.user.username != "Konami":
+                        response.delete_cookie("easteregg")
+                return response
             else:
                 return HttpResponse("Your Account has been disabled :[]") #I dont think this part will be used
         else:
@@ -123,19 +130,19 @@ def user_logout(request):
 def user_account(request):
     user_profile = User.objects.get(user=request.user)
 
+    response = render(request, 'gameApp/user_account.html', {
+        'profile_form': UserProfileForm(instance=user_profile),
+        'user_profile': user_profile,
+    })
+
+    # Handle profile form submission
     if request.method == 'POST':
         profile_form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
-
         if profile_form.is_valid():
             profile_form.save()
             return redirect(reverse('gameApp:user_account'))  # Reload page after updating PFP
 
-    else:
-        profile_form = UserProfileForm(instance=user_profile)
-
-    # Pass form & user info to template
-    context_dict = {'profile_form': profile_form, 'user_profile': user_profile,}
-    return render(request, 'gameApp/user_account.html', context=context_dict)
+    return response
 
 
 
@@ -163,24 +170,25 @@ def user_history(request):
 @login_required
 def user_handbook(request):
     user_profile = User.objects.get(user=request.user)
-    # Get user specific artifacts earned
+    response = render(request, 'gameApp/user_handbook.html')  
+
+    # Get user-specific and all artifacts
     user_artifacts_list = user_profile.artifacts_earned.all()
-    # Get all artifacts 
     artifacts_list = Artifact.objects.all()
 
-    # Get user specific weapons earned
+    # Get user-specific and all weapons
     user_weapons_list = user_profile.weapons_earned.all()
-    # Get all weapons
     weapons_list = Weapon.objects.all()
 
-    # Store user specific artifacts and weapons, with all artifacts and weapons into context dictionary 
-    context_dict={}
-    context_dict['user_artifacts'] = user_artifacts_list
-    context_dict['artifacts'] = artifacts_list
-    context_dict['user_weapons'] = user_weapons_list
-    context_dict['weapons'] = weapons_list
+    context_dict = {
+        'user_artifacts': user_artifacts_list,
+        'artifacts': artifacts_list,
+        'user_weapons': user_weapons_list,
+        'weapons': weapons_list
+    }
 
-    return render(request, 'gameApp/user_handbook.html', context=context_dict)
+    response = render(request, 'gameApp/user_handbook.html', context=context_dict)
+    return response
 
 
 # Leaderboard view
@@ -236,7 +244,9 @@ def easteregg(request):
     finally:
         easteregguser = authenticate(username="Konami", password="upupdowndownleftrightleftright")
         login(request, easteregguser)
-        return redirect(reverse("gameApp:home"))
+        response = redirect(reverse("gameApp:home"))
+        response.set_cookie("easteregg", "0")
+        return response
 
 weapons = { #reserved for icon lookup
     "Ak-47": {'weapon_id': 1,},

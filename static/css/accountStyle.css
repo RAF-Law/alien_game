@@ -162,8 +162,8 @@ body {
 }
 
 #logout{background-image: url('../icons/logout_icon.png');}
-#upload{background-image: url('../icons/pfp_icon.png');}
-#save{background-image: url('../icons/save_icon.png');}
+#upload{background-image: url('../icons/pfp_icon.png');position:relative;top:-35px;left:160px;}
+#save{background-image: url('../icons/save_icon.png');position:relative;top:-35px;left:160px;}
 
 .pfp_display{
   position:relative;
@@ -186,6 +186,7 @@ body {
     background-repeat: no-repeat;
     background-position: center;
     align-self: center;
+    pointer-events: none;
 }
 
 .logout_bg{
@@ -236,14 +237,14 @@ input[type="file"] { /* hide the default shit */
   border: 0;
 }
 .custom-file-upload {
-  width:160px;
+  width:200px;
   height:40px;
   display: inline-block;
   cursor: pointer;
 }
 
 .styled_button {
-  width: 160px;
+  width: 200px;
   height: 40px;
   font-size: 25px;
 
