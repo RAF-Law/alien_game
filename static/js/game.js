@@ -1118,6 +1118,7 @@ async function resetMap(player){
             player.currentWeapon = WEAPONS["Katana"];
             player.inventory.add(WEAPONS["Katana"]);
             await printMessage(`You now have ${WEAPONS["Katana"]}.`);
+            await saveToXML(player);
             player.secretsFound["Katana"] = true;
         } else {
             await printMessage("He crumbles to dust and blows away");

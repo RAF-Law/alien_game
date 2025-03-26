@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.utils import timezone
 import json
 
 # Authenication imports
@@ -153,12 +154,10 @@ def user_account(request):
 @login_required
 def user_history(request):
 
-    # pass in user specific history info
     user_information = User.objects.get(user=request.user)
 
-    # Store user specific information into context dictionary
     context_dict={}
-    context_dict['user_info'] = user_information
+    context_dict['user_history'] = user_information.history_games
 
     return render(request, 'gameApp/user_history.html', context=context_dict)
 
@@ -281,7 +280,7 @@ def save_history(request):
             user_profile.update_most_enemies_killed(enemies_killed)
             user_profile.update_most_days_survived(days_survived)
             user_profile.increment_games_played()
-            user_profile.history_games.append([enemies_killed,days_survived,max_hp])
+            user_profile.history_games.append([enemies_killed,days_survived,max_hp,str(timezone.now())])
             user_profile.save()
 
             #return

@@ -7,23 +7,49 @@
 
 {% block styles %}
     <link rel="stylesheet" href="{% static 'css/historyStyle.css' %}">
+    <script type="module" src="{% static 'js/history.js' %}"></script>
 {% endblock %}
 
 {% block body_block %}
 
+    <div id="left_1" class="side left"></div>
+    <div id="left_2" class="side left"></div>
+    <div id="left_3" class="side left"></div>
+    <div id="right_1" class="side right"></div>
+    <div id="right_2" class="side right"></div>
+    <div id="right_3" class="side right"></div>
 
+    <div class="scrollable">
+        {% for history in user_history|slice:"::-1" %}
+            <div class="frame">
 
+                <div class="databox">
+                    <div class="block">
+                        <div class="text1">
+                            Enemies killed:
+                        </div>
+                        <div class="text2">{{ history.0 }}</div>
+                    </div>
 
+                    <div class="block">
+                        <div class="text1">
+                            Days survived: 
+                        </div>
+                        <div class="text2">{{ history.1 }}</div>
+                    </div>
+                    
+                    <div class="block">
+                        <div class="text1">
+                            Max HP achieved:
+                        </div>
+                        <div class="text2">{{ history.2 }}</div>
+                    </div>
+                </div>
 
-
-
-
-
-
-
-
-
-
+                <div class="time">{{ history.3 }}</div>
+            </div>
+        {% endfor %}
+    </div>
 
 {% endblock %}
 
