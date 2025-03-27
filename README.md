@@ -118,5 +118,9 @@ All art resources in this project are produced by [@octokatherine](https://githu
 ## Special Thanks
 
 To those who gave support to the development of this project and engaged in early testing:
-
+- maxine
+- Batman
+- frog
+- DuaLipa
+- urmother
 
