@@ -1,6 +1,12 @@
 # 🏠 House Invader  
 *A survival sci-fi text adventure built with Django*
 
+**Originally served as the group project for Web App Development 2, University of Glasgow*
+
+## External resources used
+- BGM: https://pixabay.com/music/main-title-stealth-battle-205902/
+- Pixelated rounded corners: https://pixelcorners.lukeb.co.uk/?radius=8&multiplier=4
+
 ## Authors
 - [@octokatherine](https://github.com/RAF-Law)
 - [@truthfulle](https://github.com/truthfulle)  
