@@ -139,6 +139,7 @@ export function scanning(elementId,gap){
         newElement.classList.add("strip");
         newElement.style.top = position + "px";
         newElement.style.height = h + "px";
+        newElement.style.pointerEvents = "none"
         position = h * positioncounter;
         positioncounter += direction;
         element.appendChild(newElement);

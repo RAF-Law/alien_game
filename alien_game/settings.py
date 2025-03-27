@@ -27,7 +27,8 @@ SECRET_KEY = 'gcf!((&5hd^tqlrl=)0hlfze+j0)_z65cw+pv!#@m3(7_@q!wy'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['raflaw.pythonanywhere.com',
+                 '127.0.0.1',]
 
 
 # Application definition
@@ -123,6 +124,7 @@ USE_TZ = True
 
 STATICFILES_DIRS = [STATIC_DIR,]
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 
 # Media files ( e.g. User profile pictures )
