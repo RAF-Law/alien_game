@@ -63,6 +63,19 @@
   z-index: 2;
 }
 
+.text_hint{
+  width:70vw;
+  text-align: center;
+  font-family: 'Fixedys', sans-serif;
+  font-size:1vw;
+  position:fixed;
+  bottom:100px;
+  left: 50%;
+  transform: translate(-50%);
+  color:#54a596;
+  z-index:2;
+}
+
 .game_frame,
 .game_frame--wrapper {
     position: fixed;

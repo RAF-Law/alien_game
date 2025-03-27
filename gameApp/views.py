@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.utils import timezone
 import json
 
 # Authenication imports
@@ -153,12 +154,10 @@ def user_account(request):
 @login_required
 def user_history(request):
 
-    # pass in user specific history info
     user_information = User.objects.get(user=request.user)
 
-    # Store user specific information into context dictionary
     context_dict={}
-    context_dict['user_info'] = user_information
+    context_dict['user_history'] = user_information.history_games
 
     return render(request, 'gameApp/user_history.html', context=context_dict)
 
@@ -231,10 +230,13 @@ def gameScene(request):
     return render(request, 'gameApp/gameScene.html', context= context_dict)
 
 @login_required
-def gameCreation(request): #later modify it
+def gameCreation(request):
     user_profile = User.objects.get(user=request.user)
-    context_dict = {'user_profile': user_profile,"new_game":True}
-    return render(request, 'gameApp/gameScene.html', context= context_dict)
+    context_dict = {'user_profile': user_profile,}
+    game = Game.objects.get(user_game=request.user)
+    game.game_data = '<GameData><Player><HP>100</HP><AttackPoints>5</AttackPoints><Speed>10</Speed><Food>10</Food><EnemiesKilled>0</EnemiesKilled><Location>street</Location><CurrentWeapon><Name>Fists</Name></CurrentWeapon><Inventory/></Player><Map><EmptyHouses/><House name="house 1"><TimesEntered>0</TimesEntered><Rooms/><EmptyRooms/></House><House name="house 2"><TimesEntered>0</TimesEntered><Rooms/><EmptyRooms/></House><House name="house 3"><TimesEntered>0</TimesEntered><Rooms/><EmptyRooms/></House><House name="house 4"><TimesEntered>0</TimesEntered><Rooms/><EmptyRooms/></House><House name="house 5"><TimesEntered>0</TimesEntered><Rooms/><EmptyRooms/></House><House name="house 6"><TimesEntered>0</TimesEntered><Rooms/><EmptyRooms/></House><House name="house 7"><TimesEntered>0</TimesEntered><Rooms/><EmptyRooms/></House><House name="house 8"><TimesEntered>0</TimesEntered><Rooms/><EmptyRooms/></House><House name="house 9"><TimesEntered>0</TimesEntered><Rooms/><EmptyRooms/></House><House name="house 10"><TimesEntered>0</TimesEntered><Rooms/><EmptyRooms/></House></Map><SecretsFound><Secret name="The Orb of Time">false</Secret><Secret name="The Glove of Power">false</Secret><Secret name="Katana">false</Secret><Secret name="Dictionary">false</Secret></SecretsFound><GameProgress><Day>1</Day><Difficulty>1</Difficulty><CurrentRoomCount>0</CurrentRoomCount><MaxHP>100</MaxHP></GameProgress></GameData>'
+    game.save()
+    return redirect("gameApp:gameScene")
 
 def easteregg(request):
     try:
@@ -248,7 +250,7 @@ def easteregg(request):
         response.set_cookie("easteregg", "0")
         return response
 
-weapons = { #reserved for icon lookup
+weapons = { #reserved for lookup
     "Ak-47": {'weapon_id': 1,},
     "Baseball Bat": {'weapon_id': 2,},
     "Laser Gun": {'weapon_id': 3,},
@@ -256,10 +258,33 @@ weapons = { #reserved for icon lookup
     "Energy Sword": {'weapon_id': 5,},
     "Flamethrower": {'weapon_id': 6,},
     "Railgun": {'weapon_id': 7,},
-    "影の龍": {'weapon_id': 8,},
+    "Katana": {'weapon_id': 8,},
     "Chicken": {'weapon_id': 9,},
     "Revolver": {'weapon_id': 10,},
     "Shotgun": {'weapon_id': 11,}
+    }
+artifacts = {
+    "Cosmic Crystal": {'artifact_id': 1,},
+    "Galactic Map": {'artifact_id': 2,},
+    "Alien Artifact": {'artifact_id': 3,},
+    "Extraterrestrial Coin": {'artifact_id': 4,},
+    "Space Helmet": {'artifact_id': 5,},
+    "Alien Skull": {'artifact_id': 6,},
+    "Stardust": {'artifact_id': 7,},
+    "Meteorite Fragment": {'artifact_id': 8,},
+    "Alien Fossil": {'artifact_id': 9,},
+    "Space Gem": {'artifact_id': 10,},
+    "Alien Egg": {'artifact_id': 11,},
+    "Cosmic Dust": {'artifact_id': 12,},
+    "Alien Amulet": {'artifact_id': 13,},
+    "Galactic Artifact": {'artifact_id': 14,},
+    "Space Relic": {'artifact_id': 15,},
+    "Alien Crystal": {'artifact_id': 16,},
+    "Extraterrestrial Relic": {'artifact_id': 17,},
+    "Shimschnar's Left Hand Glove": {'artifact_id': 18,},
+    "The Dictionary of the Ancients": {'artifact_id': 19,},
+    "The Orb of Time": {'artifact_id': 20,},
+    "The Eye of Schmelborg": {'artifact_id': 21}
     }
 def get_weapon_image(request, weapon_name): #I MADE IT WORK I'M CRYING
     id = weapons[weapon_name]["weapon_id"]
@@ -275,13 +300,24 @@ def save_history(request):
             enemies_killed = data.get("enemies_killed")
             days_survived = data.get("days_survived")
             max_hp = data.get("max_hp")
+            inv = data.get("inventory")
 
             #database update
             user_profile = User.objects.get(user=request.user)
             user_profile.update_most_enemies_killed(enemies_killed)
             user_profile.update_most_days_survived(days_survived)
             user_profile.increment_games_played()
-            user_profile.history_games.append([enemies_killed,days_survived,max_hp])
+            user_profile.history_games.append([enemies_killed,days_survived,max_hp,str(timezone.now())])
+            for i in inv:
+                try:
+                    id = weapons[i]["weapon_id"]
+                    weapon = Weapon.objects.get(weapon_id=id)
+                    user_profile.weapons_earned.add(weapon)
+                except:
+                    id = artifacts[i]["artifact_id"]
+                    artifact = Artifact.objects.get(artifact_id=id)
+                    user_profile.artifacts_earned.add(artifact)
+            
             user_profile.save()
 
             #return
@@ -292,7 +328,32 @@ def save_history(request):
     return JsonResponse({"status": "error", "message": "Invalid request"}, status=405)
 
 @login_required
-def save(request):
-    # do smth similar to the stuff above...but with saving the whole game information 
-    # you also need to use an eventlistener on the save button to activate all the stuff (its id is save_button)
-    return
+def save_game_state(request):
+     if request.method == "POST":
+         try:
+             data = json.loads(request.body)
+             xml_data = data.get("game_data")
+             game = Game.objects.get(user_game=request.user)
+             game.game_data = xml_data
+             game.save()
+             
+             return JsonResponse({"status": "success", "message": "Game saved successfully!"})
+         except Exception as e:
+             return JsonResponse({"status": "error", "message": str(e)}, status=400)
+     return JsonResponse({"status": "error", "message": "Invalid request"}, status=405)
+
+@login_required
+def load_game_state(request):
+     try:
+         game = Game.objects.get(user_game=request.user)
+         return HttpResponse(game.game_data, content_type="application/xml")
+     except Game.DoesNotExist:
+         return JsonResponse({
+             "status": "error",
+             "message": "No saved game found"
+         }, status=404)
+     except Exception as e:
+         return JsonResponse({
+             "status": "error",
+             "message": str(e)
+         }, status=400)

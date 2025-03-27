@@ -1,26 +1,13 @@
 import * as base from "./base.js";
 
-export function updateWeapon(){
-    const xmlString = localStorage.getItem("gameData");
-    if (!xmlString) {
-        return null;
-    }
-    const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(xmlString, "application/xml");
-    const playerElement = xmlDoc.querySelector("Player");
-    let weaponName = playerElement.querySelector("CurrentWeapon Name").textContent;
+export function updateWeapon(player){
+    let weaponName = player.currentWeapon.name
     if (weaponName!=="Fists"){
-        if (weaponName ==="Katana"){
-            fetch(`../../get_weapon_image/影の龍/`) //sadly enough, name "katana" is not in database
-                .then(response => response.json())
-                .then(data => {
-                        document.getElementById("weapon").src = data.image_url;})
-        }else{
-            fetch(`../../get_weapon_image/${weaponName}/`)  // Send request to Django backend
-                .then(response => response.json())
-                .then(data => {
-                        document.getElementById("weapon").src = data.image_url;})
-        }
+        fetch(`../../get_weapon_image/${weaponName}/`)  // Send request to Django backend
+            .then(response => response.json())
+            .then(data => {
+                    document.getElementById("weapon").src = data.image_url;})
+        
     }
 }
 //we no more need this
