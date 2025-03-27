@@ -79,3 +79,7 @@ pip install -r requirements.txt
 python manage.py runserver
 ```
 Access at: http://127.0.0.1:8000/
+
+## Screenshots
+
+![App Screenshot](https://imagekit.io/tools/asset-public-link?detail=%7B%22name%22%3A%22house_invader_home_page.png%22%2C%22type%22%3A%22image%2Fpng%22%2C%22signedurl_expire%22%3A%222028-03-26T16%3A55%3A22.264Z%22%2C%22signedUrl%22%3A%22https%3A%2F%2Fmedia-hosting.imagekit.io%2F458f60f86f2d47ab%2Fhouse_invader_home_page.png%3FExpires%3D1837702522%26Key-Pair-Id%3DK2ZIVPTIP2VGHC%26Signature%3Dx5BuIPMFen0bcVBKyM3nuGUmB6IUd54zELOFYqBUOKbHPhRpKejh-X1ue4RXcCa8BBZby6cZVbaukZDwLHlNrOqawFGxfGg8PfleyB1pNLWifCIXLLAxVT8nnnNU6OmqZQnvZfV3~4hBgijZ0b2~0LnVjmFV~V5Ov~BPgyutYN8Ywb1HOQWlcV2TZbBIW-5JwmdF85Bu1AH~ozKSjT9tL3XhSP7eMbUdlpRLaFraxsEqXCW2TwenPHp9Oz6sDIHOYGGGfweY63xF3ZlBXgn4BKZIZICz2~KTNA7bkweYGAXqcNBbZKei6Ud53nMmitCZuz1nqEICsUh~vjo7v0rdVg__%22%7D)
