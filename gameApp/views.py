@@ -230,10 +230,13 @@ def gameScene(request):
     return render(request, 'gameApp/gameScene.html', context= context_dict)
 
 @login_required
-def gameCreation(request): #later modify it
+def gameCreation(request):
     user_profile = User.objects.get(user=request.user)
-    context_dict = {'user_profile': user_profile,"new_game":True}
-    return render(request, 'gameApp/gameScene.html', context= context_dict)
+    context_dict = {'user_profile': user_profile,}
+    game = Game.objects.get(user_game=request.user)
+    game.game_data = '<GameData><Player><HP>100</HP><AttackPoints>5</AttackPoints><Speed>10</Speed><Food>10</Food><EnemiesKilled>0</EnemiesKilled><Location>street</Location><CurrentWeapon><Name>Fists</Name></CurrentWeapon><Inventory/></Player><Map><EmptyHouses/><House name="house 1"><TimesEntered>0</TimesEntered><Rooms/><EmptyRooms/></House><House name="house 2"><TimesEntered>0</TimesEntered><Rooms/><EmptyRooms/></House><House name="house 3"><TimesEntered>0</TimesEntered><Rooms/><EmptyRooms/></House><House name="house 4"><TimesEntered>0</TimesEntered><Rooms/><EmptyRooms/></House><House name="house 5"><TimesEntered>0</TimesEntered><Rooms/><EmptyRooms/></House><House name="house 6"><TimesEntered>0</TimesEntered><Rooms/><EmptyRooms/></House><House name="house 7"><TimesEntered>0</TimesEntered><Rooms/><EmptyRooms/></House><House name="house 8"><TimesEntered>0</TimesEntered><Rooms/><EmptyRooms/></House><House name="house 9"><TimesEntered>0</TimesEntered><Rooms/><EmptyRooms/></House><House name="house 10"><TimesEntered>0</TimesEntered><Rooms/><EmptyRooms/></House></Map><SecretsFound><Secret name="The Orb of Time">false</Secret><Secret name="The Glove of Power">false</Secret><Secret name="Katana">false</Secret><Secret name="Dictionary">false</Secret></SecretsFound><GameProgress><Day>1</Day><Difficulty>1</Difficulty><CurrentRoomCount>0</CurrentRoomCount><MaxHP>100</MaxHP></GameProgress></GameData>'
+    game.save()
+    return redirect("gameApp:gameScene")
 
 def easteregg(request):
     try:
@@ -325,7 +328,32 @@ def save_history(request):
     return JsonResponse({"status": "error", "message": "Invalid request"}, status=405)
 
 @login_required
-def save(request):
-    # do smth similar to the stuff above...but with saving the whole game information 
-    # you also need to use an eventlistener on the save button to activate all the stuff (its id is save_button)
-    return
+def save_game_state(request):
+     if request.method == "POST":
+         try:
+             data = json.loads(request.body)
+             xml_data = data.get("game_data")
+             game = Game.objects.get(user_game=request.user)
+             game.game_data = xml_data
+             game.save()
+             
+             return JsonResponse({"status": "success", "message": "Game saved successfully!"})
+         except Exception as e:
+             return JsonResponse({"status": "error", "message": str(e)}, status=400)
+     return JsonResponse({"status": "error", "message": "Invalid request"}, status=405)
+
+@login_required
+def load_game_state(request):
+     try:
+         game = Game.objects.get(user_game=request.user)
+         return HttpResponse(game.game_data, content_type="application/xml")
+     except Game.DoesNotExist:
+         return JsonResponse({
+             "status": "error",
+             "message": "No saved game found"
+         }, status=404)
+     except Exception as e:
+         return JsonResponse({
+             "status": "error",
+             "message": str(e)
+         }, status=400)

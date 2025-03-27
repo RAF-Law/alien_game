@@ -139,7 +139,7 @@ async function printMessage(message) {
     messagesDiv.appendChild(messageElement);
     messagesDiv.scrollTop = messagesDiv.scrollHeight; // Auto-scroll to the latest message
     updateText(player,day); //update everytime there's text change. not the best way but I cba to do anymore
-    updateWeapon(); //update weapon image
+    updateWeapon(player); //update weapon image
     return new Promise(resolve => setTimeout(resolve, 100));
 }
 
@@ -677,6 +677,7 @@ class Battle {
         await printMessage(this.alien.weapon.attackMessage);
     }
 }
+
 function saveToXML(player) {
     const xmlDoc = document.implementation.createDocument("", "", null);
     const root = xmlDoc.createElement("GameData");
@@ -784,8 +785,30 @@ function saveToXML(player) {
     console.log("Game saved successfully!");
 }
 
-function loadFromXML() {
-    const xmlString = localStorage.getItem("gameData");
+async function loadFromDB(){
+    let xmlString = null
+    try {
+        const response = await fetch('/gameApp/load_game_state/', {
+            method: 'GET',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken') 
+            }
+        });
+        xmlString = await response.text();
+        console.log("saved game found, loading from DB...");
+        return await load(xmlString);
+    } catch (error) {
+        console.log("error occured")
+    }
+}
+
+async function loadFromXML(){
+    const xmlString = localStorage.getItem("gameData")
+    console.log(xmlString)
+    return await load(xmlString);
+}
+
+async function load(xmlString) {
     if (!xmlString) {
         console.log("No saved game found.");
         return null;
@@ -796,7 +819,7 @@ function loadFromXML() {
 
     // Load Player Data
     const playerElement = xmlDoc.querySelector("Player");
-    const player = new Player(
+    let player = new Player(
         parseInt(playerElement.querySelector("HP").textContent),
         parseInt(playerElement.querySelector("AttackPoints").textContent),
         parseInt(playerElement.querySelector("Speed").textContent),
@@ -958,7 +981,6 @@ function createAlien() {
 async function gameOver() {
     printMessage("Game Over");
     printMessage(`You made it to day ${day}.`);
-    sendHistoryGameResults(player);
 
     printMessage("Enter anything to start a new game");
 
@@ -992,23 +1014,17 @@ async function gameOver() {
 
     endGame = false;
     await clearXML();
+    await sendHistoryGameResults();
+    //from here local vars are changed
+    player = await loadFromXML();
+    await save_to_DB();
     window.location.reload();
 }
 
 
+
 async function sendHistoryGameResults() {
-
     try {
-        //data parsing
-        // let xmlData = localStorage.getItem("gameData");
-        // const parser = new DOMParser();
-        // const xmlDoc = parser.parseFromString(xmlData, "application/xml");
-        // const gameProgressElement = xmlDoc.querySelector("GameProgress");
-        // let day = parseInt(gameProgressElement.querySelector("Day").textContent);
-        // let maxhp = parseInt(gameProgressElement.querySelector("MaxHP").textContent);
-        // const playerElement = xmlDoc.querySelector("Player");
-        // let enemiesKilled = parseInt(playerElement.querySelector("EnemiesKilled").textContent);
-
         //just relised we don't need data parsing here. all data are available as js variables
         //there's a minor delay in updating the xml, the js variable are always the newest
         //kept them just for you to check how to parse (more examples in loadFromXML())
@@ -1067,6 +1083,36 @@ function getCookie(name) {
     return cookieValue;
 }
 
+async function save_to_DB(){
+    saveToXML(player);
+    try {
+        const xmlString = localStorage.getItem("gameData");
+        const response = await fetch('/gameApp/save_game_state/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({
+                "game_data": xmlString,
+            }),
+        });
+        const data = await response.json();
+
+        if (data.status === "success") {
+            console.log("Game saved successfully!");
+        } else {
+            console.error("Failed to save game results:", data.message);
+        }
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    }
+}
+
+document.getElementById("save_button").addEventListener("click", async function() {
+    await save_to_DB();
+    alert("Game saved successfully!")
+});
 
 async function resetMap(player){
     map = { //reset the map first, otherwise it just executes katana and skips reset
@@ -1124,7 +1170,6 @@ async function resetMap(player){
             player.currentWeapon = WEAPONS["Katana"];
             player.inventory.add(WEAPONS["Katana"]);
             await printMessage(`You now have ${WEAPONS["Katana"]}.`);
-            saveToXML(player)
             player.secretsFound["Katana"] = true;
         } else {
             await printMessage("He crumbles to dust and blows away");
@@ -1234,6 +1279,6 @@ async function play(player) {
     gameLoop();
 }
 
-const player = loadFromXML() || new Player(100, 5, 10, 10, map.street);
-printMessage("Welcome to House Invader!");
-play(player);
+let player = await loadFromDB() || new Player(100, 5, 10, 10, map.street);
+await printMessage("Welcome to House Invader!");
+await play(player);

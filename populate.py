@@ -70,41 +70,22 @@ def create_easteregg(username='Konami', email='homepage@user.com', password='upu
 
 def generate_user_accounts(amount):
     for x in range(amount):
-        create_user(f'test_user_{x + 1}', f'test_user_{x + 1}@user.com', f'123')
+        create_user(f'test_user_{x + 1}', f'test_user_{x + 1}@user.com', '123')
 
-
-def check_database_exists():
-
-    print('Checking if database exists...')
-    db_path = 'db.sqlite3'
-    if os.path.exists(db_path):
-        print('db.sqlite3 exists, deleting...')
-        os.remove(db_path)
-    else:
-        print('Database does not exist.')
-
-    db_weapon_icon_path = 'media/static/artifact_icons/static/artifact_icons'
-    db_artifact_icon_path = 'media/static/weapon_icons/static/weapon_icons'
-    db_user_icon_path = 'media/static/user_icons/static/user_icons'
-
-    print('Checking if weapon, artifact and user icon duplicates exist...')
-
-    if os.path.exists(db_weapon_icon_path):
-        print('Weapon icon duplicates exist, deleting...')
-        shutil.rmtree(db_weapon_icon_path)
-
-    if os.path.exists(db_artifact_icon_path):
-        print('Artifact icon duplicates exist, deleting...')
-        shutil.rmtree(db_artifact_icon_path)
-
-    if os.path.exists(db_user_icon_path):
-        print('User icon duplicates exist, deleting...')
-        shutil.rmtree(db_user_icon_path)
+def clean_database_files():
+     print('Cleaning up database and media files...')
+     if os.path.exists('db.sqlite3'):
+         os.remove('db.sqlite3')
+     
+     media_dirs = ['media/static/artifact_icons', 'media/static/weapon_icons', 'media/static/user_icons']
+     for dir_path in media_dirs:
+         if os.path.exists(dir_path):
+             shutil.rmtree(dir_path)
 
 def django_auto_migrate():
 
     print('Setting up prerequisites...')
-    check_database_exists()
+    clean_database_files()
     call_command('makemigrations')
     call_command('migrate')
     print('Prerequisites set up!')
