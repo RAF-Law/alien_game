@@ -247,7 +247,7 @@ def easteregg(request):
         response.set_cookie("easteregg", "0")
         return response
 
-weapons = { #reserved for icon lookup
+weapons = { #reserved for lookup
     "Ak-47": {'weapon_id': 1,},
     "Baseball Bat": {'weapon_id': 2,},
     "Laser Gun": {'weapon_id': 3,},
@@ -255,10 +255,33 @@ weapons = { #reserved for icon lookup
     "Energy Sword": {'weapon_id': 5,},
     "Flamethrower": {'weapon_id': 6,},
     "Railgun": {'weapon_id': 7,},
-    "影の龍": {'weapon_id': 8,},
+    "Katana": {'weapon_id': 8,},
     "Chicken": {'weapon_id': 9,},
     "Revolver": {'weapon_id': 10,},
     "Shotgun": {'weapon_id': 11,}
+    }
+artifacts = {
+    "Cosmic Crystal": {'artifact_id': 1,},
+    "Galactic Map": {'artifact_id': 2,},
+    "Alien Artifact": {'artifact_id': 3,},
+    "Extraterrestrial Coin": {'artifact_id': 4,},
+    "Space Helmet": {'artifact_id': 5,},
+    "Alien Skull": {'artifact_id': 6,},
+    "Stardust": {'artifact_id': 7,},
+    "Meteorite Fragment": {'artifact_id': 8,},
+    "Alien Fossil": {'artifact_id': 9,},
+    "Space Gem": {'artifact_id': 10,},
+    "Alien Egg": {'artifact_id': 11,},
+    "Cosmic Dust": {'artifact_id': 12,},
+    "Alien Amulet": {'artifact_id': 13,},
+    "Galactic Artifact": {'artifact_id': 14,},
+    "Space Relic": {'artifact_id': 15,},
+    "Alien Crystal": {'artifact_id': 16,},
+    "Extraterrestrial Relic": {'artifact_id': 17,},
+    "Shimschnar's Left Hand Glove": {'artifact_id': 18,},
+    "The Dictionary of the Ancients": {'artifact_id': 19,},
+    "The Orb of Time": {'artifact_id': 20,},
+    "The Eye of Schmelborg": {'artifact_id': 21}
     }
 def get_weapon_image(request, weapon_name): #I MADE IT WORK I'M CRYING
     id = weapons[weapon_name]["weapon_id"]
@@ -274,6 +297,7 @@ def save_history(request):
             enemies_killed = data.get("enemies_killed")
             days_survived = data.get("days_survived")
             max_hp = data.get("max_hp")
+            inv = data.get("inventory")
 
             #database update
             user_profile = User.objects.get(user=request.user)
@@ -281,6 +305,16 @@ def save_history(request):
             user_profile.update_most_days_survived(days_survived)
             user_profile.increment_games_played()
             user_profile.history_games.append([enemies_killed,days_survived,max_hp,str(timezone.now())])
+            for i in inv:
+                try:
+                    id = weapons[i]["weapon_id"]
+                    weapon = Weapon.objects.get(weapon_id=id)
+                    user_profile.weapons_earned.add(weapon)
+                except:
+                    id = artifacts[i]["artifact_id"]
+                    artifact = Artifact.objects.get(artifact_id=id)
+                    user_profile.artifacts_earned.add(artifact)
+            
             user_profile.save()
 
             #return

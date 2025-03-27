@@ -958,7 +958,7 @@ function createAlien() {
 async function gameOver() {
     printMessage("Game Over");
     printMessage(`You made it to day ${day}.`);
-    sendHistoryGameResults();
+    sendHistoryGameResults(player);
 
     printMessage("Enter anything to start a new game");
 
@@ -1018,6 +1018,11 @@ async function sendHistoryGameResults() {
         let maxhp = player.maxhp;
         //day variable already available in js
         let enemiesKilled = player.enemiesKilled;
+
+        let inv = [];
+        for (let item of player.inventory){
+            inv.push(item["name"]); 
+        }
         //fetch stuff
         const response = await fetch('/gameApp/save_history/', {
             method: 'POST',
@@ -1028,7 +1033,8 @@ async function sendHistoryGameResults() {
             body: JSON.stringify({
                 "enemies_killed": enemiesKilled,
                 "days_survived": day,
-                "max_hp": maxhp
+                "max_hp": maxhp,
+                "inventory": inv
             }),
         });
         //wait for django view to response
@@ -1118,7 +1124,7 @@ async function resetMap(player){
             player.currentWeapon = WEAPONS["Katana"];
             player.inventory.add(WEAPONS["Katana"]);
             await printMessage(`You now have ${WEAPONS["Katana"]}.`);
-            await saveToXML(player);
+            saveToXML(player)
             player.secretsFound["Katana"] = true;
         } else {
             await printMessage("He crumbles to dust and blows away");
