@@ -75,6 +75,9 @@ source venv/bin/activate  # Linux/Mac
 # Install dependencies
 pip install -r requirements.txt
 
+# Navigate to alien_game folder
+cd ~/alien_game
+
 # Start server
 python manage.py runserver
 ```
