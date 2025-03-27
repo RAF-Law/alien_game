@@ -292,7 +292,66 @@ def save_history(request):
     return JsonResponse({"status": "error", "message": "Invalid request"}, status=405)
 
 @login_required
-def save(request):
-    # do smth similar to the stuff above...but with saving the whole game information 
-    # you also need to use an eventlistener on the save button to activate all the stuff (its id is save_button)
-    return
+def save_game_state(request):
+    if request.method == "POST":
+        try:
+            xml_data = request.POST.get('game_data')
+            game, created = Game.objects.get_or_create(user_game=request.user)
+            game.game_data = xml_data
+            game.save()
+            
+            update_user_collections(request.user, xml_data)
+            
+            return JsonResponse({"status": "success", "message": "Game saved successfully!"})
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=400)
+    return JsonResponse({"status": "error", "message": "Invalid request"}, status=405)
+
+@login_required
+def load_game_state(request):
+    try:
+        game = Game.objects.get(user_game=request.user)
+        return JsonResponse({
+            "status": "success",
+            "game_data": game.game_data
+        })
+    except Game.DoesNotExist:
+        return JsonResponse({
+            "status": "error",
+            "message": "No saved game found"
+        }, status=404)
+    except Exception as e:
+        return JsonResponse({
+            "status": "error",
+            "message": str(e)
+        }, status=400)
+
+def update_user_collections(user, xml_data):
+    from xml.dom.minidom import parseString
+    
+    try:
+        dom = parseString(xml_data)
+        user_profile = UserProfile.objects.get(user=user)
+        
+        weapon_nodes = dom.getElementsByTagName("Item")
+        for node in weapon_nodes:
+            weapon_name = node.firstChild.nodeValue
+            try:
+                weapon = Weapon.objects.get(name=weapon_name)
+                user_profile.weapons_earned.add(weapon)
+            except Weapon.DoesNotExist:
+                pass
+        
+        secret_nodes = dom.getElementsByTagName("Secret")
+        for node in secret_nodes:
+            if node.getAttribute("name") in ["The Orb of Time", "The Glove of Power", "Dictionary"]:
+                if node.firstChild.nodeValue == "true":
+                    try:
+                        artifact = Artifact.objects.get(name=node.getAttribute("name"))
+                        user_profile.artifacts_earned.add(artifact)
+                    except Artifact.DoesNotExist:
+                        pass
+        
+        user_profile.save()
+    except Exception as e:
+        print(f"Error updating collections: {str(e)}")

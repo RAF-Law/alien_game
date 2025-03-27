@@ -2,6 +2,10 @@ import { updateText, updateWeapon } from "./gameScene.js";
 
 let isEnterKeyPressed = false;
 
+document.addEventListener('DOMContentLoaded', function() {
+    initializeGame();
+});
+
 const WEAPONS_LIST = [
     { name: "Ak-47", description: "A powerful assault Rifle", damage: 40, attackMessage: "You shoot the alien with your Ak-47", rarity: 2 },
     { name: "Baseball Bat", description: "A wooden baseball bat with barbed wire wrapped around it", damage: 15, attackMessage: "You hit the alien with your gruesome baseball bat", rarity: 1 },
@@ -14,7 +18,7 @@ const WEAPONS_LIST = [
     { name: "Chicken", description: "A chicken that attacks aliens for some reason", damage: 10, attackMessage: "You throw the chicken at the alien", rarity: 1 },
     { name: "Revolver", description: "A six-shooter revolver", damage: 25, attackMessage: "You shoot the alien with your revolver", rarity: 1 },
     { name: "Shotgun", description: "A shotgun that fires a spread of pellets", damage: 45, attackMessage: "You blast the alien with your shotgun", rarity: 2 },
-    { name: "Fists", description: "You fight with the alien, empty-handed", damage: 0, attackMessage: "You punch the alien.", rarity: 4 }, //sometimes after loading xml you lost punching text, so I add it here
+    { name: "Fists", description: "You fight with the alien, empty-handed", damage: 0, attackMessage: "You punch the alien.", rarity: 4 },
 ];
 
 const ARTIFACTS_LIST = [
@@ -137,9 +141,9 @@ async function printMessage(message) {
     messageElement.className = "message";
     messageElement.textContent = message;
     messagesDiv.appendChild(messageElement);
-    messagesDiv.scrollTop = messagesDiv.scrollHeight; // Auto-scroll to the latest message
-    updateText(player,day); //update everytime there's text change. not the best way but I cba to do anymore
-    updateWeapon(); //update weapon image
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    updateText(player,day);
+    updateWeapon();
     return new Promise(resolve => setTimeout(resolve, 100));
 }
 
@@ -159,7 +163,7 @@ class Room {
     }
 
     generateLoot(items, rarityCap) {
-        const lootNum = Math.floor(Math.random() * 2) + 1; // 1 to 2 items
+        const lootNum = Math.floor(Math.random() * 2) + 1;
         const itemArray = Object.values(items);
 
         for (let i = 0; i < lootNum; i++) {
@@ -279,7 +283,7 @@ class Room {
                             const selectedItem = lootArray[itemIndex];
                             if (lootType === "weapon") {
                                 player.currentWeapon = selectedItem;
-                                player.inventory.add(selectedItem); //we still need a copy in inventory to make sure it gets into collections
+                                player.inventory.add(selectedItem);
                             } else {
                                 player.inventory.add(selectedItem);
                             }
@@ -402,7 +406,7 @@ class Player {
     async exploreHouse(houseKey) {
         let numRooms = null;
         if (Object.keys(map[houseKey]).length <= 2){
-            numRooms = Math.floor(Math.random() * 5) + 2; // 2 to 6 rooms
+            numRooms = Math.floor(Math.random() * 5) + 2;
         }
         else{
             numRooms = Object.keys(map[houseKey]).length - 2;
@@ -415,7 +419,7 @@ class Player {
         if (Object.keys(map[houseKey]).length <= 2){
             for (let i = 1; i <= numRooms; i++) {
                 const roomKey = `room ${i}`;
-                const roomType = Math.floor(Math.random() * 3) + 1; // 1 to 3
+                const roomType = Math.floor(Math.random() * 3) + 1;
                 map[houseKey][roomKey] = new Room(roomType);
             }
         }
@@ -471,7 +475,7 @@ class Player {
         await printMessage("-----");
         this.location = map[houseKey][roomKey];
         await this.location.searchRoom(this);
-        if(this.hp > 0 && this.food > 0){ //sometimes it's saved after reset and it causes errors
+        if(this.hp > 0 && this.food > 0){
             saveToXML(this);
         }
 
@@ -480,7 +484,7 @@ class Player {
         }
 
         currentRoomCount += 1;
-        if (currentRoomCount >= 8) { //sometimes the day increment was delayed. now fixed
+        if (currentRoomCount >= 8) {
             day += 1;
             player.food -= 1;
             difficulty += 1;
@@ -677,7 +681,8 @@ class Battle {
         await printMessage(this.alien.weapon.attackMessage);
     }
 }
-function saveToXML(player) {
+
+async function saveToXML(player) {
     const xmlDoc = document.implementation.createDocument("", "", null);
     const root = xmlDoc.createElement("GameData");
 
@@ -687,7 +692,6 @@ function saveToXML(player) {
         return element;
     }
 
-    // Save Player Data
     const playerElement = xmlDoc.createElement("Player");
     playerElement.appendChild(createElement("HP", player.hp));
     playerElement.appendChild(createElement("AttackPoints", player.attackPoints));
@@ -696,12 +700,10 @@ function saveToXML(player) {
     playerElement.appendChild(createElement("EnemiesKilled", player.enemiesKilled));
     playerElement.appendChild(createElement("Location", player.location));
 
-    // Save Current Weapon
     const weaponElement = xmlDoc.createElement("CurrentWeapon");
     weaponElement.appendChild(createElement("Name", player.currentWeapon.name));
     playerElement.appendChild(weaponElement);
 
-    // Save Inventory
     const inventoryElement = xmlDoc.createElement("Inventory");
     player.inventory.forEach(item => {
         const itemElement = xmlDoc.createElement("Item");
@@ -711,10 +713,8 @@ function saveToXML(player) {
     playerElement.appendChild(inventoryElement);
     root.appendChild(playerElement);
 
-    // Save Map State
     const mapElement = xmlDoc.createElement("Map");
 
-    // Save Empty Houses
     const emptyHousesElement = xmlDoc.createElement("EmptyHouses");
     map.emptyHouses.forEach(house => {
         const houseElement = xmlDoc.createElement("House");
@@ -723,7 +723,6 @@ function saveToXML(player) {
     });
     mapElement.appendChild(emptyHousesElement);
 
-    // Save Individual Houses & Emptied Rooms
     Object.keys(map).forEach(house => {
         if (house.startsWith("house")) {
             const houseElement = xmlDoc.createElement("House");
@@ -737,7 +736,6 @@ function saveToXML(player) {
                 emptyRoomsElement.appendChild(roomElement);
             });
 
-            // Save Rooms
             const roomsElement = xmlDoc.createElement("Rooms");
             Object.keys(map[house]).forEach(roomKey => {
                 if (roomKey.startsWith("room")) {
@@ -756,7 +754,6 @@ function saveToXML(player) {
 
     root.appendChild(mapElement);
 
-    // Save Secrets Found
     const secretsElement = xmlDoc.createElement("SecretsFound");
     Object.keys(player.secretsFound).forEach(secret => {
         const secretElement = xmlDoc.createElement("Secret");
@@ -766,7 +763,6 @@ function saveToXML(player) {
     });
     root.appendChild(secretsElement);
 
-    // Save Game Progress
     const gameProgressElement = xmlDoc.createElement("GameProgress");
     gameProgressElement.appendChild(createElement("Day", day));
     gameProgressElement.appendChild(createElement("Difficulty", difficulty));
@@ -776,93 +772,106 @@ function saveToXML(player) {
 
     xmlDoc.appendChild(root);
 
-    // Convert XML to string and store in localStorage
     const serializer = new XMLSerializer();
     const xmlString = serializer.serializeToString(xmlDoc);
-    localStorage.setItem("gameData", xmlString);
 
-    console.log("Game saved successfully!");
+    try {
+        const response = await fetch('/gameApp/save_game_state/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': getCookie('csrftoken'),
+            },
+            body: `game_data=${encodeURIComponent(xmlString)}`,
+        });
+        
+        const data = await response.json();
+        if (data.status === "success") {
+            console.log("Game saved to server!");
+        } else {
+            console.error("Failed to save to server:", data.message);
+        }
+    } catch (error) {
+        console.error("Error saving to server:", error);
+    }
 }
 
-function loadFromXML() {
-    const xmlString = localStorage.getItem("gameData");
-    if (!xmlString) {
-        console.log("No saved game found.");
-        return null;
-    }
+async function loadFromXML() {
+    try {
+        const response = await fetch('/gameApp/load_game_state/');
+        const data = await response.json();
+        
+        if (data.status === "success" && data.game_data) {
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(data.game_data, "application/xml");
 
-    const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(xmlString, "application/xml");
+            const playerElement = xmlDoc.querySelector("Player");
+            const player = new Player(
+                parseInt(playerElement.querySelector("HP").textContent),
+                parseInt(playerElement.querySelector("AttackPoints").textContent),
+                parseInt(playerElement.querySelector("Speed").textContent),
+                parseInt(playerElement.querySelector("Food").textContent),
+                playerElement.querySelector("Location").textContent
+            );
 
-    // Load Player Data
-    const playerElement = xmlDoc.querySelector("Player");
-    const player = new Player(
-        parseInt(playerElement.querySelector("HP").textContent),
-        parseInt(playerElement.querySelector("AttackPoints").textContent),
-        parseInt(playerElement.querySelector("Speed").textContent),
-        parseInt(playerElement.querySelector("Food").textContent),
-        playerElement.querySelector("Location").textContent
-    );
+            player.enemiesKilled = parseInt(playerElement.querySelector("EnemiesKilled").textContent);
 
-    player.enemiesKilled = parseInt(playerElement.querySelector("EnemiesKilled").textContent);
-    // Load Weapon
-    const weaponName = playerElement.querySelector("CurrentWeapon Name").textContent;
-    player.currentWeapon = WEAPONS[weaponName] || new Weapon(weaponName, "", 0, "", 1);
-    
-    // Load Inventory
-    const inventoryItems = playerElement.querySelectorAll("Inventory Item");
-    inventoryItems.forEach(itemNode => {
-        const itemName = itemNode.textContent;
-        if (ARTIFACTS[itemName]) {
-            player.inventory.add(ARTIFACTS[itemName]);
-        }else if(WEAPONS[itemName]){
-            player.inventory.add(WEAPONS[itemName]);
+            const weaponName = playerElement.querySelector("CurrentWeapon Name").textContent;
+            player.currentWeapon = WEAPONS[weaponName] || new Weapon(weaponName, "", 0, "", 1);
+
+            const inventoryItems = playerElement.querySelectorAll("Inventory Item");
+            inventoryItems.forEach(itemNode => {
+                const itemName = itemNode.textContent;
+                if (ARTIFACTS[itemName]) {
+                    player.inventory.add(ARTIFACTS[itemName]);
+                } else if (WEAPONS[itemName]) {
+                    player.inventory.add(WEAPONS[itemName]);
+                }
+            });
+
+            const mapElement = xmlDoc.querySelector("Map");
+            map.emptyHouses = new Set();
+
+            mapElement.querySelectorAll("EmptyHouses House").forEach(houseNode => {
+                map.emptyHouses.add(houseNode.textContent);
+            });
+
+            mapElement.querySelectorAll("House").forEach(houseElement => {
+                const houseName = houseElement.getAttribute("name");
+                map[houseName] = {
+                    emptyRooms: new Set(),
+                    timesEntered: 0
+                };
+                houseElement.querySelectorAll("Rooms Room").forEach(roomElement => {
+                    const roomNumber = `room ${roomElement.getAttribute("number")}`;
+                    const roomType = parseInt(roomElement.getAttribute("type"));
+                    map[houseName][roomNumber] = new Room(roomType);
+                });
+
+                houseElement.querySelectorAll("EmptyRooms Room").forEach(roomElement => {
+                    map[houseName].emptyRooms.add(roomElement.textContent);
+                });
+            });
+
+            const secretsElement = xmlDoc.querySelector("SecretsFound");
+            secretsElement.querySelectorAll("Secret").forEach(secretNode => {
+                const secretName = secretNode.getAttribute("name");
+                player.secretsFound[secretName] = secretNode.textContent === "true";
+            });
+
+            const gameProgressElement = xmlDoc.querySelector("GameProgress");
+            day = parseInt(gameProgressElement.querySelector("Day").textContent);
+            difficulty = parseInt(gameProgressElement.querySelector("Difficulty").textContent);
+            currentRoomCount = parseInt(gameProgressElement.querySelector("CurrentRoomCount").textContent);
+            player.maxhp = parseInt(gameProgressElement.querySelector("MaxHP").textContent);
+
+            console.log("Game loaded successfully from server!");
+            return player;
         }
-    });
-
-    // Load Map State
-    const mapElement = xmlDoc.querySelector("Map");
-    map.emptyHouses = new Set();
-    
-    // Load Empty Houses
-    mapElement.querySelectorAll("EmptyHouses House").forEach(houseNode => {
-        map.emptyHouses.add(houseNode.textContent);
-    });
-
-    // Load Individual Houses & Emptied Rooms
-    mapElement.querySelectorAll("House").forEach(houseElement => {
-        const houseName = houseElement.getAttribute("name");
-        map[houseName] = {
-            emptyRooms: new Set(),
-            timesEntered: 0
-        };
-        houseElement.querySelectorAll("Rooms Room").forEach(roomElement => {
-            const roomNumber = `room ${roomElement.getAttribute("number")}`;
-            const roomType = parseInt(roomElement.getAttribute("type"));
-            map[houseName][roomNumber] = new Room(roomType);
-        });
-
-        houseElement.querySelectorAll("EmptyRooms Room").forEach(roomElement => {
-            map[houseName].emptyRooms.add(roomElement.textContent);
-        });
-    });
-
-    // Load Secrets Found
-    const secretsElement = xmlDoc.querySelector("SecretsFound");
-    secretsElement.querySelectorAll("Secret").forEach(secretNode => {
-        const secretName = secretNode.getAttribute("name");
-        player.secretsFound[secretName] = secretNode.textContent === "true";
-    });
-
-    // Load Game Progress
-    const gameProgressElement = xmlDoc.querySelector("GameProgress");
-    day = parseInt(gameProgressElement.querySelector("Day").textContent);
-    difficulty = parseInt(gameProgressElement.querySelector("Difficulty").textContent);
-    currentRoomCount = parseInt(gameProgressElement.querySelector("CurrentRoomCount").textContent);
-    player.maxhp = parseInt(gameProgressElement.querySelector("MaxHP").textContent)
-
-    console.log("Game loaded successfully!");
-    return player;
+    } catch (error) {
+        console.error("Error loading from server:", error);
+    }
+    return null;
 }
 
 async function clearXML() {
@@ -875,7 +884,6 @@ async function clearXML() {
         return element;
     }
 
-    // Reset Player Data
     const playerElement = xmlDoc.createElement("Player");
     playerElement.appendChild(createElement("HP", 100));
     playerElement.appendChild(createElement("AttackPoints", 5));
@@ -884,24 +892,19 @@ async function clearXML() {
     playerElement.appendChild(createElement("EnemiesKilled", 0));
     playerElement.appendChild(createElement("Location", "street"));
 
-    // Reset Current Weapon
     const weaponElement = xmlDoc.createElement("CurrentWeapon");
     weaponElement.appendChild(createElement("Name", "Fists"));
     playerElement.appendChild(weaponElement);
 
-    // Reset Inventory
     const inventoryElement = xmlDoc.createElement("Inventory");
     playerElement.appendChild(inventoryElement);
     root.appendChild(playerElement);
 
-    // Reset Map State
     const mapElement = xmlDoc.createElement("Map");
 
-    // Reset Empty Houses
     const emptyHousesElement = xmlDoc.createElement("EmptyHouses");
     mapElement.appendChild(emptyHousesElement);
 
-    // Reset Individual Houses & Emptied Rooms
     for (let i = 1; i <= 10; i++) {
         const houseElement = xmlDoc.createElement("House");
         houseElement.setAttribute("name", `house ${i}`);
@@ -917,7 +920,6 @@ async function clearXML() {
     }
     root.appendChild(mapElement);
 
-    // Reset Secrets Found
     const secretsElement = xmlDoc.createElement("SecretsFound");
     ["The Orb of Time", "The Glove of Power", "Katana", "Dictionary"].forEach(secret => {
         const secretElement = xmlDoc.createElement("Secret");
@@ -927,7 +929,6 @@ async function clearXML() {
     });
     root.appendChild(secretsElement);
 
-    // Reset Game Progress
     const gameProgressElement = xmlDoc.createElement("GameProgress");
     gameProgressElement.appendChild(createElement("Day", 1));
     gameProgressElement.appendChild(createElement("Difficulty", 1));
@@ -937,12 +938,28 @@ async function clearXML() {
 
     xmlDoc.appendChild(root);
 
-    // Convert XML to string and store in localStorage
     const serializer = new XMLSerializer();
     const xmlString = serializer.serializeToString(xmlDoc);
-    localStorage.setItem("gameData", xmlString);
 
-    console.log("Game reset successfully!");
+    try {
+        const response = await fetch('/gameApp/save_game_state/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': getCookie('csrftoken'),
+            },
+            body: `game_data=${encodeURIComponent(xmlString)}`,
+        });
+        
+        const data = await response.json();
+        if (data.status === "success") {
+            console.log("Game reset saved to server!");
+        } else {
+            console.error("Failed to save reset to server:", data.message);
+        }
+    } catch (error) {
+        console.error("Error saving reset to server:", error);
+    }
 }
 
 function createAlien() {
@@ -958,7 +975,6 @@ function createAlien() {
 async function gameOver() {
     printMessage("Game Over");
     printMessage(`You made it to day ${day}.`);
-    sendHistoryGameResults();
 
     printMessage("Enter anything to start a new game");
 
@@ -995,57 +1011,6 @@ async function gameOver() {
     window.location.reload();
 }
 
-
-async function sendHistoryGameResults() {
-
-    try {
-        //data parsing
-        // let xmlData = localStorage.getItem("gameData");
-        // const parser = new DOMParser();
-        // const xmlDoc = parser.parseFromString(xmlData, "application/xml");
-        // const gameProgressElement = xmlDoc.querySelector("GameProgress");
-        // let day = parseInt(gameProgressElement.querySelector("Day").textContent);
-        // let maxhp = parseInt(gameProgressElement.querySelector("MaxHP").textContent);
-        // const playerElement = xmlDoc.querySelector("Player");
-        // let enemiesKilled = parseInt(playerElement.querySelector("EnemiesKilled").textContent);
-
-        //just relised we don't need data parsing here. all data are available as js variables
-        //there's a minor delay in updating the xml, the js variable are always the newest
-        //kept them just for you to check how to parse (more examples in loadFromXML())
-        //if you implement save function, be sure to first call saveToXML(player)
-        //before any data parsing and data sending starts
-
-        let maxhp = player.maxhp;
-        //day variable already available in js
-        let enemiesKilled = player.enemiesKilled;
-        //fetch stuff
-        const response = await fetch('/gameApp/save_history/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/xml',
-                'X-CSRFToken': getCookie('csrftoken'),
-            },
-            body: JSON.stringify({
-                "enemies_killed": enemiesKilled,
-                "days_survived": day,
-                "max_hp": maxhp
-            }),
-        });
-        //wait for django view to response
-        const data = await response.json();
-
-
-        if (data.status === "success") {
-            console.log("Game results saved successfully!");
-        } else {
-            console.error("Failed to save game results:", data.message);
-        }
-    } catch (error) {
-        console.error("Error saving game results:", error);
-    }
-}
-
-// Helper function to get CSRF token
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -1061,9 +1026,8 @@ function getCookie(name) {
     return cookieValue;
 }
 
-
 async function resetMap(player){
-    map = { //reset the map first, otherwise it just executes katana and skips reset
+    map = {
         street: "street",
         emptyHouses: new Set(),
     };
@@ -1083,9 +1047,9 @@ async function resetMap(player){
                 const handleKeyPress = (event) => {
                     if (event.key === "Enter" && !isEnterKeyPressed) {
                         isEnterKeyPressed = true;
-                        resolve(getSwordChoice());  // Resolve the sword choice
+                        resolve(getSwordChoice());
                         event.preventDefault();
-                        document.removeEventListener("keydown", handleKeyPress); // Remove listener
+                        document.removeEventListener("keydown", handleKeyPress);
                     }
                 };
         
@@ -1111,7 +1075,7 @@ async function resetMap(player){
             return input;
         };
 
-        const swordChoice = await getSwordChoice();  // Wait for the sword choice before proceeding
+        const swordChoice = await getSwordChoice();
 
         if (swordChoice === "yes" || swordChoice === "y") {
             await printMessage("He hands you the sword and walks into the sunset");
@@ -1206,7 +1170,7 @@ async function play(player) {
             await player.move(houseNum);
             currentRoomCount += 1;
 
-            if (currentRoomCount >= 8) { //fixed the bug where you refresh page when the following logic is not executed, room count just goes to infinity and do not increment day
+            if (currentRoomCount >= 8) {
                 day += 1;
                 player.food -= 1;
                 difficulty += 1;
@@ -1227,6 +1191,6 @@ async function play(player) {
     gameLoop();
 }
 
-const player = loadFromXML() || new Player(100, 5, 10, 10, map.street);
+const player = await loadFromXML() || new Player(100, 5, 10, 10, map.street);
 printMessage("Welcome to House Invader!");
 play(player);

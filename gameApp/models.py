@@ -89,38 +89,12 @@ def create_user_game(sender, instance, created, **kwargs):
         Game.objects.create(user_game=instance)
 
 class Game(models.Model):
-
     user_game = models.OneToOneField(DjangoUser, on_delete=models.CASCADE, primary_key=True)
-    player_hp = models.IntegerField(default=100)
-    player_ap = models.IntegerField(default=10)
-    player_speed = models.IntegerField(default=5)
-    player_food = models.IntegerField(default=10)
-    player_weapon = models.ForeignKey(Weapon, on_delete=models.CASCADE, blank=True, null=True)
-    game_enemies_killed = models.IntegerField(default=0)
-    game_day = models.IntegerField(default=0)
-    game_difficulty = models.IntegerField(default=1)
-    #max_hp = models.IntegerField(default=1) commented this out cuz I'm too lazy to migrate
-
-    game_map = models.IntegerField(default=1)
-
-    #game_info = models.TextField() 
-
-    # ^^ I'm actually thinking whether we can just store raw xml text data to database without any parsing
-    # so we just need one textfield above, no need to seperate details out
-    # when we load from database we throw it back to js and let it handle
-    # but then we need to modify the save_history view to let it update the artifacts/weapons user has found
-    # whatever you choose to implement please make sure it correctly updates the artifacts/weapons the user found & the game data is not lost
-
-    # up to you tho, feel free to choose a way you like
-    # also feel free to ask if you're unsure about the code or workflow :p
+    game_data = models.TextField(blank=True)
 
     def __str__(self):
-        return f"Game {self.user_game}"
-
-    class Meta:
-        verbose_name = 'Game'
-        verbose_name_plural = 'Games'
-
+        return f"Game for {self.user_game.username}"
+    
 post_save.connect(create_user_profile, sender=DjangoUser)
 post_save.connect(create_user_game, sender=DjangoUser)
 
