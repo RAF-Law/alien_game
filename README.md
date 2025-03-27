@@ -83,3 +83,7 @@ Access at: http://127.0.0.1:8000/
 ## Screenshots
 
 ![house_invader_home_page.png](<https://media-hosting.imagekit.io/458f60f86f2d47ab/house_invader_home_page.png?Expires=1837702522&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=x5BuIPMFen0bcVBKyM3nuGUmB6IUd54zELOFYqBUOKbHPhRpKejh-X1ue4RXcCa8BBZby6cZVbaukZDwLHlNrOqawFGxfGg8PfleyB1pNLWifCIXLLAxVT8nnnNU6OmqZQnvZfV3~4hBgijZ0b2~0LnVjmFV~V5Ov~BPgyutYN8Ywb1HOQWlcV2TZbBIW-5JwmdF85Bu1AH~ozKSjT9tL3XhSP7eMbUdlpRLaFraxsEqXCW2TwenPHp9Oz6sDIHOYGGGfweY63xF3ZlBXgn4BKZIZICz2~KTNA7bkweYGAXqcNBbZKei6Ud53nMmitCZuz1nqEICsUh~vjo7v0rdVg__>)
+
+![house_invader_gamescene.png](<https://media-hosting.imagekit.io/9319b04d167748bb/house_invader_gamescene.png?Expires=1837702704&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=TxhJW3uxh8wcK0EPkvy6xNoYfx7NDzJ9rCJ~-s1q-lbii3zdAmeVGht1gSTZ55yLk9BfoYx5MkhlAYie5~IkJAbdQb9sPbzpR49XgzH3-UM7hot6NFrDcGDWPb5pmClkS6TOqSnRw8afmZNtcLIXfGwOUGxPvUIH2JmJiQbju7yglxEXkFslo9FHsIbEAr3FrMiGdqtWs1ndQYsH2RUUmjUrDQqFYri6j3WwCO5I8P9H-8yRJnVbCRR3Lk~J8lKnisZPKAp2g-2saYHwsjQLdkIqG~cKyMvmeR3kroCm466U~nrbCn9k7laMRdtz1qOYhNa~LEWerFAYs0u64gAaeA__>)
+
+
