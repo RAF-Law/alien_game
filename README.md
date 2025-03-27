@@ -3,10 +3,6 @@
 
 **Originally served as the group project for Web App Development 2, University of Glasgow*
 
-## External Resources Used
-- BGM: https://pixabay.com/music/main-title-stealth-battle-205902/
-- Pixelated rounded corners: https://pixelcorners.lukeb.co.uk/?radius=8&multiplier=4
-
 ## Authors
 - [@octokatherine](https://github.com/RAF-Law)
 - [@truthfulle](https://github.com/truthfulle)  
@@ -96,7 +92,7 @@ Access at: http://127.0.0.1:8000/
 
 ![user_profile_view.png](<https://media-hosting.imagekit.io/f600dac255054fbb/user_profile_view.png?Expires=1837714519&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=QgPcSzanxzDY1rG3sEeAOd5YhD4mKIgRa1-IuoroURFF--6FLzYeSHGvbe4RvXzWs69LQ--hZyNbUA441lmKgzvPgU1ne-uixEekuKnqHhtxI5hyMVhbeUYAHKQBPDlWHt7mQSVYBvhlI7r1sNZwLc1cWnxNfDEkBQss4RVjnz2p2JKHpPLaaEA9LH-wLnz0bWJHsn-st~fpkWR~lzMlCK2iegVC1mUW6jTzJ2WlU8UfbkXtgL5eOE39y1QTANo2XmyyVJUUhoDToinlt9hZXaNvYa7TbT1Vaz-FTK7ZadFw~EFSOg9wre61svUgP3W9P65yOGaSRWffsgJxmyy5EA__>)
 
-![konami_gameplay_scene.png](<https://media-hosting.imagekit.io/2f9ef01953d24e0e/konami_gameplay_scene.png?Expires=1837703233&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=nSZtckN1sr-5SNFkPF9QVlVNQQAfP5Gq71F81X-BGv5taWIxqAJ3CsblqVHhXUL6VfQo0L1T91gb44xKCkF~3~5~Ct2DNz39oPozdwCCdNYtZwuf1Iy7V13UisktgVq3K82cEFeoUy-eawhFBMLQmQn~XdeVDHizxfHeKV8sQZvXsIYw92KmVqURx~F9rfDEgcKuAUaJzbN7QusO5q7eUx~ONG2vrJrD3V73KbK~xQ5LtMghOccMalTjFAwGPmILaICjmTgjNkq4z7kEjjbg8O-mqsXcZEj~UIDmAe-~We7z0lGzYP-latQ-iiqvLk3C2e6zTfwsCAR5sLB6m8SSGw__>)
+![game_scene_view.png](<https://media-hosting.imagekit.io/dd83a7be518749ea/game_scene_view.png?Expires=1837714845&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=BC4M-lFxx5g1ywjqwu-GT2nU2RniQ4gREFJIDNWA-wJF~LAOUmn8hIo-sfwDh-PzB~BcW0EWNVoki-shVWlIJq3cNwMYWkPIpaDZd8UI4b8h1Oey5toa~arUsy9xvdKFCRFLQZ6pfhZPGHph7DcxEsFAG3siUxKkvJd0e2GByDXHsAxs6hxmZJkH-Tc~YRhS-prgNP3S0a8R7iq4aqwLmmtkYkezkTuzogohq4cNWcxHGS8Tqu6O0zmxtlX1MsLLHQhP1W2iDfeH5CTnjjEn9cn1o~tO-0B4rFc-DtdaHazn8WMmA1TT4Olzd~IAhsN5FFAn-N~3OLdCT7JshGylbw__>)
 
 ![konami_collections_page.png](<https://media-hosting.imagekit.io/fd9cb0beb7fb4efb/konami_collections_page.png?Expires=1837703003&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=0wC-8P75LWRvoP89jOIoifdxEx3T-DtVbkkx6dAzQ2QMph-emVYe3wpjkw35T8SaU20LuNuxyUqTnQ3QuItfwIA-jPTibPsvMWZa1H5jlnFraJXQo8umUfiKR4jzVrjZxqb9xH5pro7DIX3eKnRLRH2jJYIkvk~qXCvFAyc93ZttOs6KzQnx6vipjUST2tmWpHierM3NRhSx9SAXsz3qLoIvopKQkcqkA8PGb0vmQsgp4PvNScM~U0VVJSTN~sCqRVdBmPQKZexaPUXPHUxP5~OSl6Ejk3WiE1zn-qBXq8EWhfOaCTS5p9DPI7tZBq0UZJ9kkjUpK7VFCz5fFZ6VRg__>)
 
@@ -112,6 +108,10 @@ All art resources in this project are produced by [@octokatherine](https://githu
 - Space Relic - Thumper | *Dune*
 - Stardust - Stardust Fragment | *Terraria*
 - The Dictionary of the Ancients - Enchanted Book & Enchanting Table | *Minecraft*
+  
+## External Resources Used
+- BGM: https://pixabay.com/music/main-title-stealth-battle-205902/
+- Pixelated rounded corners: https://pixelcorners.lukeb.co.uk/?radius=8&multiplier=4
 
 ## Special Thanks
 
