@@ -66,13 +66,14 @@
 .text_hint{
   width:70vw;
   text-align: center;
+  line-height:1.5vw ;
   font-family: 'Fixedys', sans-serif;
-  font-size:1vw;
+  font-size:1.2vw;
   position:fixed;
-  bottom:100px;
+  bottom:80px;
   left: 50%;
   transform: translate(-50%);
-  color:#54a596;
+  color:#d1977f;
   z-index:2;
 }
 

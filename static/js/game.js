@@ -1181,8 +1181,10 @@ async function resetMap(player){
 
 async function play(player) {
     await printMessage("Enter 'q' to quit.")
+    await printMessage("Your history games and collections will ONLY be updated after you finish a game.")
+    await printMessage("DONT FORGET TO USE ‘SAVE’. Which reserves the gaming state for next time you visit the website.")
     await printMessage("--------------------");
-    await printMessage("You are in the street. You can enter any house numbered 1-10."); 
+    await printMessage("You are in the street. You can enter any house numbered 1-10.");
 
     const gameLoop = async () => {
         if (endGame) return;
