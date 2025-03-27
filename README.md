@@ -1,5 +1,5 @@
 # 🏠 House Invader  
-*A survival horror text adventure built with Django*
+*A survival sci-fi text adventure built with Django*
 
 ## Authors
 - [@octokatherine](https://github.com/RAF-Law)
