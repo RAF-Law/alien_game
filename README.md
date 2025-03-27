@@ -63,7 +63,6 @@ https://raflaw.pythonanywhere.com/gameApp/
 ```bash
 # Clone repository
 git clone https://github.com/RAF-Law/alien_game
-cd alien_game
 
 # Set up virtual environment
 python -m venv venv
@@ -76,7 +75,7 @@ source venv/bin/activate  # Linux/Mac
 pip install -r requirements.txt
 
 # Navigate to alien_game folder
-cd ~/alien_game
+cd alien_game
 
 # Start server
 python manage.py runserver
