@@ -30,8 +30,7 @@
 ### 🕹️ Gameplay
 - **Persistent Game States**: Save/load progress  
 - **XML Game Data Storage**  
-- **Easter Egg**: Hidden Konami code feature  
-- **Interactive Tutorial**  
+- **Easter Egg**: Hidden Konami code feature    
 
 ### 🖼️ Media & UI
 - Dynamic weapon/artifact icons  
