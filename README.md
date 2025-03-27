@@ -3,7 +3,7 @@
 
 **Originally served as the group project for Web App Development 2, University of Glasgow*
 
-## External resources used
+## External Resources Used
 - BGM: https://pixabay.com/music/main-title-stealth-battle-205902/
 - Pixelated rounded corners: https://pixelcorners.lukeb.co.uk/?radius=8&multiplier=4
 
@@ -98,5 +98,21 @@ Access at: http://127.0.0.1:8000/
 
 ![konami_collections_page.png](<https://media-hosting.imagekit.io/fd9cb0beb7fb4efb/konami_collections_page.png?Expires=1837703003&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=0wC-8P75LWRvoP89jOIoifdxEx3T-DtVbkkx6dAzQ2QMph-emVYe3wpjkw35T8SaU20LuNuxyUqTnQ3QuItfwIA-jPTibPsvMWZa1H5jlnFraJXQo8umUfiKR4jzVrjZxqb9xH5pro7DIX3eKnRLRH2jJYIkvk~qXCvFAyc93ZttOs6KzQnx6vipjUST2tmWpHierM3NRhSx9SAXsz3qLoIvopKQkcqkA8PGb0vmQsgp4PvNScM~U0VVJSTN~sCqRVdBmPQKZexaPUXPHUxP5~OSl6Ejk3WiE1zn-qBXq8EWhfOaCTS5p9DPI7tZBq0UZJ9kkjUpK7VFCz5fFZ6VRg__>)
 
+## About Arts
+
+All art resources in this project are produced by [@octokatherine](https://github.com/RAF-Law). Besides many references from online resources, some of the artifacts have certain tributes to other works:
+
+- Alien Artifact - Steam Hub | *Frostpunk*
+- Alien Crystal - White Auracite | *Final Fantasy XIV*
+- Alien Skull - Nomai Mask | *Outer Wilds*
+- Extraterrestrial Relic - Warp Core | *Outer Wilds*
+- Galactic Artifact - Tango with Django | *Our WAD2 textbook*
+- Space Relic - Thumper | *Dune*
+- Stardust - Stardust Fragment | *Terraria*
+- The Dictionary of the Ancients - Enchanted Book & Enchanting Table | *Minecraft*
+
+## Special Thanks
+
+To those who gave support to the development of this project and engaged in early testing:
 
 
