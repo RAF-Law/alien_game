@@ -96,6 +96,8 @@ Access at: http://127.0.0.1:8000/
 
 ![konami_collections_page.png](<https://media-hosting.imagekit.io/fd9cb0beb7fb4efb/konami_collections_page.png?Expires=1837703003&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=0wC-8P75LWRvoP89jOIoifdxEx3T-DtVbkkx6dAzQ2QMph-emVYe3wpjkw35T8SaU20LuNuxyUqTnQ3QuItfwIA-jPTibPsvMWZa1H5jlnFraJXQo8umUfiKR4jzVrjZxqb9xH5pro7DIX3eKnRLRH2jJYIkvk~qXCvFAyc93ZttOs6KzQnx6vipjUST2tmWpHierM3NRhSx9SAXsz3qLoIvopKQkcqkA8PGb0vmQsgp4PvNScM~U0VVJSTN~sCqRVdBmPQKZexaPUXPHUxP5~OSl6Ejk3WiE1zn-qBXq8EWhfOaCTS5p9DPI7tZBq0UZJ9kkjUpK7VFCz5fFZ6VRg__>)
 
+![artifact_collection_view.png](<https://media-hosting.imagekit.io/15e53cc300734465/artifact_collection_view.png?Expires=1837715833&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=yc0RcOnPMIz2YzOIC4I8qcgkvTMqtdaBwibk3pSfZtxghz0fv-Wk~Ess37niPZNE-TR1B~Ig7gIIBzXQcM~kKBQ~fRsRxzpGLR3EgxK06L~B8h7tqpHPAJ23r-VEm5C3fkso91vA1BTdaNBoQj6F-L6YdoS~x3K8djDwrHj2tqBkgarygK8UFUTd-4t015GyH5b~F9rJTGp50iv~0Au2y1KeOifiUDxC2VAMp4pPqjoIDsYeFUd2cx8TqefcIFvWuHoUOE6U7iXwcuG5abCAChy97EqeU4buBxvE6dN6unE7Z5C7QZSYU5fCivb3f7~GlYG5CkCxMtfn9ikrpAbm9A__>)
+
 ## About Arts
 
 All art resources in this project are produced by [@octokatherine](https://github.com/RAF-Law). Besides many references from online resources, some of the artifacts have certain tributes to other works:
