@@ -123,4 +123,6 @@ To those who gave support to the development of this project and engaged in earl
 - frog
 - DuaLipa
 - urmother
+- sam
+- 1fire1zero
 
