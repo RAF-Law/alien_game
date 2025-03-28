@@ -1,0 +1,102 @@
+{% extends 'gameApp/base.html' %}
+{% load static %}
+
+{% block title_block %}
+	My account
+{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/accountStyle.css' %}">
+    <script type="module" src="{% static 'js/account.js' %}"></script>
+{% endblock %}
+
+{% block body_block %}
+    <div id="userframe_bg"></div>
+    <div id="userframe">
+        <img id="pfp" src="{{ user_profile.icon.url }}" alt="Profile Picture" class="pfp_display">
+        <div id="username">{{ user.username }}</div>
+
+            <!-- this part is not done well but anyways it works -->
+        <form id="upload_form" method="post" action="{% url 'gameApp:user_account' %}" enctype="multipart/form-data"> 
+            {% csrf_token %}
+            <div class="buttons upload_bg"> <!-- reference: https://jsfiddle.net/9Lzjzwr7/-->
+                <div class="hyperlink">
+                    <label for="file-upload" class="custom-file-upload button_text">
+                        Upload pfp
+                    </label>
+                    <input id="file-upload" name="{{ profile_form.icon.name }}" type="file" />
+                </div>
+                <div class="button_icon" id="upload"></div>
+            </div>
+
+            <div class="buttons save_bg">
+                <div class="hyperlink">
+                    <button class="styled_button" type="submit">Save pfp
+                    </button>
+                </div>
+                <div class="button_icon" id="save"></div>
+            </div>
+        </form>
+
+        <div class="buttons logout_bg">
+            <a href="{% url 'gameApp:logout' %}" class="no_underline">
+                <div class="hyperlink">
+                    <div class="button_text">logout</div>
+                    <div class="button_icon" id="logout"></div>
+                </div>
+            </a>
+        </div>    
+    </div>
+
+    <div class="frame">
+        <div class="topframe">
+            <div class="game_frame" id="user_history">
+                <a href="{% url 'gameApp:user_history' %}" class="no_underline">
+                    <div class="hyperlink ov">
+                        <div class="game_text">History</div>
+                        <div class="game_icon" id="history"></div>
+                    </div>
+                </a>
+            </div>
+            <div class="game_frame" id="user_handbook">
+                <a href="{% url 'gameApp:user_handbook' %}" class="no_underline">
+                    <div class="hyperlink ov">
+                        <div class="game_text">Collections</div>
+                        <div class="game_icon" id="collection"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="bottomframe">
+            <div class="basic data">
+                Most enemies killed:<br>
+                <div class="num">{{ user_profile.most_enemies_killed }}</div>
+                Most days survived:<br>
+                <div class="num">{{ user_profile.most_days_survived }}</div>
+                Games played:
+                <div class="num">{{ user_profile.games_played }}</div>
+            </div>
+            <div class="collection data">
+                <div class="collection_text">Collections:</div>
+                Weapons:<br>
+                <div class="num">{{ user_profile.weapons_earned.count }} / 11</div>
+                Artifacts:<br>
+                <div class="num">{{ user_profile.artifacts_earned.count }} / 20</div>
+            </div>
+            <div class="additionaltext">
+                User<br>
+                Stats
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+{% endblock %}
+
+{% block heading %}
+    My account
+{% endblock %}

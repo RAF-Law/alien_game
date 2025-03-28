@@ -1,6 +1,6 @@
 @font-face { /* import the font */
     font-family: 'Fixedys';
-    src: url("{% static 'fonts/FSEX300.ttf' %}") format('truetype'); 
+    src: url("../fonts/FSEX300.ttf") format('truetype'); 
 }
 
 body {
@@ -18,14 +18,21 @@ body {
     margin-left:40px;
     margin-right:10px;
     image-rendering: pixelated;
+    filter:brightness(0.9);
+}
+.icons:hover{filter: hue-rotate(-40deg) brightness(1.5);}
+
+.music {
+    position: fixed;
+    right:310px;
 }
 
 @media (max-width:800px){ /* elements get denser & smaller if you shrink window */
     .icons { /* only override changed part */
-        width: 30px;
-        margin-top:12px;
-        margin-left:5px;
-        margin-right:5px;
+        width: 23px;
+        margin-top:15px;
+        margin-left:3px;
+        margin-right:3px;
     }
 }
 
@@ -42,29 +49,43 @@ body {
 }
 
 .text_headings {
-    position:fixed;
+    position:absolute;
     top:80px;
     left: 50%;
     transform: translate(-50%);
     font-family: 'Fixedys', sans-serif;
     font-size: 80px;
     color:rgb(245, 250, 255);
+
+    white-space: nowrap; /* make them stay in one line */
     
     z-index:2;
 }
 
 .text_declaration {
-    position:fixed;
+    position:absolute;
     bottom:5px;
     left: 50%;
     transform: translate(-50%);
     font-family: 'Fixedys', sans-serif;
     font-size: 11px;
-    color:#01031e;
+    color:rgba(202, 255, 245, 0.3);
 
     white-space: nowrap; 
 
     z-index:2;
+}
+html, body {
+    min-height: 100vh;
+    position: relative;
+}
+
+.star{
+    height: 4px;
+    width: 4px;
+    image-rendering: pixelated;
+
+    background-color:white;
 }
 
 .circle {
@@ -94,37 +115,29 @@ body {
     height:100px;
     width:310px;
 
-    background: url("{% static 'icons/login.png' %}") no-repeat;
+    background: url('../icons/login.png') no-repeat;
     background-size: contain;
     image-rendering: pixelated;
 
     position: fixed;
     right: 0px;
     top:0px;
+    pointer-events: none;
     
     z-index: 7;
 }
 
-#login_bg_unauthorised{
-    height:80px;
-    width:300px;
-    background-color: #1c3147;
-
-    position: fixed;
-    right: 0px;
-    top:0px;
-
+#login_text{
     font-size: 60px;
     letter-spacing: 8px;
     color:#2fe7f7;
     font-family: 'Fixedys', sans-serif;
     text-align: center;
     line-height: 70px;
-
-    z-index: 6;
+    pointer-events: none;
 }
 
-#login_bg_authorised{ /* this is a container cuz we need 2 lines of text with different align */
+#login_bg{ /* this is a container cuz we need 2 lines of text with different align */
     height:80px;
     width:300px;
     background-color: #1c3147;
@@ -135,6 +148,15 @@ body {
 
     z-index: 6;
 }
+#login_bg_shade{
+    height:80px;
+    width:300px;
+    position: fixed;
+    right: 0px;
+    top:0px;
+    background-color: rgba(202, 255, 245, 0);
+}
+#login_bg_shade:hover{background-color: rgba(60, 144, 208, 0.15);}
 
 #login_hello{
     font-size: 35px;
@@ -146,6 +168,7 @@ body {
     position:absolute;
     left:20px;
     top:5px;
+    pointer-events: none;
 }
 
 #login_username{
@@ -159,4 +182,8 @@ body {
     position:absolute;
     right:10px;
     bottom:15px;
+    pointer-events: none;
+
+    max-width: 250px;
+    overflow: hidden;
 }

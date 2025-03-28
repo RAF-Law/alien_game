@@ -1,0 +1,404 @@
+@import "baseStyle.css";
+
+.instruction_subheading{
+    padding:45px;
+    padding-bottom: 5px;
+    letter-spacing: 5px;
+    
+    font-family: 'Fixedys', sans-serif;
+    font-size: 40px;
+    color: #ff008c;
+    text-shadow: 1px 1px 0px #2ff7c5,-1px -1px 0px #2ff7c5,-1px 1px 0px #2ff7c5,1px -1px 0px #2ff7c5;
+}
+
+p{
+    padding:50px;
+    padding-top: 5px;
+    padding-bottom: 0px;
+    font-family: 'Fixedys', sans-serif;
+    letter-spacing: 0.2px;
+    word-spacing: 2px;
+    font-size: 20px;
+    color: aliceblue;
+    line-height: 40px;
+    text-indent: 4ch;
+}
+
+body {
+  padding-bottom: 180px; /* this is so confusing but anyways I fixed it */
+}
+
+.side {
+  width: 300px;
+  height: 60px;
+  position: absolute;
+  image-rendering: pixelated;
+  background-size: cover;
+}
+
+.left { right: calc(50% + 330px); }
+
+.right { left: calc(50% + 330px); }
+
+#left_1 { background-image: url('../images/ins_left_1.png'); top: 100px; }
+#left_2 { background-image: url('../images/ins_left_2.png'); top: 120px; }
+#left_3 { background-image: url('../images/ins_left_3.png'); top: 110px; }
+#right_1 { background-image: url('../images/ins_right_1.png'); top: 100px; }
+#right_2 { background-image: url('../images/ins_right_2.png'); top: 120px; }
+#right_3 { background-image: url('../images/ins_right_3.png'); top: 110px; }
+
+.instruction_frame, /*given by some generator, will state the source in document */
+.instruction_frame--wrapper {
+    margin-bottom: 50px;
+    width:80vw;
+    height:auto;
+    position:absolute;
+    top: 201px; /*stange things happen. after django runs it, the layout changes a bit and I have to adjust them */
+    left: 50%;
+    transform: translate(-50%);
+    background-image: linear-gradient(180deg,rgb(18, 46, 70) 50%,rgb(50, 17, 91));
+    
+
+  clip-path: polygon(0px calc(100% - 48px),
+    4px calc(100% - 48px),
+    4px calc(100% - 36px),
+    8px calc(100% - 36px),
+    8px calc(100% - 32px),
+    12px calc(100% - 32px),
+    12px calc(100% - 28px),
+    12px calc(100% - 24px),
+    16px calc(100% - 24px),
+    16px calc(100% - 20px),
+    20px calc(100% - 16px),
+    24px calc(100% - 16px),
+    24px calc(100% - 12px),
+    28px calc(100% - 12px),
+    32px calc(100% - 12px),
+    32px calc(100% - 8px),
+    36px calc(100% - 8px),
+    36px calc(100% - 4px),
+    48px calc(100% - 4px),
+    48px 100%,
+    calc(100% - 48px) 100%,
+    calc(100% - 48px) calc(100% - 4px),
+    calc(100% - 36px) calc(100% - 4px),
+    calc(100% - 36px) calc(100% - 8px),
+    calc(100% - 32px) calc(100% - 8px),
+    calc(100% - 32px) calc(100% - 12px),
+    calc(100% - 28px) calc(100% - 12px),
+    calc(100% - 24px) calc(100% - 12px),
+    calc(100% - 24px) calc(100% - 16px),
+    calc(100% - 20px) calc(100% - 16px),
+    calc(100% - 16px) calc(100% - 20px),
+    calc(100% - 16px) calc(100% - 24px),
+    calc(100% - 12px) calc(100% - 24px),
+    calc(100% - 12px) calc(100% - 28px),
+    calc(100% - 12px) calc(100% - 32px),
+    calc(100% - 8px) calc(100% - 32px),
+    calc(100% - 8px) calc(100% - 36px),
+    calc(100% - 4px) calc(100% - 36px),
+    calc(100% - 4px) calc(100% - 48px),
+    100% calc(100% - 48px),
+    100% 48px,
+    calc(100% - 4px) 48px,
+    calc(100% - 4px) 36px,
+    calc(100% - 8px) 36px,
+    calc(100% - 8px) 32px,
+    calc(100% - 12px) 32px,
+    calc(100% - 12px) 28px,
+    calc(100% - 12px) 24px,
+    calc(100% - 16px) 24px,
+    calc(100% - 16px) 20px,
+    calc(100% - 20px) 16px,
+    calc(100% - 24px) 16px,
+    calc(100% - 24px) 12px,
+    calc(100% - 28px) 12px,
+    calc(100% - 32px) 12px,
+    calc(100% - 32px) 8px,
+    calc(100% - 36px) 8px,
+    calc(100% - 36px) 4px,
+    calc(100% - 48px) 4px,
+    calc(100% - 48px) 0px,
+    48px 0px,
+    48px 4px,
+    36px 4px,
+    36px 8px,
+    32px 8px,
+    32px 12px,
+    28px 12px,
+    24px 12px,
+    24px 16px,
+    20px 16px,
+    16px 20px,
+    16px 24px,
+    12px 24px,
+    12px 28px,
+    12px 32px,
+    8px 32px,
+    8px 36px,
+    4px 36px,
+    4px 48px,
+    0px 48px);
+  position: relative;
+}
+.instruction_frame {
+  border: 4px solid transparent;
+}
+.instruction_frame--wrapper {
+  width: fit-content;
+  height: fit-content;
+}
+.instruction_frame--wrapper .instruction_frame {
+  display: block;
+  clip-path: polygon(4px 48px,
+    8px 48px,
+    8px 36px,
+    12px 36px,
+    12px 32px,
+    16px 32px,
+    16px 28px,
+    16px 24px,
+    20px 24px,
+    20px 20px,
+    24px 20px,
+    24px 16px,
+    28px 16px,
+    32px 16px,
+    32px 12px,
+    36px 12px,
+    36px 8px,
+    48px 8px,
+    48px 4px,
+    calc(100% - 48px) 4px,
+    calc(100% - 48px) 8px,
+    calc(100% - 36px) 8px,
+    calc(100% - 36px) 12px,
+    calc(100% - 32px) 12px,
+    calc(100% - 32px) 16px,
+    calc(100% - 28px) 16px,
+    calc(100% - 24px) 16px,
+    calc(100% - 24px) 20px,
+    calc(100% - 20px) 20px,
+    calc(100% - 20px) 24px,
+    calc(100% - 16px) 24px,
+    calc(100% - 16px) 28px,
+    calc(100% - 16px) 32px,
+    calc(100% - 12px) 32px,
+    calc(100% - 12px) 36px,
+    calc(100% - 8px) 36px,
+    calc(100% - 8px) 48px,
+    calc(100% - 4px) 48px,
+    calc(100% - 4px) calc(100% - 48px),
+    calc(100% - 8px) calc(100% - 48px),
+    calc(100% - 8px) calc(100% - 36px),
+    calc(100% - 12px) calc(100% - 36px),
+    calc(100% - 12px) calc(100% - 32px),
+    calc(100% - 16px) calc(100% - 32px),
+    calc(100% - 16px) calc(100% - 28px),
+    calc(100% - 16px) calc(100% - 24px),
+    calc(100% - 20px) calc(100% - 24px),
+    calc(100% - 20px) calc(100% - 20px),
+    calc(100% - 24px) calc(100% - 20px),
+    calc(100% - 24px) calc(100% - 16px),
+    calc(100% - 28px) calc(100% - 16px),
+    calc(100% - 32px) calc(100% - 16px),
+    calc(100% - 32px) calc(100% - 12px),
+    calc(100% - 36px) calc(100% - 12px),
+    calc(100% - 36px) calc(100% - 8px),
+    calc(100% - 48px) calc(100% - 8px),
+    calc(100% - 48px) calc(100% - 4px),
+    48px calc(100% - 4px),
+    48px calc(100% - 8px),
+    36px calc(100% - 8px),
+    36px calc(100% - 12px),
+    32px calc(100% - 12px),
+    32px calc(100% - 16px),
+    28px calc(100% - 16px),
+    24px calc(100% - 16px),
+    24px calc(100% - 20px),
+    20px calc(100% - 20px),
+    20px calc(100% - 24px),
+    16px calc(100% - 24px),
+    16px calc(100% - 28px),
+    16px calc(100% - 32px),
+    12px calc(100% - 32px),
+    12px calc(100% - 36px),
+    8px calc(100% - 36px),
+    8px calc(100% - 48px),
+    4px calc(100% - 48px));
+}
+.instruction_frame::after,
+.instruction_frame--wrapper::after {
+  content: "";
+  position: absolute;
+  clip-path: polygon(0px calc(100% - 48px),
+    4px calc(100% - 48px),
+    4px calc(100% - 36px),
+    8px calc(100% - 36px),
+    8px calc(100% - 32px),
+    12px calc(100% - 32px),
+    12px calc(100% - 28px),
+    12px calc(100% - 24px),
+    16px calc(100% - 24px),
+    16px calc(100% - 20px),
+    20px calc(100% - 16px),
+    24px calc(100% - 16px),
+    24px calc(100% - 12px),
+    28px calc(100% - 12px),
+    32px calc(100% - 12px),
+    32px calc(100% - 8px),
+    36px calc(100% - 8px),
+    36px calc(100% - 4px),
+    48px calc(100% - 4px),
+    48px 100%,
+    calc(100% - 48px) 100%,
+    calc(100% - 48px) calc(100% - 4px),
+    calc(100% - 36px) calc(100% - 4px),
+    calc(100% - 36px) calc(100% - 8px),
+    calc(100% - 32px) calc(100% - 8px),
+    calc(100% - 32px) calc(100% - 12px),
+    calc(100% - 28px) calc(100% - 12px),
+    calc(100% - 24px) calc(100% - 12px),
+    calc(100% - 24px) calc(100% - 16px),
+    calc(100% - 20px) calc(100% - 16px),
+    calc(100% - 16px) calc(100% - 20px),
+    calc(100% - 16px) calc(100% - 24px),
+    calc(100% - 12px) calc(100% - 24px),
+    calc(100% - 12px) calc(100% - 28px),
+    calc(100% - 12px) calc(100% - 32px),
+    calc(100% - 8px) calc(100% - 32px),
+    calc(100% - 8px) calc(100% - 36px),
+    calc(100% - 4px) calc(100% - 36px),
+    calc(100% - 4px) calc(100% - 48px),
+    100% calc(100% - 48px),
+    100% 48px,
+    calc(100% - 4px) 48px,
+    calc(100% - 4px) 36px,
+    calc(100% - 8px) 36px,
+    calc(100% - 8px) 32px,
+    calc(100% - 12px) 32px,
+    calc(100% - 12px) 28px,
+    calc(100% - 12px) 24px,
+    calc(100% - 16px) 24px,
+    calc(100% - 16px) 20px,
+    calc(100% - 20px) 16px,
+    calc(100% - 24px) 16px,
+    calc(100% - 24px) 12px,
+    calc(100% - 28px) 12px,
+    calc(100% - 32px) 12px,
+    calc(100% - 32px) 8px,
+    calc(100% - 36px) 8px,
+    calc(100% - 36px) 4px,
+    calc(100% - 48px) 4px,
+    calc(100% - 48px) 0px,
+    48px 0px,
+    48px 4px,
+    36px 4px,
+    36px 8px,
+    32px 8px,
+    32px 12px,
+    28px 12px,
+    24px 12px,
+    24px 16px,
+    20px 16px,
+    16px 20px,
+    16px 24px,
+    12px 24px,
+    12px 28px,
+    12px 32px,
+    8px 32px,
+    8px 36px,
+    4px 36px,
+    4px 48px,
+    0px 48px,
+    0px 50%,
+    4px 50%,
+    4px 48px,
+    8px 48px,
+    8px 36px,
+    12px 36px,
+    12px 32px,
+    16px 32px,
+    16px 28px,
+    16px 24px,
+    20px 24px,
+    20px 20px,
+    24px 20px,
+    24px 16px,
+    28px 16px,
+    32px 16px,
+    32px 12px,
+    36px 12px,
+    36px 8px,
+    48px 8px,
+    48px 4px,
+    calc(100% - 48px) 4px,
+    calc(100% - 48px) 8px,
+    calc(100% - 36px) 8px,
+    calc(100% - 36px) 12px,
+    calc(100% - 32px) 12px,
+    calc(100% - 32px) 16px,
+    calc(100% - 28px) 16px,
+    calc(100% - 24px) 16px,
+    calc(100% - 24px) 20px,
+    calc(100% - 20px) 20px,
+    calc(100% - 20px) 24px,
+    calc(100% - 16px) 24px,
+    calc(100% - 16px) 28px,
+    calc(100% - 16px) 32px,
+    calc(100% - 12px) 32px,
+    calc(100% - 12px) 36px,
+    calc(100% - 8px) 36px,
+    calc(100% - 8px) 48px,
+    calc(100% - 4px) 48px,
+    calc(100% - 4px) calc(100% - 48px),
+    calc(100% - 8px) calc(100% - 48px),
+    calc(100% - 8px) calc(100% - 36px),
+    calc(100% - 12px) calc(100% - 36px),
+    calc(100% - 12px) calc(100% - 32px),
+    calc(100% - 16px) calc(100% - 32px),
+    calc(100% - 16px) calc(100% - 28px),
+    calc(100% - 16px) calc(100% - 24px),
+    calc(100% - 20px) calc(100% - 24px),
+    calc(100% - 20px) calc(100% - 20px),
+    calc(100% - 24px) calc(100% - 20px),
+    calc(100% - 24px) calc(100% - 16px),
+    calc(100% - 28px) calc(100% - 16px),
+    calc(100% - 32px) calc(100% - 16px),
+    calc(100% - 32px) calc(100% - 12px),
+    calc(100% - 36px) calc(100% - 12px),
+    calc(100% - 36px) calc(100% - 8px),
+    calc(100% - 48px) calc(100% - 8px),
+    calc(100% - 48px) calc(100% - 4px),
+    48px calc(100% - 4px),
+    48px calc(100% - 8px),
+    36px calc(100% - 8px),
+    36px calc(100% - 12px),
+    32px calc(100% - 12px),
+    32px calc(100% - 16px),
+    28px calc(100% - 16px),
+    24px calc(100% - 16px),
+    24px calc(100% - 20px),
+    20px calc(100% - 20px),
+    20px calc(100% - 24px),
+    16px calc(100% - 24px),
+    16px calc(100% - 28px),
+    16px calc(100% - 32px),
+    12px calc(100% - 32px),
+    12px calc(100% - 36px),
+    8px calc(100% - 36px),
+    8px calc(100% - 48px),
+    4px calc(100% - 48px),
+    4px 50%,
+    0px 50%);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #13ffef;
+  display: block;
+  pointer-events: none;
+}
+.instruction_frame::after {
+  margin: -4px;
+}

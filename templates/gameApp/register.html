@@ -1,0 +1,60 @@
+{% extends 'gameApp/base.html' %}
+{% load static %}
+
+{% block title_block %}
+	Register
+{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/registerStyle.css' %}">
+    <script type="module" src="{% static 'js/register.js' %}"></script>
+{% endblock %}
+
+{% block body_block %}
+    <div class="circle"></div>
+    <div id="registerFrame"></div>
+    <div id="registerFrame_bg"></div>
+
+    <div id="unreg">
+        <img id="pfp" src="{% static 'user_icons/Default Icon.png' %}" class="pfp_display">
+        <div id="text_username" class="text_preinput">
+            User Name:
+        </div>
+        <div id="text_password" class="text_preinput">
+            Password  :
+        </div>
+        <div id="text_email" class="text_preinput">
+            Email &nbsp;&nbsp;&nbsp;: <!-- I'm forcing the html to show the spaces here -->
+        </div>
+        <form id="user_form" method="post" action="{% url 'gameApp:register' %}" enctype="multipart/form-data"> 
+            {% csrf_token %}
+            <div id="input_username" class="inputcontainer">
+                {{ user_form.username }}
+            </div>
+            <div id="input_password" class="inputcontainer">
+                {{ user_form.password }}
+            </div>
+            <div id="input_email" class="inputcontainer">
+                {{ user_form.email }}
+            </div>
+
+            <div class="buttons upload_bg">
+                <div class="hyperlink">
+                    <label for="file-upload" class="custom-file-upload button_text">
+                        Choose pfp
+                    </label>
+                    <input id="file-upload" name="{{ profile_form.icon.name }}" type="file" />
+                </div>
+            </div>
+
+            <div id="submitcontainer" class="inputcontainer">
+                <input class="styled-submit" type="submit" name="submit" value="Register" />
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
+
+{% block heading %}
+    Register
+{% endblock %}

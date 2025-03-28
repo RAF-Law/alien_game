@@ -13,14 +13,19 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
+
+from django.conf import settings
+from django.conf.urls.static import static
+
 from django.urls import path
-from gameApp import views
 from django.urls import include
+from gameApp import views
 
 urlpatterns = [
-    path('',views.home,name="home"),
-    path('gameApp/',include('gameApp.urls')),
+    path('', views.home, name='home'),
+    path('gameApp/', include('gameApp.urls')), # Maps urls that start with gameApp/ to be handled by gameApp
     path('admin/', admin.site.urls),
-
-]
+    
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

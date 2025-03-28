@@ -1,0 +1,237 @@
+@import "baseStyle.css";
+
+#loginFrame_bg{
+    position:absolute;
+    left: calc(50% - 5px); /* wtaf you need spaces between the operators */
+    transform: translate(-50%);
+    top:180px;
+    width:380px;
+    height:620px;
+    background-color: #1c3147;
+
+    z-index: 2;
+}
+
+#loginFrame{
+    position:absolute;
+    left: calc(50% - 5px);
+    transform: translate(-50%);
+    top:150px;
+    width:500px;
+    height:700px;
+
+    background: url("../images/loginframe.png") no-repeat;
+    background-size: contain;
+    image-rendering: pixelated;
+
+    z-index: 3;
+}
+
+body { /* override the body attribute, so it has a fixed height, the declarations won't overlap with login frame and the frame won't shrink */
+    height:940px;
+}
+
+.text_headings{ /*override base style */
+    top:210px;
+    letter-spacing: 2px;
+    z-index: 4;
+}
+
+.link{
+  color:rgb(255, 68, 134);;
+}
+
+.link:visited{ /* literally, change the colour after visited once */
+  color:rgb(173, 53, 53)
+}
+
+.text_signup{
+    font-family: 'Fixedys', sans-serif;
+    color:aliceblue;
+    font-size: 20px;
+    position:absolute;
+    top:730px;
+    left: 50%;
+    transform: translate(-50%);
+    text-align: center;
+    z-index: 4;
+    line-height: 25px;
+}
+
+#text_username{
+    top:332px;
+}
+#text_password{
+    top:460px;
+}
+
+.text_preinput{
+    width: 300px;
+    position:absolute;
+    left: 50%;
+    transform: translate(-50%);
+    font-size: 30px;
+    font-family: 'Fixedys', sans-serif;
+    color:aliceblue;
+
+    z-index:4;
+}
+
+.styled-input {
+    width: 270px;
+    height: 40px;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin:-5px;
+    font-size: 22px;
+    letter-spacing: 1px;
+    font-family: 'Fixedys', sans-serif;
+    border: none;
+    background: #354858;
+    color: #e0fcff;
+}
+
+/* Styling the autofilled input */
+.styled-input:-webkit-autofill {
+  background: #354858;
+  color: #e0fcff; 
+  transition: background-color 10000s ease-in-out 0s, color 5000s ease-in-out 0s;  /* Prevent autofill background from changing */
+}
+
+/* For Firefox */
+.styled-input:-moz-autofill {
+  background: #354858;
+  color: #e0fcff;
+  transition: background-color 50000s ease-in-out 0s, color 5000s ease-in-out 0s;
+}
+
+.styled-submit{
+    width: 130px;
+    height: 57px;
+    margin:-5px;
+    background: #61869d;
+    font-family: 'Fixedys', sans-serif;
+    font-size: 30px;
+    color: aliceblue;
+}
+.styled-submit:hover{background: #70a3ac;}
+
+#submitcontainer{
+    width:120px;
+    left:calc(50% + 80px);
+    top:493px;
+    transform: translate(-50%);
+}
+
+#input_username{
+    top:371px;
+}
+#input_password{
+    top:441px;
+}
+
+.inputcontainer,
+.inputcontainer--wrapper {
+    height:50px;
+    width:300px;
+    left:50%;
+    transform: translate(-50%);
+    z-index: 4;
+
+  clip-path: polygon(0px calc(100% - 8px),
+    4px calc(100% - 8px),
+    4px calc(100% - 4px),
+    8px calc(100% - 4px),
+    8px 100%,
+    calc(100% - 8px) 100%,
+    calc(100% - 8px) calc(100% - 4px),
+    calc(100% - 4px) calc(100% - 4px),
+    calc(100% - 4px) calc(100% - 8px),
+    100% calc(100% - 8px),
+    100% 8px,
+    calc(100% - 4px) 8px,
+    calc(100% - 4px) 4px,
+    calc(100% - 8px) 4px,
+    calc(100% - 8px) 0px,
+    8px 0px,
+    8px 4px,
+    4px 4px,
+    4px 8px,
+    0px 8px);
+  position: relative;
+}
+.inputcontainer {
+  border: 4px solid transparent;
+}
+.inputcontainer--wrapper {
+  width: fit-content;
+  height: fit-content;
+}
+.inputcontainer--wrapper .container {
+  display: block;
+  clip-path: polygon(4px 8px,
+    8px 8px,
+    8px 4px,
+    calc(100% - 8px) 4px,
+    calc(100% - 8px) 8px,
+    calc(100% - 4px) 8px,
+    calc(100% - 4px) calc(100% - 8px),
+    calc(100% - 8px) calc(100% - 8px),
+    calc(100% - 8px) calc(100% - 4px),
+    8px calc(100% - 4px),
+    8px calc(100% - 8px),
+    4px calc(100% - 8px));
+}
+.inputcontainer::after,
+.inputcontainer--wrapper::after {
+  content: "";
+  position: absolute;
+  clip-path: polygon(0px calc(100% - 8px),
+    4px calc(100% - 8px),
+    4px calc(100% - 4px),
+    8px calc(100% - 4px),
+    8px 100%,
+    calc(100% - 8px) 100%,
+    calc(100% - 8px) calc(100% - 4px),
+    calc(100% - 4px) calc(100% - 4px),
+    calc(100% - 4px) calc(100% - 8px),
+    100% calc(100% - 8px),
+    100% 8px,
+    calc(100% - 4px) 8px,
+    calc(100% - 4px) 4px,
+    calc(100% - 8px) 4px,
+    calc(100% - 8px) 0px,
+    8px 0px,
+    8px 4px,
+    4px 4px,
+    4px 8px,
+    0px 8px,
+    0px 50%,
+    4px 50%,
+    4px 8px,
+    8px 8px,
+    8px 4px,
+    calc(100% - 8px) 4px,
+    calc(100% - 8px) 8px,
+    calc(100% - 4px) 8px,
+    calc(100% - 4px) calc(100% - 8px),
+    calc(100% - 8px) calc(100% - 8px),
+    calc(100% - 8px) calc(100% - 4px),
+    8px calc(100% - 4px),
+    8px calc(100% - 8px),
+    4px calc(100% - 8px),
+    4px 50%,
+    0px 50%);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #13ffef;
+  display: block;
+  pointer-events: none;
+}
+.inputcontainer::after {
+  margin: -4px;
+}
+

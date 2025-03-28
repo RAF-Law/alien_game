@@ -1,0 +1,233 @@
+@import "collectionStyle.css";
+@import "loginStyle.css";
+
+/* info part */
+.inputcontainer{
+    position:relative;
+    height:40px;
+    left:270px !important;
+    top:0px !important;
+    z-index: auto;
+}
+.styled-submit{
+    padding-left: 8px;
+    height:48px;
+    letter-spacing: 3px;
+}
+#kill_num{
+    right:10px;
+    top:115px;
+}
+#survive_num{
+    right:5px;
+    bottom:100px;
+}
+.num_data{
+    position:absolute;
+    text-align: center;
+    width:100%;
+    font-family: 'Fixedys', sans-serif;
+    font-size:120px;
+    letter-spacing: -5px;
+    color:white;
+    text-shadow: 3px 3px 0px #2fd2f7,-3px -3px 0px #f73333;
+}
+#kill_icon{
+    background: url("../images/killlogo.png") no-repeat;
+    background-size: contain;
+}
+#survive_icon{
+    background: url("../images/survivelogo.png") no-repeat;
+    background-size: contain;
+    top:40px;
+}
+.dataicon{
+    margin-top: 50px;
+    margin-left:40px;
+    position:relative;
+    width:200px;
+    height:200px;
+    image-rendering: pixelated;
+}
+.survive{
+    top:55px;
+}
+.kill{
+    top:20px;
+}
+.big_info{
+    position: relative;
+    padding-left:30px;
+    font-family: 'Fixedys', sans-serif;
+    color:#7fece5;
+    font-size: 40px;
+    letter-spacing: 2px;
+    z-index: 2;
+}
+.frame{
+    top:155px;
+    right:65% ;
+    left: auto ;
+    transform:none;
+    width:390px;
+    height:700px;
+    pointer-events: none;
+}
+.right{
+    width:280px;
+    left:calc(65% + 90px);
+    background: url("../images/displayframe2.png") no-repeat;
+    background-size: contain;
+}
+.right_bg{
+    position: absolute;
+    top:170px;
+    left:calc(65% + 100px);
+    width:250px;
+    height:670px;
+    background-image: linear-gradient(180deg,rgba(18, 46, 70,0.6) 50%,rgba(50, 17, 91,0.6));
+    z-index: 1;
+}
+.details{
+    top:170px;
+    right:calc(65% + 10px);
+    left: auto ;
+    transform:none;
+    width:370px;
+    height:670px;
+}
+.images{
+    width:100%;
+    height:348px;
+    border-bottom: 2px dotted #13ffef;
+}
+.pic{
+    position: relative;
+    background-color: rgb(48, 48, 78);
+    image-rendering: pixelated;
+    border: 5px solid rgb(11, 11, 43);
+}
+.pfp{
+    object-fit: cover;
+    top:37px;
+    left:45px;
+    width:210px;
+    height:210px;
+    box-shadow: 2px 2px 0px rgb(26,00,24),-2px -2px 0px rgb(143, 148, 170);
+}
+.weapon{
+    left:5px;
+    top:102px;
+    width:90px;
+    height:90px;
+    box-shadow: 2px 2px 0px rgb(26,00,24),-2px -2px 0px rgb(143, 148, 170);
+}
+.text_info{
+    position: relative;
+    font-family: 'Fixedys', sans-serif;
+    color:#ffffff;
+    line-height: 50px;
+    padding-left: 25px;
+    padding-right: 25px;
+    font-size: 30px;
+    text-wrap: nowrap;
+    overflow-x: hidden;
+}
+
+/* game area stuff */
+#game {
+    position: absolute;
+    left:calc(35% - 18px);
+    top:164px;
+    width: calc(30% + 85px);
+    height:632px;
+    background-color: #2e3e4c;
+    border-top: 4px solid #13ffef;
+    border-bottom: 4px solid #13ffef;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index:2;
+}
+
+#messages {
+    height: 600px;
+    overflow-y: auto;
+    background-color: #1b2234;
+    padding: 15px;
+    padding-top: 10px;
+    margin-bottom: 10px;
+    font-family: 'Fixedys', sans-serif;
+    color:aliceblue;
+    letter-spacing: 0.3px;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.pixelshape{
+    clip-path: polygon(
+        0px calc(100% - 8px),
+        4px calc(100% - 8px),
+        4px calc(100% - 4px),
+        8px calc(100% - 4px),
+        8px 100%,
+        calc(100% - 8px) 100%,
+        calc(100% - 8px) calc(100% - 4px),
+        calc(100% - 4px) calc(100% - 4px),
+        calc(100% - 4px) calc(100% - 8px),
+        100% calc(100% - 8px),
+        100% 8px,
+        calc(100% - 4px) 8px,
+        calc(100% - 4px) 4px,
+        calc(100% - 8px) 4px,
+        calc(100% - 8px) 0px,
+        8px 0px,
+        8px 4px,
+        4px 4px,
+        4px 8px,
+        0px 8px
+      );
+}
+
+#inputArea {
+    margin-bottom: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+#input {
+    font-family: 'Fixedys', sans-serif;
+    color:#ffffff;
+    flex: 1;
+    padding: 15px;
+    margin:-5px;
+    background-color: #1b2234;
+    border: none;
+    font-size: 16px;
+}
+
+#messages::-webkit-scrollbar {
+    width: 8px;
+}
+
+#messages::-webkit-scrollbar-track {
+    background: #150f30;
+}
+
+#messages::-webkit-scrollbar-thumb {
+    background: #312060;
+}
+
+#messages::-webkit-scrollbar-thumb:hover {
+    background: #3d2975;
+}
+
+@media(max-width:1200px){ /*max x-shrink*/
+.frame{left:30px}
+.right{left:870px;}
+#game{width:445px;left:402px}
+.details{left:40px;}
+.right_bg{left:880px;}
+}
+body{height: 940px;}

@@ -1,0 +1,79 @@
+{% extends 'gameApp/base.html' %}
+{% load static %}
+
+{% block title_block %}
+	Instructions
+{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/instructionStyle.css' %}">
+    <script type="module" src="{% static 'js/instruction.js' %}"></script>
+{% endblock %}
+
+{% block body_block %}
+    <div id="left_1" class="side left"></div>
+    <div id="left_2" class="side left"></div>
+    <div id="left_3" class="side left"></div>
+    <div id="right_1" class="side right"></div>
+    <div id="right_2" class="side right"></div>
+    <div id="right_3" class="side right"></div>
+
+    <div class="instruction_frame"> <!-- replace these with real instruction -->
+        <div class="instruction_subheading">
+            STORY
+        </div>
+        <p>
+            Aliens from the planet Mininarr have taken over your neighbourhood and others around it. Many brave warriors, much like yourself have tried to take it back but none have been successful. They all perished at the hands of the aliens, although lucky for you the aliens didn't want the warriors' weapons so you may find them in the houses you explore but they come with a small sacrifice.<br>
+        </p>
+        <p>
+            After the aliens take over the houses, they keep their valuables in them but they're not very good at hiding them. You should try to steal as much of their stuff as you can but be aware, it will also come with a cost. The aliens value certain artifacts more than others, so some might not be as easy to find. However you should know, not all weapons and artifacts are found by searching rooms.<br>
+        </p>
+        <p>
+            This is a dangerous journey and many things can (and probably will) kill you. You should make the most of your adventure; find as many artifacts as you can, test out cool weapons, battle with aliens, get on the leaderboard by attempting to set records and most importantly, take back the neighbourhood.<br>
+        </p>
+        <div class="instruction_subheading">
+            INSTRUCTIONS
+        </div>
+        <p>
+            Your main goal is to kill as many aliens as you can and survive as long as you can. You will be given the choice of houses to enter and they will contain rooms, and within those rooms will either be artifacts, weapons or aliens<br>
+        </p>
+        <p>
+            Weapons and artifacts have 4 rarities: Common, Rare, Epic and ??????. Every artifact/weapon room will have at least a common item or higher, you have a solid chance of finding rare items when looting, epic items have a very low chance of appearing and as for the last rarity... get creative. Also, you are able to view your collections in the Collections page.<br>
+        </p>
+	<p>
+	    Although you're a strong warrior, you only have two hands (assuming you're human). You can only use one weapon at a time, so make sure to think about what weapons you pick up.
+	<\p>
+        <p>
+            When you encounter aliens, you have the chance to run if they seem too powerful for you but you won't always get away unscaved. You can also choose to fight them, you will always have a weapon (you will start with just your fists) and rarer ones will be stronger but be careful, it won't always be stronger than your opponents.<br>
+        </p>
+        <p>
+            You will also have certain stats when you play:<br>
+            <br>
+            · HP is how much life you have, if it reaches 0, you die.<br>
+            · Attack points is how much damage you can inflict (with your fists) to an emeny. It gets increased with more kills.<br>
+            · Weapon damage is fixed, based on the weapon you currently have. The total damage made to your enemy is the sum of attack points and weapon damage.<br>
+            · Speed can dictate who takes the first swing in a fight and also your chances of escaping without the alien hurting you.<br>
+            · Food is how much food you currently have, it will go down after activities such as picking up weapons and artifacts.<br>
+            <br>
+        </p>
+        <p>
+            These stats can be built up by defeating aliens and after surviving for so long.<br>
+        </p>
+        <p>
+            Beware... Your enemies also grow stronger as you procceed.
+        </p>
+        <div class="instruction_subheading">
+            HOW CAN I PLAY?
+        </div>
+        <p>
+            It's simple, just register and you'll be able to access all the account-related functionalities (play games, view collections, view history plays).<br>
+        </p>
+        <p>
+            As a visitor, you're only able to access leaderboard, homepage, login page, register page and Instructions.
+        </p>
+    </div>
+{% endblock %}
+
+{% block heading %}
+    Instructions
+{% endblock %}

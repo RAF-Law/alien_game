@@ -1,26 +1,17 @@
+import os
 from django.db import models
+from django.contrib.auth.models import User as DjangoUser
+from django.db.models.signals import post_save
+from django.core.files.base import File
 
 class Weapon(models.Model):
 
-    # Primary key for weapon
     weapon_id = models.AutoField(primary_key=True)
-
-    # Name of weapon
     name = models.CharField(max_length=100, unique=True)
-
-    # Description of weapon
     description = models.TextField()
-
-    # Attack points of weapon
     damage = models.IntegerField(default=0)
-
-    # Attack message of weapon
     attack_message = models.CharField(max_length=100, blank=True)
-
-    #Rarity of weapon
     rarity = models.IntegerField(default=1)
-
-    # Icon of weapon
     icon = models.ImageField(upload_to='static/weapon_icons/', blank=True)
 
     def __str__(self):
@@ -30,21 +21,12 @@ class Weapon(models.Model):
         verbose_name = 'Weapon'
         verbose_name_plural = 'Weapons'
 
-
 class Artifact(models.Model):
-    # Primary key for artifact
+
     artifact_id = models.AutoField(primary_key=True)
-
-    # Name of artifact
     name = models.CharField(max_length=100, unique=True)
-
-    # Description of artifact
     description = models.TextField()
-
-    # Rarity of artifact
     rarity = models.IntegerField(default=1)
-    
-    # Icon of artifact
     icon = models.ImageField(upload_to='static/artifact_icons/', blank=True)
 
     def __str__(self):
@@ -54,21 +36,19 @@ class Artifact(models.Model):
         verbose_name = 'Artifact'
         verbose_name_plural = 'Artifacts'
 
+class UserProfile(models.Model):
 
-class User(models.Model):
-    # Primary key for user
-    user_id = models.AutoField(primary_key=True)
+    user = models.OneToOneField(DjangoUser, on_delete=models.CASCADE, primary_key=True)
 
-    # Link to Artifacts
-    artifacts_earned = models.ManyToManyField(Artifact, blank=True)
-
-    # Link to Weapons
-    weapons_earned = models.ManyToManyField(Weapon, blank=True)
-
-    # Stats for user
     most_enemies_killed = models.IntegerField(default=0)
     most_days_survived = models.IntegerField(default=0)
     games_played = models.IntegerField(default=0)
+    artifacts_earned = models.ManyToManyField(Artifact, blank=True)
+    weapons_earned = models.ManyToManyField(Weapon, blank=True)
+    history_games = models.JSONField(default=list)
+
+    icon = models.ImageField(upload_to='static/user_icons/', blank=True, default =
+    File(open('static/user_icons/Default Icon.png', 'rb')))
 
     def update_most_enemies_killed(self, current_game_enemies_killed):
         if current_game_enemies_killed > self.most_enemies_killed:
@@ -85,47 +65,47 @@ class User(models.Model):
         self.save()
 
     def __str__(self):
-        return f"User {self.user_id}"
+        return self.user.username
+    
+    def save(self, *args, **kwargs): #delete old pfp when uploading a new one
+        if self.pk:
+            existing = UserProfile.objects.filter(pk=self.pk).first()
+            if existing and existing.icon and self.icon != existing.icon:
+                if os.path.isfile(existing.icon.path):
+                    os.remove(existing.icon.path)
+
+        super(UserProfile, self).save(*args, **kwargs)
 
     class Meta:
-        verbose_name = 'User'
-        verbose_name_plural = 'Users'
+        verbose_name = 'User Profile'
+        verbose_name_plural = 'User Profiles'
 
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+
+def create_user_game(sender, instance, created, **kwargs):
+    if created:
+        Game.objects.create(user_game=instance)
 
 class Game(models.Model):
-    # Primary key for game (Map)
-    game_id = models.AutoField(primary_key=True)
 
-    # Player attributes
-    player_hp = models.IntegerField(default=100)
+    user_game = models.OneToOneField(DjangoUser, on_delete=models.CASCADE, primary_key=True)
+    game_data = models.TextField(blank=True)
 
-    # Player attack points (ap)
-    player_ap = models.IntegerField(default=10)
+    # ^^ I'm actually thinking whether we can just store raw xml text data to database without any parsing
+    # so we just need one textfield above, no need to seperate details out
+    # when we load from database we throw it back to js and let it handle
+    # but then we need to modify the save_history view to let it update the artifacts/weapons user has found
+    # whatever you choose to implement please make sure it correctly updates the artifacts/weapons the user found & the game data is not lost
 
-    # Player speed
-    player_speed = models.IntegerField(default=5)
-
-    # Player food
-    player_food = models.IntegerField(default=10)
-
-    # Player weapon
-    player_weapon = models.ForeignKey(Weapon, on_delete=models.CASCADE, blank=True, null=True)
-
-    # Enemies killed in current game instance
-    game_enemies_killed = models.IntegerField(default=0)
-
-    # Days survived in current game instance
-    game_day = models.IntegerField(default=0)
-
-    # Difficulty level of current game instance
-    game_difficulty = models.IntegerField(default=1)
-
-    # Current map of game instance (Starting at default map with PK of 1)
-    game_map = models.IntegerField(default=1)
+    # up to you tho, feel free to choose a way you like
+    # also feel free to ask if you're unsure about the code or workflow :p
 
     def __str__(self):
-        return f"Game {self.game_id}"
+         return f"Game for {self.user_game.username}"
 
-    class Meta:
-        verbose_name = 'Game'
-        verbose_name_plural = 'Games'
+post_save.connect(create_user_profile, sender=DjangoUser)
+post_save.connect(create_user_game, sender=DjangoUser)
+
+#https://docs.djangoproject.com/en/5.1/ref/signals/ - Really useful stuff

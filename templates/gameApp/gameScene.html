@@ -1,0 +1,59 @@
+{% extends 'gameApp/base.html' %}
+{% load static %}
+
+{% block title_block %}
+	GameScene
+{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/gameSceneStyle.css' %}">
+    <script type="module" src="{% static 'js/gameScene.js' %}"></script> <!--styling-->
+{% endblock %}
+
+{% block body_block %}
+    <div class="frame"></div>
+    <div class="details" id="info">
+        <div class="images">
+            <img id="pfp" src="{{ user_profile.icon.url }}" alt="Profile Picture" class="pfp pic">
+            <img id="weapon" src="{% static 'user_icons/Default Icon.png' %}" alt="Weapon" class="weapon pic">
+        </div>
+        <div class="text_info">
+            <div id="hp">HP: N/A</div>
+            <div id="ap">Attack Points: N/A</div>
+            <div id="damage">Weapon Damage: N/A</div>
+            <div id="speed">Speed: N/A</div>
+            <div id="food">Food: N/A</div>
+        </div>
+        <div id="submitcontainer" class="inputcontainer">
+            <input class="styled-submit" type="submit" value="SAVE" id="save_button"/>
+        </div>
+    </div>
+
+    <div id="game">
+        <!-- Message Display Area -->
+        <div id="messages" class="pixelshape"></div>
+
+        <!-- Input Area -->
+        <div id="inputArea" class="pixelshape">
+            <input type="text" id="input" placeholder="Enter your choice...">
+        </div>
+    </div>
+
+    <div class="frame right"></div>
+    <div id="days_kills" class="right_bg">
+        <div class="big_info kill">
+            Kills
+        </div>
+        
+        <div class="dataicon" id="kill_icon"></div>
+        <div class="num_data" id="kill_num">0</div>
+
+        <div class="big_info survive">
+            Days
+        </div>
+        <div class="dataicon" id="survive_icon"></div>
+        <div class="num_data" id="survive_num">0</div>
+    </div>
+
+    <script type="module" src="{% static 'js/game.js' %}"></script> <!--game run, must be put here otherwise it gives an error-->
+{% endblock %}

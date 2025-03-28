@@ -1,0 +1,67 @@
+@import "leaderboardStyle.css";
+@import "instructionStyle.css";
+
+.scrollable{
+    overflow-y:scroll;
+    height:72vh;
+    width:70vw;
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    top:205px;
+    z-index:2;
+}
+
+.block{
+    display: flex;
+    justify-content: space-between;
+}
+
+.frame{
+    position:relative;
+    margin:30px;
+    top:20px;
+    width:65vw;
+    height:10vh;
+}
+.databox{
+    display: flex;
+    justify-content: space-between;
+}
+
+.text1{
+    font-family: 'Fixedys', sans-serif;
+    font-size: 1.5vw;
+    line-height: 9vh;
+    padding-left:2vw;
+    padding-right:2vw;
+    color:rgb(224, 246, 250)
+}
+.text2{
+    font-family: 'Fixedys', sans-serif;
+    font-size: 1.8vw;
+    line-height: 9vh;
+    padding-left:2vw;
+    padding-right:2vw;
+    text-shadow: 1px 1px 0px rgb(228, 22, 139),-1px -1px 0px rgb(228, 22, 139),-1px 1px 0px rgb(228, 22, 139),1px -1px 0px rgb(228, 22, 139);
+    color:rgb(255, 255, 255)
+}
+
+body{
+    padding-bottom: 0px;
+    background-image: linear-gradient(180deg,#1f1b30,#10092d);
+}
+
+.time{
+    color:rgb(224, 246, 250);
+    font-family: 'Fixedys', sans-serif;
+    font-size: 1vw;
+    position: relative;
+    bottom:2vh;
+    left:55vw;
+    z-index: 3;
+}
+
+.left{
+    left:auto;
+}

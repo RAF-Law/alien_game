@@ -1,18 +1,45 @@
 import random
-from abc import ABC, abstractmethod
 import time
+from flask import Flask, request, jsonify
 
-rarities = {1 : "Common", 2 : "Uncommon", 3 : "Rare", 4 : "Epic", 5 : "Legendary"}
+MOCK_WEAPONS = (
+    {"name": "Sword", "description": "A sharp blade.", "damage": 10, "attack_message": "You slash the enemy.", "rarity": 2},
+    {"name": "Bow", "description": "A ranged weapon.", "damage": 8, "attack_message": "You shoot an arrow.", "rarity": 1},
+    {"name": "Axe", "description": "A heavy weapon.", "damage": 15, "attack_message": "You chop the enemy.", "rarity": 3},
+)
 
-#These will be changed to send/recieve information to/from the user on the website
-def printS(message):
-    print(message)
+MOCK_ARTIFACTS = (
+    {"name": "Amulet of Power", "description": "Increases your strength.", "rarity": 4},
+    {"name": "Ring of Speed", "description": "Makes you faster.", "rarity": 3},
+    {"name": "Cloak of Invisibility", "description": "Makes you invisible.", "rarity": 5},
+    {"name": "The Orb of Time", "description": "Makes you sigma.", "rarity": 5},
+)
 
-def inputS():
-    x=input()
-    return x
+def fetch_weapons():
+    weapons = {}
+    for weapon_data in MOCK_WEAPONS:
+        weapon = Weapon(
+            name=weapon_data["name"],
+            description=weapon_data["description"],
+            damage=weapon_data["damage"],
+            attack_message=weapon_data["attack_message"],
+            rarity=weapon_data["rarity"]
+        )
+        weapons[weapon.name] = weapon
+    return weapons
 
-class Alien():
+def fetch_artifacts():
+    artifacts = {}
+    for artifact_data in MOCK_ARTIFACTS:
+        artifact = Artifact(
+            name=artifact_data["name"],
+            description=artifact_data["description"],
+            rarity=artifact_data["rarity"]
+        )
+        artifacts[artifact.name] = artifact
+    return artifacts
+
+class Alien:
     def __init__(self, name, hp, weapon, speed):
         self.name = name
         self.hp = hp
@@ -20,419 +47,357 @@ class Alien():
         self.speed = speed
 
 class Weapon:
-    def __init__(self, name, description, damage, attackMessage, rarity):
+    def __init__(self, name, description, damage, attack_message, rarity):
         self.name = name
         self.description = description
         self.damage = damage
-        self.attackMessage = attackMessage
+        self.attack_message = attack_message
         self.rarity = rarity
-    
-    def showAttackMessage(self):
-        printS(self.attackMessage)
 
-    def toString(self):
-        return self.name + " - " + self.description + " (" + str(self.damage) + " damage)" + " | " + rarities[self.rarity] + " |"
+    def show_attack_message(self):
+        print_message(self.attack_message)
 
-class Room: 
-    def __init__(self):
-        self.loot = []
-        
-    def generateWeaponLoot(self):
-        rarityCap = random.randint(1, 3)
-        lootNum = random.randint(0, 2)
-        i=0
-        while i<= lootNum:
-            newWep = random.choice(list(weapons.values()))
-            if newWep not in self.loot and newWep.rarity <= rarityCap:
-                self.loot.append(newWep)
-                i+=1
-
-    def generateArtifactLoot(self):
-        rarityCap = random.randint(1, 3)
-        lootNum = random.randint(0, 2)
-        i=0
-        while i<= lootNum:
-            newArt = random.choice(list(artifacts.values()))
-            if newArt not in self.loot and newArt.rarity <= rarityCap:
-                self.loot.append(newArt)
-                i+=1
-
-    def artifactRoomSearch(self):
-        self.generateArtifactLoot()
-        printS("You find yourself in an room filled with strange artifacts")
-        time.sleep(2)
-        printS("You search the room and find:")
-        time.sleep(2)
-        for index, artifact in enumerate(self.loot):
-            printS(str(index + 1) + ": A " + artifact.name + " - " + artifact.description + " | " + rarities[artifact.rarity] + " |")
-            time.sleep(1)
-        printS("Would you like to take any of these artifacts?")
-        choice = inputS()
-        while choice.lower() != "yes" and choice.lower() != "no" and choice.lower() != "q":
-            printS("Invalid input, enter 'yes' or 'no'")
-            choice = inputS()
-        if choice.lower() == "yes":
-            printS("Which artifact would you like to take?")
-            artifactChoice = int(inputS())
-            validCheck = False
-            while validCheck == False:
-                try:
-                    player.inventory.append(self.loot[artifactChoice - 1])
-                    printS("You now have a " + self.loot[artifactChoice - 1].name)
-                    time.sleep(2)
-                    self.loot[artifactChoice -1].toString()
-                    validCheck = True
-                    printS("It cost you 1 Food")
-                    player.food -= 1
-                    time.sleep(2)
-                except IndexError:
-                    printS("Invalid input, enter the number associated with the artifact you want to take")
-        elif choice.lower() == "q":
-            global end
-            end = True
-        else:
-            printS("You leave the artifact(s) behind")
-            time.sleep(2)
-
-    def weaponRoomSearch(self):
-        self.generateWeaponLoot()
-        printS("You find yourself in a room filled with weapons")
-        time.sleep(2)
-        printS("You search the room and find:")
-        time.sleep(2)
-        for index, weapon in enumerate(self.loot):
-            printS(str(index + 1) + ": A " + weapon.name +  " | " + rarities[weapon.rarity] + " |")
-            time.sleep(1)
-        printS("Would you like to take any of these weapons?")
-        choice = inputS()
-        while choice.lower() != "yes" and choice.lower() != "no" and choice.lower() != "q":
-            printS("Invalid input, enter 'yes' or 'no'")
-            choice = inputS()
-        if choice.lower() == "yes":
-            printS("Which weapon would you like to take?")
-            weaponChoice = int(inputS())
-            validCheck = False
-            while validCheck == False:
-                try:
-                    player.currentWeapon = self.loot[int(weaponChoice) - 1]
-                    printS("You now have a " + player.currentWeapon.name)
-                    time.sleep(2)
-                    printS(player.currentWeapon.toString())
-                    validCheck = True
-                    printS("It cost you 1 Food")
-                    player.food -= 1
-                    time.sleep(2)
-                except IndexError:
-                    printS("Invalid input, enter the number associated with the weapon you want to take")
-        elif choice.lower() == "q":
-            end = True
-        else:
-            printS("You leave the weapon(s) behind")
-            time.sleep(2)
-
-class Player:
-    def __init__(self, hp, attackPoints, speed, food, location):
-        self.hp = hp
-        self.attackPoints = attackPoints
-        self.currentWeapon = Weapon("Fists", "Your fists", attackPoints, "You punch the alien", 1)
-        self.inventory = []
-        self.speed = speed
-        self.food = food
-        self.location = location
-        self.enemied_killed = 0
-
-    def move(self, house):
-        houseStr = "house " + str(house)
-        if map[houseStr] in map["EmptyHouses"]:
-            printS("This house is empty")
-            return
-        numOfRooms = random.randint(2, 6)
-        for i in range(1, numOfRooms + 1):
-            roomStr = "room " + str(i)
-            map[houseStr][roomStr] = Room()
-        printS("You enter " + houseStr + ". There are " + str(numOfRooms) + " rooms in this house. Which room would you like to enter?")
-        roomNum = int(inputS())
-        while roomNum <= 0 or roomNum > numOfRooms:
-            printS("Invalid input, please enter a number 1-" + str(numOfRooms))
-            roomNum = int(inputS())
-        roomStr = "room " + str(roomNum)            
-        self.location = map[houseStr][roomStr]
-        global leave
-        leave = False
-        while leave == False:
-            roomStr = "room " + str(roomNum) 
-            roomType = random.randint(1, 3)
-            if roomStr in map[houseStr]["empty"]:
-                roomType = 0
-            match roomType:
-                case 0:
-                    printS("This room is empty")
-                case 1:
-                    map[houseStr][roomStr].weaponRoomSearch()
-                case 2:
-                    map[houseStr][roomStr].artifactRoomSearch()
-                case 3:
-                    alien = createAlien()
-                    battle = Battle(player, alien)
-                    battle.encounter()
-
-            if len(map[houseStr]) == len(map[houseStr]["empty"]):
-                printS("You have emptied all rooms in this house")
-                leave = True
-            if leave == False:
-                printS("Would you like to leave the house?")
-                leaveChoice = inputS()
-                leave = bool(leaveChoice)
-                if roomStr not in map[houseStr]["empty"]:
-                    map[houseStr]["empty"].append(roomStr)
-                if leaveChoice.lower() == "yes":
-                    leave = True
-                else:
-                    leave = False
-            while leave == False and leaveChoice.lower() != "yes" and leaveChoice.lower() != "no":
-                printS("Invalid input, enter 'yes' or 'no'")
-                leaveChoice = inputS()
-                if leaveChoice.lower() == "yes":
-                    leave = True
-                else:
-                    leave = False
-            if leave==False:
-                printS("Which room would you like to enter next?")
-                roomNum = int(inputS())
-                while roomNum <= 0 or roomNum > numOfRooms:
-                    printS("Invalid input, please enter a number 1-" + str(numOfRooms))
-                    roomNum = int(inputS())
-            else:
-                printS("You leave the house")
-                player.location = map["street"]
-                time.sleep(2)
-            update()
-    
-    def toString(self):
-        return "HP: " + str(self.hp) + " | Attack Points: " + str(self.attackPoints) + " | Speed: " + str(self.speed) + " | Food: " + str(self.food)
+    def __str__(self):
+        return f"{self.name} - {self.description} ({self.damage} damage) | {RARITIES[self.rarity]} |"
 
 class Artifact:
     def __init__(self, name, description, rarity):
         self.name = name
         self.description = description
-        self.rarity = rarity    
+        self.rarity = rarity
 
-    def toString(self):
-        return self.name + " - " + self.description + " | " + rarities[self.rarity] + " |"
+    def __str__(self):
+        return f"{self.name} - {self.description} | {RARITIES[self.rarity]} |"
+
+RARITIES = {1: "Common", 2: "Uncommon", 3: "Rare", 4: "Epic", 5: "Legendary"}
+
+ALIEN_WEAPONS = {
+    "Goppin": Weapon("Goppin", "A weapon that fires plasma.", 5, "The alien shoots you with plasma.", 1),
+    "Sponk": Weapon("Sponk", "A weapon that fires energy bursts.", 15, "The alien blasts you with energy.", 2),
+    "Zorblax": Weapon("Zorblax", "A weapon that shoots energy beams.", 25, "The alien fires a beam at you.", 3),
+}
+
+ALIEN_NAMES = ("Zog", "Gorp", "Prip", "Geggin", "Nairn", "Hojjim", "Kada")
+
+end_game = False
+day = 1
+difficulty = 1
+current_room_count = 0
+
+WEAPONS = fetch_weapons()
+ARTIFACTS = fetch_artifacts()
+
+map = {
+    "street": "street",
+    "empty_houses": set(),
+    **{f"house {i}": {"empty_rooms": set(), "times_entered": 0} for i in range(1, 11)},
+}
+
+app = Flask(__name__)
+
+@app.route('/get_message', methods=['GET'])
+def print_message(message):
+    #return jsonify({"messages" : message})
+    global current_message
+    current_message += message + "\n"
+
+def send_message(choices):
+    global current_message
+    pack = jsonify({"messages" : current_message, "options" : choices})
+    current_message = ""
+    return pack
 
 
-class Battle():
+@app.route('/send_input', methods=['POST'])
+def get_input():
+    user_input = request.json.get("user_input", "")
+    return user_input.strip()
+    #return input().strip()
+
+class Room:
+    def __init__(self, room_type, alien=None):
+        self.loot = set()
+        self.room_type = room_type
+        self.alien = alien
+
+    def generate_loot(self, items, rarity_cap):
+        loot_num = random.randint(0, 2)
+        for _ in range(loot_num):
+            item = random.choice(list(items.values()))
+            if item.rarity <= rarity_cap and item not in self.loot:
+                self.loot.add(item)
+
+    def search_room(self, player):
+
+        match self.room_type:
+            case 0:
+                print_message("This room is empty.")
+            case 1:
+                self.generate_loot(WEAPONS, random.randint(1, 3))
+            case 2:
+                self.generate_loot(ARTIFACTS, random.randint(1, 3))
+            case 3:
+                if self.alien is None:
+                    self.alien = create_alien()
+                Battle(player, self.alien).encounter()
+                return
+            case _:
+                print_message("Invalid room type.")
+                return
+
+def handle_loot(self, player, loot_type):
+    print_message(f"You find yourself in a room filled with {loot_type}s.")
+
+    #time.sleep(1)
+    print_message("You search the room and find:")
+
+    #time.sleep(1)
+    for index, item in enumerate(self.loot):
+        print_message(f"{index + 1}: {item}")
+        #time.sleep(1)
+
+    print_message("Would you like to take any of these items?")
+    send_message("yes/no")
+
+    def get_choice():
+
+        user_input = get_input().lower().strip()
+
+        if user_input not in ("yes", "no", "q", "y", "n"):
+            print_message("Invalid input. Enter 'yes', 'no', or 'q' to quit.")
+            send_message("yes/no/q")
+            get_choice()
+
+        return user_input
+
+    choice = get_choice()
+
+    match choice:
+        case "yes", "y":
+            print_message(f"Which {loot_type} would you like to take?")
+            sending_msg = ""
+            for i in range(len(self.loot)):
+                sending_msg += str(i+1) + "/"
+            send_message(sending_msg)
+
+            try:
+                item_choice = int(get_input()) - 1
+                selected_item = self.loot[item_choice]
+                if loot_type == "weapon":
+                    player.current_weapon = selected_item
+                else:
+                    player.inventory.add(selected_item)
+                print_message(f"You now have {selected_item.name}.")
+                player.food -= 1
+                print_message("It cost you 1 Food.")
+            except (IndexError, ValueError):
+                print_message("Invalid selection.")
+
+        case "no", "n":
+            print_message("You decide not to take any items.")
+            return
+        case "q":
+            global end_game
+            end_game = True
+            return
+        case _:
+            self.handle_loot(player, loot_type)
+            return
+
+class Player:
+    def __init__(self, hp, attack_points, speed, food, location):
+        self.hp = hp
+        self.attack_points = attack_points
+        self.current_weapon = Weapon("Fists", "Your fists", attack_points, "You punch the alien.", 1)
+        self.inventory = set()
+        self.speed = speed
+        self.food = food
+        self.location = location
+        self.enemies_killed = 0
+        self.secrets_found = {
+            "The Orb of Time": False,
+            "The Glove of Power": False,
+        }
+
+    def __str__(self):
+        return f"HP: {self.hp} | Attack Points: {self.attack_points} | Speed: {self.speed} | Food: {self.food}"
+
+    def move(self, house):
+        house_key = f"house {house}"
+
+        if house_key in map["empty_houses"]:
+            print_message("This house is empty.")
+            return
+
+        map[house_key]["times_entered"] += 1
+
+        if map[house_key]["times_entered"] == 5 and not self.secrets_found['The Orb of Time']:
+
+            print_message("You have spent so much time in this house that you find a hidden artifact!")
+            #time.sleep(1)
+            player.inventory.add(ARTIFACTS["The Orb of Time"])
+            print_message(f"You now have {ARTIFACTS['The Orb of Time']}.")
+
+            self.secrets_found['The Orb of Time'] = True
+
+        else:
+            print_message(f"You enter {house_key}.")
+            self.explore_house(house_key)
+
+    def explore_house(self, house_key):
+
+        num_rooms = random.randint(2, 6)
+
+        for i in range(1, num_rooms + 1):
+            room_key = f"room {i}"
+            room_type = random.randint(0, 3)
+            map[house_key][room_key] = Room(room_type)
+
+        print_message(f"There are {num_rooms} rooms in this house. Which room would you like to enter?")
+        sending_msg = ""
+        for i in range(num_rooms):
+            sending_msg + str(i+1) + "/"
+
+        room_num = int(get_input())
+        room_key = f"room {room_num}"
+
+        self.location = map[house_key][room_key]
+        self.location.search_room(self)
+
+        if room_key not in map[house_key]["empty_rooms"]:
+            map[house_key]["empty_rooms"].add(room_key)
+        if len(map[house_key]["empty_rooms"]) == num_rooms:
+            print_message("You have emptied all rooms in this house.")
+            map["empty_houses"].add(house_key)
+
+class Battle:
     def __init__(self, player, alien):
         self.player = player
         self.alien = alien
-        self.turn = 0
 
     def fight(self):
-        totalSpeed = self.player.speed + self.alien.speed
         while self.player.hp > 0 and self.alien.hp > 0:
-            speedVal = random.randint(1, totalSpeed)
-            if speedVal <= self.player.speed:
-                self.playerAttack()
+
+            if random.randint(1, self.player.speed + self.alien.speed) <= self.player.speed:
+                self.player_attack()
+
                 if self.alien.hp > 0:
-                    self.alienAttack()
-                else:
-                    self.alien.hp = 0
-                    printS("You steal " + self.alien.name + "'s lunch | +4 Food")
-                    self.player.food += 4
+                    self.alien_attack()
             else:
-                self.alienAttack()
+                self.alien_attack()
+
                 if self.player.hp > 0:
-                    self.playerAttack()
-                else:
-                    self.player.hp = 0
-            printS("You: " + str(self.player.hp))
-            printS(self.alien.name + ": " + str(self.alien.hp))
-        if self.alien.hp<=0:
-            printS("You killed " + self.alien.name)
-            self.player.hp += 20
-            self.player.attackPoints += 10
-            self.player.speed += 5
-            printS("You gain some of " + self.alien.name + "'s life force | +20 HP | +10 attack points | +5 speed |")
-            self.player.food += 2
-            printS("You also steal " + self.alien.name + "'s lunch | +2 Food |")
-            self.player.enemies_killed += 1
-        if self.player.hp<=0:
-            gameOver()
+                    self.player_attack()
+
+            #time.sleep(1)
+            print_message(f"You: {self.player.hp} HP")
+            print_message(f"{self.alien.name}: {self.alien.hp} HP")
+
+        if self.alien.hp <= 0:
+            self.handle_victory()
+        else:
+            self.handle_defeat()
+
+    def handle_victory(self):
+
+        print_message(f"You killed {self.alien.name}!")
+        self.player.hp += 20
+        self.player.attack_points += 10
+        self.player.speed += 5
+        self.player.food += 2
+        self.player.enemies_killed += 1
+
+        if random.randint(1, 30) == 21 and not self.player.secrets_found['The Glove of Power']:
+            print_message("You find a mysterious glove!")
+            self.player.inventory.add(ARTIFACTS["Shimschnar's Left Hand Glove"])
+            print_message(f"You now have {ARTIFACTS['Shimschnar\'s Left Hand Glove']}.")
+            self.player.secrets_found['The Glove of Power'] = True
+
+    def handle_defeat(self):
+        print_message("You have been defeated.")
+        game_over()
 
     def encounter(self):
-        printS("You encounter an alien. It says it's name is " + self.alien.name)
-        time.sleep(2)
-        printS(self.alien.name + " has a " + self.alien.weapon.name + " | " + rarities[self.alien.weapon.rarity] + " |")
-        time.sleep(2)
-        printS("What would you like to do?, you can attack or run")
-        action = inputS()
-        if action.lower() == "attack":
-            self.fight()  
-            global difficulty 
-            difficulty += 1
-        elif action.lower() == "run":
-            printS("You run away")
-            totalSpeed = self.player.speed + self.alien.speed
-            speedVal = random.randint(1, totalSpeed)
-            if speedVal <= self.player.speed:
-                printS("You escape")
-                time.sleep(2)
-            else:
-                printS("You were too slow and the alien attacks you before you can escape")
-                self.alienAttack()
-            time.sleep(2)
-            player.food -= 1
-            global leave
-            leave = True
-            
-    def playerAttack(self):
-        self.alien.hp -= self.player.currentWeapon.damage
-        printS(self.player.currentWeapon.attackMessage)
-        time.sleep(2)
+        print_message(
+            f"You encounter an alien named {self.alien.name}.\n"
+            f"{self.alien.name} has a {self.alien.weapon}.\n"
+            "What would you like to do?"
+        )
+        send_message("attack/run")
 
-    def alienAttack(self):
+        def get_choice():
+            while True:
+                user_input = get_input().lower().strip()
+                if user_input in ("attack", "run", "a", "r"):
+                    return user_input
+                else:
+                    print_message("Invalid input. Enter 'attack' or 'run'.")
+
+        action = get_choice()
+
+        if action in ("attack", "a"):
+            self.fight()
+        elif action in ("run", "r"):
+            self.run()
+
+    def run(self):
+        if random.randint(1, self.player.speed + self.alien.speed) <= self.player.speed:
+            print_message("You escape successfully.")
+        else:
+            print_message(f"You were too slow and {self.alien.name} attacks you!")
+            self.alien_attack()
+        self.player.food -= 1
+
+    def player_attack(self):
+        self.alien.hp -= self.player.current_weapon.damage
+        print_message(self.player.current_weapon.attack_message)
+
+    def alien_attack(self):
         self.player.hp -= self.alien.weapon.damage
-        printS(self.alien.weapon.attackMessage)
-        time.sleep(2)
+        print_message(self.alien.weapon.attack_message)
 
-rarities = {1 : "Common", 2 : "Rare", 3 : "Legendary", 4 : "Secret"}
+def create_alien():
+    weapon = random.choice(list(ALIEN_WEAPONS.values()))
+    name = random.choice(ALIEN_NAMES)
+    hp = 20 + (difficulty * 10)
+    speed = 0 + (difficulty * 10)
+    return Alien(name, hp, weapon, speed)
 
-weapons = {"Ak-47" : Weapon("Ak-47", "A powerful assault Rifle", 40, "You shoot the alien with your Ak-47", 2),
-           "Baseball Bat" : Weapon("Baseball Bat", "A wooden baseball bat with barbed wire wrapped around it", 15, "You hit the alien with your gruesome baseball bat", 1),
-           "Laser Gun" : Weapon("Laser Gun", "A futuristic laser weapon not of this world", 50, "You zap the alien with your Laser Gun", 2),
-           "Plasma Rifle" : Weapon("Plasma Rifle", "A high-tech energy charged rifle", 60, "You blast the alien with your Plasma Rifle", 3),
-           "Energy Sword" : Weapon("Energy Sword", "A sword made of pure energy that emits a loud hum", 75, "You slash the alien with your Energy Sword", 3),
-           "Flamethrower" : Weapon("Flamethrower", "A weapon that shoots flames, incinerating enemies", 55, "You burn the alien with your Flamethrower", 2),
-           "Railgun" : Weapon("Railgun", "A powerful electromagnetic weapon that can fire from up to 65 kilometres away", 90, "You blow a hole through the alien with your Railgun", 3),
-           "Katana" : Weapon("影の龍", "A katana that was passed down through many generations of honorable samurai", 100, "You slice through the alien with unheavenly precision", 4),
-           "Chicken" : Weapon("Chicken", "A chicken that attacks aliens for some reason", 10, "You throw the chicken at the alien", 1),
-           "Revolver" : Weapon("Revolver", "A six-shooter revolver", 25, "You shoot the alien with your revolver", 1),
-           "Shotgun" : Weapon("Shotgun", "A shotgun that fires a spread of pellets", 45, "You blast the alien with your shotgun", 2),
-           }
-
-artifacts = {
-    "Cosmic Crystal" : Artifact("Cosmic Crystal", "A crystal that glows with an otherworldly light", 3),
-    "Galactic Map" : Artifact("Galactic Map", "A map showing the locations of alien worlds", 2),
-    "Alien Artifact" : Artifact("Alien Artifact", "An artifact of unknown origin and purpose", 1),
-    "Extraterrestrial Coin" : Artifact("Extraterrestrial Coin", "A coin from an alien currency", 1),
-    "Space Helmet" : Artifact("Space Helmet", "A helmet worn by an alien astronaut", 2),
-    "Alien Skull" : Artifact("Alien Skull", "The skull of a long-dead alien", 3),
-    "Stardust" : Artifact("Stardust", "A handful of glowing stardust", 1),
-    "Meteorite Fragment" : Artifact("Meteorite Fragment", "A fragment of a meteorite", 2),
-    "Alien Fossil" : Artifact("Alien Fossil", "A fossilized alien creature", 3),
-    "Space Gem" : Artifact("Space Gem", "A gem from outer space", 2),
-    "Alien Egg" : Artifact("Alien Egg", "An egg containing an alien lifeform", 1),
-    "Cosmic Dust" : Artifact("Cosmic Dust", "A small amount of cosmic dust", 1),
-    "Alien Amulet" : Artifact("Alien Amulet", "An amulet with alien symbols", 2),
-    "Galactic Artifact" : Artifact("Galactic Artifact", "An artifact from another galaxy", 3),
-    "Space Relic" : Artifact("Space Relic", "A relic from outer space", 2),
-    "Alien Crystal" : Artifact("Alien Crystal", "A crystal with alien properties", 3),
-    "Extraterrestrial Relic" : Artifact("Extraterrestrial Relic", "A relic from an extraterrestrial civilization", 2),
-    "Shimschnar's Left Hand Glove" : Artifact("Shimschnar's Left Hand Glove", "The left hand glove of the legendary alien warrior Shimschnar, it's true ability is unknown", 4),
-    "The Dictionary of the Ancients" : Artifact("The Dictionary of the Ancients", "A book containing the language of an ancient alien civilization", 4),
-    "The Orb of Time" : Artifact("The Orb of Time", "An orb that can manipulate time itself, but you have no idea how it works", 4)
-}
-
-#Rooms will be generated inside each house
-map = {"street" : "street", 
-"EmptyHouses" : [],
-"house 1" : {"empty" : []},
-"house 2" : {"empty" : []},
-"house 3" : {"empty" : []},
-"house 4" : {"empty" : []},
-"house 5" : {"empty" : []},
-"house 6" : {"empty" : []},
-"house 7" : {"empty" : []},
-"house 8" : {"empty" : []},
-"house 9" : {"empty" : []},
-"house 10" : {"empty" : []}
-}
-
-def update():
-    global player
-    global day
-    global cur_room_count
-    global difficulty
-    global alienWeapons
-    alienWeapons = {"goppin" : Weapon("Goppin", "A weapon that fires a stream of plasma", 5+(difficulty*5), "The alien shoots you with a stream of plasma", 1),
-    "Sponk" : Weapon("Sponk", "A weapon that fires a burst of energy", 15+(difficulty*5), "The alien blasts you with a burst of energy", 2),
-    "Zorblax" : Weapon("Zorblax", "A weapon that shoots a beam of energy", 25+(difficulty*5), "The alien fires a beam of energy at you", 3),}
-    cur_room_count += 1
-    if cur_room_count == 5:
-        day += 1
-        #print("You go to sleep")
-        #time.sleep(2)
-        printS("It is now day " + day)
-        difficulty += 1
-        #player.food -= 3
-
-alienNames = ["Zog", "Gorp", "Prip", "Geggin", "Nairn", "Hojjim", "Kada"]
-
-def gameOver():
-    printS("Game Over")
-    time.sleep(1)
-    printS("Score: " + str(difficulty))
-    printS("You made it to day " + str(day))
-    time.sleep(2)
+def game_over():
+    print_message("Game Over")
+    print_message(f"Score: {difficulty}")
+    print_message(f"You made it to day {day}.")
     exit()
 
-
-def createAlien():
-    weapon = random.choice(list(alienWeapons.values()))
-    name = random.choice(alienNames)
-    hp = 20 + (difficulty*10)
-    speed = 0 + (difficulty*10)
-    alien = Alien(name, hp, weapon, speed)
-    return alien
-
-def mapReset():
-    global map
-    map = {"street" : "street", 
-"EmptyHouses" : [],
-"house 1" : {"empty" : []},
-"house 2" : {"empty" : []},
-"house 3" : {"empty" : []},
-"house 4" : {"empty" : []},
-"house 5" : {"empty" : []},
-"house 6" : {"empty" : []},
-"house 7" : {"empty" : []},
-"house 8" : {"empty" : []},
-"house 9" : {"empty" : []},
-"house 10" : {"empty" : []}
-}
-
-def play(player_init):
-    global cur_room_count
-    cur_room_count = 0
-    global day
-    day = 1
-    global difficulty
-    difficulty = 1
-    global end 
-    end = False
-    global player 
-    player = player_init
-    printS("You are in the street. You can enter any house numbered 1-10. enter 'q' to quit")
-    time.sleep(4)
-    printS("Your current weapon is " + player.currentWeapon.toString())
-    time.sleep(2)
-    while end == False:
-        if len(map["EmptyHouses"] == len(map)-1):
-            printS("You emptied all the houses. So now they are reset!")
-            mapReset()
-        printS(player.toString())
-        printS("Score: " + str(difficulty))
-        printS("Which house would you like to enter, enter a number 1-10")
-        houseNum = inputS()
-        if houseNum.lower() == "q":
-            end = True
+def play(player):
+    global end_game, day, difficulty, current_room_count
+    print_message("You are in the street. You can enter any house numbered 1-10. Enter 'q' to quit.")
+    while not end_game:
+        print_message(player)
+        print_message(f"Score: {difficulty}")
+        print_message("Which house would you like to enter? (1-10)")
+        send_message("1/2/3/4/5/6/7/8/9/10/q")
+        house_num = get_input()
+        if house_num.lower() == "q":
+            end_game = True
             break
-        if int(houseNum) <= 10 or int(houseNum) >0:
-            houseNum = int(houseNum)
-            player.move(houseNum)
-        else:
-            printS("Invalid input, please enter a number 1-10")
-    gameOver()
+        try:
+            house_num = int(house_num)
+            if 1 <= house_num <= 10:
+                player.move(house_num)
+                current_room_count += 1
+                if current_room_count == 5:
+                    day += 1
+                    difficulty += 1
+                    current_room_count = 0
+                    print_message(f"It is now day {day}. You rest and gain 20 HP.")
+                    player.hp += 20
+            else:
+                print_message("Invalid input. Enter a number between 1 and 10.")
+        except ValueError:
+            print_message("Invalid input. Enter a number between 1 and 10.")
+    game_over()
 
-newplayer = Player(100, 5, 10, 10, map["street"])
-play(newplayer)
+if __name__ == "__main__":
+    player = Player(100, 5, 10, 10, map["street"])
+    play(player)
