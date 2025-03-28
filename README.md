@@ -78,6 +78,10 @@ pip install -r requirements.txt
 # Navigate to alien_game folder
 cd alien_game
 
+# ------IMPORTANT------
+# Run the population script to load the weapons and artifacts
+python population_script.py
+
 # Start server
 python manage.py runserver
 ```
