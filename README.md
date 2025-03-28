@@ -66,7 +66,7 @@ https://raflaw.pythonanywhere.com/gameApp/
 git clone https://github.com/RAF-Law/alien_game
 
 # Set up virtual environment
-python -m venv venv
+python -m venv venv  # use python3 if doesn't work
 
 # Activate environment
 source venv/bin/activate  # Linux/Mac
