@@ -45,6 +45,11 @@
   width:100%;
   border-bottom:3px double #13ffef;
 }
+.game_frame a {
+  display: block; 
+  width: 100%;     /* Fill the width of the container */
+  height: 100%;    /* Fill the height of the container */
+}
 .bottomframe{
   display:flex;
   height:227px;
