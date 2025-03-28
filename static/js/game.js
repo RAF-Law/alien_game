@@ -1084,7 +1084,7 @@ function getCookie(name) {
 }
 
 async function save_to_DB(){
-    saveToXML(player);
+    saveToXML(player); //we're directly reading from xml so this is necessary to make sure it's up to date.
     try {
         const xmlString = localStorage.getItem("gameData");
         const response = await fetch('/gameApp/save_game_state/', {
@@ -1103,6 +1103,7 @@ async function save_to_DB(){
             console.log("Game saved successfully!");
         } else {
             console.error("Failed to save game results:", data.message);
+            alert("Something went wrong when saving. Please check the connection and try again.")
         }
     } catch (error) {
         console.error("Error fetching data:", error);
@@ -1110,8 +1111,13 @@ async function save_to_DB(){
 }
 
 document.getElementById("save_button").addEventListener("click", async function() {
-    await save_to_DB();
-    alert("Game saved successfully!")
+    if (player.hp <= 0 || player.food <= 0){
+        alert("You cannot save after you die... sorry :(")
+        return
+    }else{
+        await save_to_DB();
+        alert("Game saved successfully!")
+    }
 });
 
 async function resetMap(player){
