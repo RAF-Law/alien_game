@@ -97,6 +97,8 @@ Access at: http://127.0.0.1:8000/
 
 ![gameStart](./static/images/demo4.png)
 
+![gameScene](./static/images/demo7.png)
+
 ![userProfile](./static/images/demo5.png)
 
 ![collections](./static/images/demo6.png)
