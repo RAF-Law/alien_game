@@ -89,17 +89,17 @@ Access at: http://127.0.0.1:8000/
 
 ## Screenshots
 
-![house_invader_home_page.png](<https://media-hosting.imagekit.io/458f60f86f2d47ab/house_invader_home_page.png?Expires=1837702522&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=x5BuIPMFen0bcVBKyM3nuGUmB6IUd54zELOFYqBUOKbHPhRpKejh-X1ue4RXcCa8BBZby6cZVbaukZDwLHlNrOqawFGxfGg8PfleyB1pNLWifCIXLLAxVT8nnnNU6OmqZQnvZfV3~4hBgijZ0b2~0LnVjmFV~V5Ov~BPgyutYN8Ywb1HOQWlcV2TZbBIW-5JwmdF85Bu1AH~ozKSjT9tL3XhSP7eMbUdlpRLaFraxsEqXCW2TwenPHp9Oz6sDIHOYGGGfweY63xF3ZlBXgn4BKZIZICz2~KTNA7bkweYGAXqcNBbZKei6Ud53nMmitCZuz1nqEICsUh~vjo7v0rdVg__>)
+![indexPage](./static/images/demo1.png)
 
-![house_invader_login_page.png](<https://media-hosting.imagekit.io/f5a48861331f4f30/house_invader_login_page.png?Expires=1837703328&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=QP2puKei4ByDTh2HbWFN92tXNCyjCvaph3YV~JVOVMvuUpbB7mf1tcLX10Z9gdInzlgUq1bKnWrQdSgPqgFt55nscuP0yYzLUWW7V4DVB7cctoz~mqM3LAsNQwzh0wFRBvVoxeDbiykLf8VXjoTs9SyFJ4JlIh1tZFAjF8uIfoNIlsYd06KEyBOy5FhEnhjg6a3n5jtN3PyTctQ5uODD4mGf6fn5DJUQx9Ub-iKzHiORXkwcLSAqQqX6dy6Mk-qukrQ-jRJn5pWOoO4LModW8sqbaxBlLnPEhnw0wlXYlKZ8JmDDjQRY6m5XbGwFTGh2r6IJZdVO5xR-4zE~TW9Llg__>)
+![leaderBoard](./static/images/demo2.png)
 
-![user_profile_view.png](<https://media-hosting.imagekit.io/f600dac255054fbb/user_profile_view.png?Expires=1837714519&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=QgPcSzanxzDY1rG3sEeAOd5YhD4mKIgRa1-IuoroURFF--6FLzYeSHGvbe4RvXzWs69LQ--hZyNbUA441lmKgzvPgU1ne-uixEekuKnqHhtxI5hyMVhbeUYAHKQBPDlWHt7mQSVYBvhlI7r1sNZwLc1cWnxNfDEkBQss4RVjnz2p2JKHpPLaaEA9LH-wLnz0bWJHsn-st~fpkWR~lzMlCK2iegVC1mUW6jTzJ2WlU8UfbkXtgL5eOE39y1QTANo2XmyyVJUUhoDToinlt9hZXaNvYa7TbT1Vaz-FTK7ZadFw~EFSOg9wre61svUgP3W9P65yOGaSRWffsgJxmyy5EA__>)
+![login](./static/images/demo3.png)
 
-![game_scene_view.png](<https://media-hosting.imagekit.io/dd83a7be518749ea/game_scene_view.png?Expires=1837714845&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=BC4M-lFxx5g1ywjqwu-GT2nU2RniQ4gREFJIDNWA-wJF~LAOUmn8hIo-sfwDh-PzB~BcW0EWNVoki-shVWlIJq3cNwMYWkPIpaDZd8UI4b8h1Oey5toa~arUsy9xvdKFCRFLQZ6pfhZPGHph7DcxEsFAG3siUxKkvJd0e2GByDXHsAxs6hxmZJkH-Tc~YRhS-prgNP3S0a8R7iq4aqwLmmtkYkezkTuzogohq4cNWcxHGS8Tqu6O0zmxtlX1MsLLHQhP1W2iDfeH5CTnjjEn9cn1o~tO-0B4rFc-DtdaHazn8WMmA1TT4Olzd~IAhsN5FFAn-N~3OLdCT7JshGylbw__>)
+![gameStart](./static/images/demo4.png)
 
-![konami_collections_page.png](<https://media-hosting.imagekit.io/fd9cb0beb7fb4efb/konami_collections_page.png?Expires=1837703003&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=0wC-8P75LWRvoP89jOIoifdxEx3T-DtVbkkx6dAzQ2QMph-emVYe3wpjkw35T8SaU20LuNuxyUqTnQ3QuItfwIA-jPTibPsvMWZa1H5jlnFraJXQo8umUfiKR4jzVrjZxqb9xH5pro7DIX3eKnRLRH2jJYIkvk~qXCvFAyc93ZttOs6KzQnx6vipjUST2tmWpHierM3NRhSx9SAXsz3qLoIvopKQkcqkA8PGb0vmQsgp4PvNScM~U0VVJSTN~sCqRVdBmPQKZexaPUXPHUxP5~OSl6Ejk3WiE1zn-qBXq8EWhfOaCTS5p9DPI7tZBq0UZJ9kkjUpK7VFCz5fFZ6VRg__>)
+![userProfile](./static/images/demo5.png)
 
-![artifact_collection_view.png](<https://media-hosting.imagekit.io/15e53cc300734465/artifact_collection_view.png?Expires=1837715833&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=yc0RcOnPMIz2YzOIC4I8qcgkvTMqtdaBwibk3pSfZtxghz0fv-Wk~Ess37niPZNE-TR1B~Ig7gIIBzXQcM~kKBQ~fRsRxzpGLR3EgxK06L~B8h7tqpHPAJ23r-VEm5C3fkso91vA1BTdaNBoQj6F-L6YdoS~x3K8djDwrHj2tqBkgarygK8UFUTd-4t015GyH5b~F9rJTGp50iv~0Au2y1KeOifiUDxC2VAMp4pPqjoIDsYeFUd2cx8TqefcIFvWuHoUOE6U7iXwcuG5abCAChy97EqeU4buBxvE6dN6unE7Z5C7QZSYU5fCivb3f7~GlYG5CkCxMtfn9ikrpAbm9A__>)
+![collections](./static/images/demo6.png)
 
 ## About Arts
 
